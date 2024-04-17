@@ -115,6 +115,5 @@ dependencies {
 
     annotationProcessor(libs.androidx.room.compiler)
 
-    //implementation(project("./fit"))
-    implementation(files("./libs/fit.jar"))
+    implementation(files("../libs/fit.jar"))
 }

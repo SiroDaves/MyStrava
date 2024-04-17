@@ -12,7 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.*
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.NavHostController
 import com.siro.mystrava.data.models.activites.ActivityItem
 import com.siro.mystrava.presentation.navigation.Routes
 import com.siro.mystrava.presentation.widgets.*
@@ -26,10 +26,10 @@ import com.siro.mystrava.presentation.viewmodels.*
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel,
+    navController: NavHostController,
     onItemClick: (ActivityItem) -> Unit,
 ) {
     var fetchData by rememberSaveable { mutableStateOf(0) }
-    val navController = rememberNavController()
 
     if (fetchData == 0) {
         viewModel.fetchData()

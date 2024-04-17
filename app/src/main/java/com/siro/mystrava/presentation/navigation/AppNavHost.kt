@@ -27,6 +27,7 @@ fun AppNavHost(
         composable(Routes.HOME) {
             HomeScreen(
                 viewModel = homeViewModel,
+                navController = navController,
                 onItemClick = { selectedActivityItem ->
                     val itemJson = Gson().toJson(selectedActivityItem)
                     navController.navigate(Routes.workoutRoute(itemJson))
