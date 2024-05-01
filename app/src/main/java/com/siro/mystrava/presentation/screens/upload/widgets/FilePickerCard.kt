@@ -13,13 +13,13 @@ fun FilePickerCard(
     selectedFile: File?,
     onSelectClick: () -> Unit,
     onClearClick: () -> Unit,
-    isUploading: Boolean
+    canSelect: Boolean
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(10.dp),
         elevation = CardDefaults.cardElevation(4.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant
@@ -29,13 +29,11 @@ fun FilePickerCard(
             modifier = Modifier
                 .padding(16.dp)
         ) {
-            selectedFile?.let {
-                Text(
-                    text = "Selected file: ${it.name}",
-                    style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier.padding(bottom = 12.dp)
-                )
-            }
+            Text(
+                text = "Selected file: ${selectedFile?.name ?: "No file selected"}",
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.padding(bottom = 12.dp)
+            )
 
             Row(
                 modifier = Modifier
@@ -44,9 +42,9 @@ fun FilePickerCard(
             ) {
                 Button(
                     onClick = onSelectClick,
-                    enabled = !isUploading
+                    enabled = !canSelect
                 ) {
-                    Text("Select FIT File")
+                    Text("Select a File")
                 }
 
                 Button(
@@ -55,7 +53,7 @@ fun FilePickerCard(
                         containerColor = MaterialTheme.colorScheme.errorContainer,
                         contentColor = MaterialTheme.colorScheme.onErrorContainer
                     ),
-                    enabled = selectedFile != null && !isUploading
+                    enabled = selectedFile != null
                 ) {
                     Text("Clear")
                 }

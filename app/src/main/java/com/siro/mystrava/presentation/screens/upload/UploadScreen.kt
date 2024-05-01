@@ -68,15 +68,15 @@ fun UploadScreen(
                     .background(color = MaterialTheme.colorScheme.surface)
             ) {
                 Column(
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier.padding(10.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                    verticalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
                     FilePickerCard(
                         selectedFile = selectedFile,
                         onSelectClick = { filePickerLauncher.launch("application/octet-stream") },
-                        onClearClick = TODO(),
-                        isUploading = TODO()
+                        onClearClick = { },
+                        canSelect = uiState is UploadUiState.Uploading
                     )
 
                     when (uiState) {
