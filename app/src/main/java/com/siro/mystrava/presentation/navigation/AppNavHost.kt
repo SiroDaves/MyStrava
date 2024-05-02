@@ -21,7 +21,7 @@ fun AppNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Routes.UPLOAD
+        startDestination = Routes.HOME
     ) {
 
         composable(Routes.HOME) {
