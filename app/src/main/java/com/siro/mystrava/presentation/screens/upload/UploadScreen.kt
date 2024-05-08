@@ -15,10 +15,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.siro.mystrava.presentation.screens.upload.widgets.FilePickerCard
-import com.siro.mystrava.presentation.screens.upload.widgets.FileUploadForm
-import com.siro.mystrava.presentation.screens.workout.widgets.WorkoutContent
-import com.siro.mystrava.presentation.screens.workout.widgets.WorkoutEditForm
+import com.siro.mystrava.presentation.screens.upload.widgets.*
 import com.siro.mystrava.presentation.viewmodels.*
 import com.siro.mystrava.presentation.widgets.*
 
@@ -95,7 +92,8 @@ fun UploadScreen(
                             Text("Upload successful!", color = MaterialTheme.colorScheme.primary)
                         }
 
-                        is UploadUiState.Uploading -> TODO()
+                        is UploadUiState.Uploading -> LoadingState("Uploading data ...")
+
                         is UploadUiState.Error -> {
                             val errorMessage = (uiState as UploadUiState.Error).errorMessage
                             ErrorState(

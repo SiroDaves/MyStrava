@@ -13,16 +13,15 @@ import javax.inject.Inject
 @Keep
 class TokenAuthenticator @Inject constructor(val sessionRepo: SessionRepository) : Authenticator {
     override fun authenticate(route: Route?, response: Response): Request? {
-        // This is a synchronous call
         val updatedToken = getNewToken()
 
-        val newRequest = response.request().newBuilder()
+        val newRequest = response.request.newBuilder()
             .removeHeader("Authorization")
             .header("Accept", "application/json")
             .header("Authorization", "Bearer $updatedToken")
             .build()
 
-        Log.d("TAG", "authenticate: ${newRequest.headers().names().toString()}")
+        Log.d("TAG", "authenticate: ${newRequest.headers.names()}")
 
         return newRequest
     }

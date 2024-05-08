@@ -2,20 +2,14 @@ package com.siro.mystrava.presentation.viewmodels
 
 import android.content.Context
 import android.net.Uri
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.*
-import com.siro.mystrava.data.models.activites.*
+import com.siro.mystrava.data.models.activites.UploadResponse
 import com.siro.mystrava.data.models.detail.ActivityDetail
 import com.siro.mystrava.domain.repositories.WorkoutRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 import java.io.File
-import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -55,28 +49,21 @@ class UploadViewModel @Inject constructor(
     fun uploadSelectedFile() {
         viewModelScope.launch {
             _uiState.value = UploadUiState.Uploading
-            try {
-                /*val modifiedFile = fitFileProcessor.modifyFitFile(selectedFile!!)
+            val file = _selectedFile.value
+            if (file == null) {
+                _uiState.value = UploadUiState.Error("No file selected")
+                return@launch
+            }
 
-                stravaUploader.uploadFile(
-                    file = modifiedFile,
-                    accessToken = "your_access_token", // Get from secure storage
-                    onProgress = { progress ->
-                        uploadProgress = progress
-                        uploadStatus = UploadStatus.Uploading(progress)
-                    },
-                    onComplete = { uploadStatus = UploadStatus.Success },
-                    onError = { error ->
-                        errorMessage = error
-                        uploadStatus = UploadStatus.Error
-                    }
-                )*/
+            try {
+                workoutRepo.uploadActivity(file, "This Activity", ".fit")
                 _uiState.value = UploadUiState.Success
             } catch (e: Exception) {
                 _uiState.value = UploadUiState.Error("Upload failed: ${e.message}")
             }
         }
     }
+
 
 }
 

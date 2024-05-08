@@ -4,8 +4,7 @@ import android.util.Log
 import androidx.annotation.Keep
 import com.siro.mystrava.domain.repositories.SessionRepository
 import kotlinx.coroutines.runBlocking
-import okhttp3.Interceptor
-import okhttp3.Response
+import okhttp3.*
 import java.io.IOException
 import javax.inject.Inject
 
@@ -25,7 +24,7 @@ class AuthorizationInterceptor @Inject constructor(val sessionRepo: SessionRepos
         val requestBuilder = original.newBuilder()
             .header("Accept", "application/json")
             .header("Authorization", "Bearer $token")
-            .method(original.method(), original.body())
+            .method(original.method, original.body)
         val request = requestBuilder.build()
         Log.d("TAG", "Authorization: Bearer $token")
         return chain.proceed(request)

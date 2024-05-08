@@ -3,7 +3,10 @@ package com.siro.mystrava.data.sources.remote
 import androidx.annotation.Keep
 import com.siro.mystrava.data.models.activites.*
 import com.siro.mystrava.data.models.detail.ActivityDetail
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.*
+import java.io.File
 
 @Keep
 interface ActivitiesApi {
@@ -22,8 +25,17 @@ interface ActivitiesApi {
     suspend fun putActivityUpdate(
         @Path("id") activityId: String,
         @Body body: ActivityUpdate,
-    ): ActivityItem
+    )
 
     @GET("activities/{id}/streams")
     suspend fun getActivityStream(@Path("id") activityId: String): Stream
+
+    @Multipart
+    @POST("uploads")
+    suspend fun uploadActivity(
+        @Part file: MultipartBody.Part,
+        @Part("data_type") dataType: RequestBody,
+        @Part("name") name: RequestBody? = null
+    ): UploadResponse
+
 }

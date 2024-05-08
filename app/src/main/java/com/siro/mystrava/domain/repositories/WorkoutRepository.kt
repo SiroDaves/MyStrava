@@ -1,7 +1,6 @@
 package com.siro.mystrava.domain.repositories
 
 import android.content.*
-import android.net.Uri
 import android.util.Log
 import com.siro.mystrava.R
 import com.siro.mystrava.core.utils.*
@@ -13,6 +12,11 @@ import com.siro.mystrava.data.sources.local.AppDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.*
+import okhttp3.MultipartBody
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 import javax.inject.*
 import java.time.*
 
@@ -60,6 +64,22 @@ class WorkoutRepository @Inject constructor(
         withContext(Dispatchers.IO) {
             activitiesDao?.update(activity)
             activitiesApi.putActivityUpdate(activity.id.toString(), update)
+        }
+    }
+
+    suspend fun uploadActivity(file: File, name: String, dataType: String) {
+        withContext(Dispatchers.IO) {
+            val requestFile = file.asRequestBody("application/octet-stream".toMediaTypeOrNull())
+            val filePart = MultipartBody.Part.createFormData("file", file.name, requestFile)
+
+            val namePart = name.toRequestBody("text/plain".toMediaTypeOrNull())
+            val dataTypePart = dataType.toRequestBody("text/plain".toMediaTypeOrNull())
+
+            activitiesApi.uploadActivity(
+                file = filePart,
+                dataType = dataTypePart,
+                name = namePart
+            )
         }
     }
 
