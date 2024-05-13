@@ -10,10 +10,10 @@ enum class ActivityType(val zeppType: Int, val supported: Boolean, val fitType: 
     INDOOR_SWIMMING(14, true, Sport.SWIMMING, false),
     UNKNOWN(-1, false, Sport.GENERIC, false);
 
-    /*companion object {
-        fun fromZepp(type: Int): com.github.h3llk33p3r.io.ActivityType {
-            return com.github.h3llk33p3r.io.ActivityType.entries.find { it.zeppType == type } ?: UNKNOWN
+    companion object {
+        fun fromZepp(type: Int): ActivityType {
+            return ActivityType.entries.find { it.zeppType == type } ?: UNKNOWN
         }
-    }*/
+    }
 
 }
