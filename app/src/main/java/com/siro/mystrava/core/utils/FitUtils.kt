@@ -1,18 +1,18 @@
 package com.siro.mystrava.core.utils
 
-import androidx.lifecycle.*
+import android.annotation.SuppressLint
+import android.util.Log
 import com.garmin.fit.*
-import kotlinx.coroutines.*
-import java.io.*
+import com.garmin.fit.util.SemicirclesConverter.degreesToSemicircles
+import com.siro.mystrava.data.models.fit.*
 import java.io.File
 import java.util.Date
 
+@SuppressLint("NewApi")
 class FitConverter {
-    private val log = LoggerFactory.getLogger(com.github.h3llk33p3r.service.FitConverter::class.java)
-
     fun convertToFit(outputDirectory: File, summary: SportSummary, detail: SportDetail): File? {
         val container = SportContainer(summary, detail)
-        log.info("Generating fit file for activity [{}]", container.id)
+        Log.i("TAG", "Generating fit file for activity [${container.id}]")
         if (container.activityType.supported) {
 
             val messages: MutableList<Mesg> = ArrayList()
@@ -22,20 +22,22 @@ class FitConverter {
             messages.add(generateActivityMessage(container))
             //Manage data of activity
             messages.addAll(fillActivity(container))
-            val outputFile = File(outputDirectory, "${container.activityType.name}-${container.id}.fit")
+            val outputFile =
+                File(outputDirectory, "${container.activityType.name}-${container.id}.fit")
             writeFitFile(outputFile, messages)
             return outputFile
         } else {
-            log.warn("Unsupported activity type identified in Zepp with [{}]. Skipping trackId [{}]", container.summary.type, container.id)
+            Log.w(
+                "TAG",
+                "Unsupported activity type identified in Zepp with [${container.summary.type}]. Skipping trackId [${container.id}]"
+            )
         }
         return null
 
     }
 
     private fun fillActivity(sport: SportContainer): Collection<Mesg> {
-
         val messages: MutableList<Mesg> = ArrayList()
-        //First we declare the  start of the activity
         val start = EventMesg()
         start.timestamp = DateTime(sport.startDate)
         start.event = Event.TIMER
@@ -47,7 +49,7 @@ class FitConverter {
             ActivityType.INDOOR_SWIMMING -> fillSwimming(sport, messages)
             ActivityType.WALKING -> fillOutdoorWithGpsRecord(sport, messages)
             ActivityType.CYCLING -> fillOutdoorWithGpsRecord(sport, messages)
-            UNKNOWN -> TODO()
+            ActivityType.UNKNOWN -> TODO()
         }
 
         val end = EventMesg()
@@ -79,11 +81,6 @@ class FitConverter {
 
     }
 
-    /**
-     * Method to manage a running activity on outdoor with GPS coordinate like :
-     *
-     * Cycling, running, walking...
-     */
     private fun fillOutdoorWithGpsRecord(sport: SportContainer, messages: MutableList<Mesg>) {
 
         for (data in sport.timedData) {
@@ -140,12 +137,20 @@ class FitConverter {
         sport.summary.altitude_descend?.let { if (it > 0) session.totalDescent = it }
         sport.summary.dis?.let { session.totalDistance = it.toFloat() }
         sport.summary.calorie?.let { session.totalCalories = it.toFloat().toInt() }
-        sport.summary.avg_heart_rate?.let { if (it.toFloat() > 0) session.avgHeartRate = it.toFloat().toInt().toShort() }
-        sport.summary.min_heart_rate?.let { if (it.toFloat() > 0) session.minHeartRate = it.toShort() }
-        sport.summary.max_heart_rate?.let { if (it.toFloat() > 0) session.maxHeartRate = it.toShort() }
-        sport.summary.avg_stride_length?.let { if (it > 0) session.avgStepLength = it.toFloat() * 10 }
+        sport.summary.avg_heart_rate?.let {
+            if (it.toFloat() > 0) session.avgHeartRate = it.toFloat().toInt().toShort()
+        }
+        sport.summary.min_heart_rate?.let {
+            if (it.toFloat() > 0) session.minHeartRate = it.toShort()
+        }
+        sport.summary.max_heart_rate?.let {
+            if (it.toFloat() > 0) session.maxHeartRate = it.toShort()
+        }
+        sport.summary.avg_stride_length?.let {
+            if (it > 0) session.avgStepLength = it.toFloat() * 10
+        }
 
-        if (sport.activityType == INDOOR_SWIMMING) {
+        if (sport.activityType == ActivityType.INDOOR_SWIMMING) {
             sport.summary.swim_pool_length?.let {
                 if (it > 0) {
                     session.poolLength = it.toFloat()
@@ -156,7 +161,9 @@ class FitConverter {
             // We prefer to let garmin compute to have a better value
             sport.summary.total_trips?.let { if (it > 0) session.numActiveLengths = it }
             sport.summary.total_strokes?.let { if (it > 0) session.totalStrokes = it.toLong() }
-            sport.summary.avg_distance_per_stroke?.let { if (it > 0) session.avgStrokeDistance = it / 100 } //mm -> m
+            sport.summary.avg_distance_per_stroke?.let {
+                if (it > 0) session.avgStrokeDistance = it / 100
+            } //mm -> m
             sport.summary.max_stroke_speed?.let { if (it > 0) session.enhancedMaxSpeed = it }
             sport.summary.swim_style?.let { if (it > 0) session.swimStroke = swimStroke(it) }
         }
@@ -171,7 +178,7 @@ class FitConverter {
         try {
             encode = FileEncoder(outputFile, Fit.ProtocolVersion.V2_0)
         } catch (e: FitRuntimeException) {
-            log.error("Error opening file [{}]", outputFile, e)
+            Log.e("TAG", "Error opening file [$e]")
             return
         }
         messages.forEach { encode.write(it) }
@@ -179,19 +186,16 @@ class FitConverter {
         try {
             encode.close()
         } catch (e: FitRuntimeException) {
-            log.error("Error closing encode for file [{}]", outputFile, e)
+            Log.e("TAG", "Error closing encode for file [$e]")
             return
         }
-        log.info("Fit file created [{}]", outputFile.name)
+        Log.i("TAG", "Fit file created [${outputFile.name}]")
     }
 
     private fun generateActivityMessage(summary: SportContainer): ActivityMesg {
         val msg = ActivityMesg()
-        //Field set with zepp application fit export
-        //FIXME : Must be on Z timezone ?
         msg.timestamp = DateTime(summary.startDate)
         msg.totalTimerTime = summary.activityDuration.toSeconds().toFloat()
-        //FIXME: Alway 1 session event if multisport ?
         msg.numSessions = 1
         msg.type = Activity.MANUAL
         msg.localTimestamp = DateTime(summary.startDate).timestamp

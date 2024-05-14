@@ -15,5 +15,4 @@ enum class ActivityType(val zeppType: Int, val supported: Boolean, val fitType: 
             return ActivityType.entries.find { it.zeppType == type } ?: UNKNOWN
         }
     }
-
 }
