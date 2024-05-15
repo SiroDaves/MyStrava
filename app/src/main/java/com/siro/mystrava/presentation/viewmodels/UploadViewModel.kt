@@ -2,6 +2,7 @@ package com.siro.mystrava.presentation.viewmodels
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.*
 import com.siro.mystrava.data.models.detail.ActivityDetail
 import com.siro.mystrava.domain.repositories.WorkoutRepository
@@ -60,13 +61,10 @@ class UploadViewModel @Inject constructor(
             _uiState.value = UploadUiState.Uploading
             try {
                 val filePart = createMultipartBody(uri, context)
-                val result = workoutRepo.uploadActivity(filePart, "", "", "fit")
-                if (result.error.isEmpty()) {
-                    _uiState.value = UploadUiState.Success
-                } else {
-                    _uiState.value = UploadUiState.Error("Upload failed: ${result.error}")
-                }
+                workoutRepo.uploadActivity(filePart, "", "", "fit")
+                _uiState.value = UploadUiState.Success
             } catch (e: Exception) {
+                Log.d("TAG", "Upload has failed: ${e.message}")
                 _uiState.value = UploadUiState.Error("Upload failed: ${e.message}")
             }
         }

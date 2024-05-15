@@ -1,18 +1,12 @@
 package com.siro.mystrava.data.models.activites
 
-import okhttp3.MultipartBody
-
-data class UploadRequest(
-    val name: String,
-    val data_type: String,
-    val file: MultipartBody.Part
-)
+import com.google.gson.annotations.SerializedName
 
 data class UploadResponse(
-    val activity_id: Int,
-    val error: String,
-    val external_id: String,
-    val id: Int,
-    val id_str: String,
-    val status: String
+    @SerializedName("activity_id") val activityId: Long?,
+    val error: String?,
+    @SerializedName("external_id") val externalId: String?,
+    val id: Long?,
+    @SerializedName("id_str") val idStr: String?,
+    val status: String?
 )
