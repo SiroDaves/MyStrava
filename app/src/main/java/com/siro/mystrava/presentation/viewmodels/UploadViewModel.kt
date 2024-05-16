@@ -3,13 +3,16 @@ package com.siro.mystrava.presentation.viewmodels
 import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.*
-import com.siro.mystrava.data.models.activites.UploadResponse
 import com.siro.mystrava.data.models.detail.ActivityDetail
 import com.siro.mystrava.domain.repositories.WorkoutRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
+import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,47 +27,50 @@ class UploadViewModel @Inject constructor(
     private val _activity: MutableStateFlow<ActivityDetail?> = MutableStateFlow(null)
     val activity: StateFlow<ActivityDetail?> = _activity.asStateFlow()
 
-    private val _selectedFile: MutableStateFlow<File?> = MutableStateFlow(null)
-    val selectedFile: StateFlow<File?> = _selectedFile.asStateFlow()
+    private val _selectedFile: MutableStateFlow<Uri?> = MutableStateFlow(null)
+    val selectedFile: StateFlow<Uri?> = _selectedFile.asStateFlow()
 
-    fun selectFile(context: Context, uri: Uri) {
-        viewModelScope.launch {
-            _uiState.value = UploadUiState.Loading
-            try {
-                val inputStream = context.contentResolver.openInputStream(uri)
-                val file = File(context.cacheDir, "upload_${System.currentTimeMillis()}.fit")
-                inputStream?.use { stream ->
-                    file.outputStream().use { output ->
-                        stream.copyTo(output)
-                    }
-                }
-                _selectedFile.value = file
-                _uiState.value = UploadUiState.FileSelected
-            } catch (e: Exception) {
-                _uiState.value = UploadUiState.Error("Error reading file: ${e.message}")
-            }
-        }
+    fun selectFile(fileUri: Uri) {
+        _selectedFile.value = fileUri
+        _uiState.value = UploadUiState.FileSelected
     }
 
-    fun uploadSelectedFile() {
+    private fun createMultipartBody(uri: Uri, context: Context): MultipartBody.Part {
+        val file = context.contentResolver.openInputStream(uri)?.use { inputStream ->
+            val file = File(context.cacheDir, "temp_file")
+            file.outputStream().use { outputStream ->
+                inputStream.copyTo(outputStream)
+            }
+            file
+        } ?: throw IOException("Could not open file")
+
+        return MultipartBody.Part.createFormData(
+            "file",
+            file.name,
+            file.asRequestBody(context.contentResolver.getType(uri)?.toMediaType())
+        )
+    }
+
+    fun uploadSelectedFile(context: Context) {
+        val uri = _selectedFile.value ?: run {
+            _uiState.value = UploadUiState.Error("No file selected")
+            return
+        }
         viewModelScope.launch {
             _uiState.value = UploadUiState.Uploading
-            val file = _selectedFile.value
-            if (file == null) {
-                _uiState.value = UploadUiState.Error("No file selected")
-                return@launch
-            }
-
             try {
-                workoutRepo.uploadActivity(file, "This Activity", ".fit")
-                _uiState.value = UploadUiState.Success
+                val filePart = createMultipartBody(uri, context)
+                val result = workoutRepo.uploadActivity(filePart, "", "", "fit")
+                if (result.error.isEmpty()) {
+                    _uiState.value = UploadUiState.Success
+                } else {
+                    _uiState.value = UploadUiState.Error("Upload failed: ${result.error}")
+                }
             } catch (e: Exception) {
                 _uiState.value = UploadUiState.Error("Upload failed: ${e.message}")
             }
         }
     }
-
-
 }
 
 sealed class UploadUiState {

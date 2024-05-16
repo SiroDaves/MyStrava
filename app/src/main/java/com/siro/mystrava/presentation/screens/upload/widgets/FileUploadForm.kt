@@ -1,5 +1,6 @@
 package com.siro.mystrava.presentation.screens.upload.widgets
 
+import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -9,7 +10,10 @@ import com.siro.mystrava.presentation.viewmodels.UploadViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FileUploadForm(viewModel: UploadViewModel) {
+fun FileUploadForm(
+    context: Context,
+    viewModel: UploadViewModel,
+) {
     var name by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
     var type by remember { mutableStateOf("") }
@@ -59,7 +63,7 @@ fun FileUploadForm(viewModel: UploadViewModel) {
 
         Button(
             onClick = {
-                viewModel.uploadSelectedFile()
+                viewModel.uploadSelectedFile(context)
             },
             modifier = Modifier
                 .fillMaxWidth()

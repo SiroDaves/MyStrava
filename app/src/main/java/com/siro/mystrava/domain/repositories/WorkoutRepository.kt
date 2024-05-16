@@ -67,26 +67,20 @@ class WorkoutRepository @Inject constructor(
         }
     }
 
-    suspend fun uploadActivity(file: File, name: String, dataType: String) {
-        withContext(Dispatchers.IO) {
-            val requestFile = file.asRequestBody("application/octet-stream".toMediaTypeOrNull())
-            val filePart = MultipartBody.Part.createFormData("file", file.name, requestFile)
-
-            val namePart = name.toRequestBody("text/plain".toMediaTypeOrNull())
-            val dataTypePart = dataType.toRequestBody("text/plain".toMediaTypeOrNull())
-
+    suspend fun uploadActivity(
+        filePart: MultipartBody.Part,
+        name: String,
+        description: String,
+        dataType: String,
+    ): UploadResponse {
+        return withContext(Dispatchers.IO) {
             activitiesApi.uploadActivity(
                 file = filePart,
-                dataType = dataTypePart,
-                name = namePart
+                name = name.toRequestBody(),
+                description = description.toRequestBody(),
+                dataType = dataType.toRequestBody(),
             )
         }
-    }
-
-    fun fetchLastUpdatedTime(): LocalDateTime? {
-        val lastUpdatedString = preferences.getString(lastUpdatedKey, "")
-        return if (lastUpdatedString.isNullOrEmpty()) null
-        else LocalDateTime.parse(lastUpdatedString)
     }
 
     override fun onSharedPreferenceChanged(preferences: SharedPreferences?, key: String?) {

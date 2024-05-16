@@ -1,25 +1,28 @@
 package com.siro.mystrava.core.utils
 
 import android.annotation.SuppressLint
+import android.content.ContentResolver
+import android.net.Uri
+import android.provider.OpenableColumns
 import androidx.compose.ui.unit.dp
 import com.siro.mystrava.presentation.viewmodels.UnitType
 import java.time.*
 
-sealed class Food(val foodName: String){
+sealed class Food(val foodName: String) {
     class MacAndCheese() : Food("Mac and Cheese")
 
 }
 
 
-fun doSomethign(foodName: Food){
-    var boolean : Boolean
+fun doSomethign(foodName: Food) {
+    var boolean: Boolean
 
-    when(foodName.foodName){
+    when (foodName.foodName) {
 
     }
 }
 
-fun callIt(){
+fun callIt() {
     doSomethign(Food.MacAndCheese())
 }
 
@@ -83,6 +86,7 @@ fun Float.getElevationString(selectedUnitType: UnitType): String {
                 elevation.toString().replace("0*$".toRegex(), "").replace("\\.$".toRegex(), "")
             } $elevationMeasurement"
         }
+
         UnitType.Metric -> {
             return "${
                 this.toDouble().round(1).toString().replace("0*$".toRegex(), "")
@@ -97,6 +101,7 @@ fun Float.getDistanceMiles(selectedUnitType: UnitType): Double {
         UnitType.Imperial -> {
             this.div(1609).toDouble().round(2)
         }
+
         UnitType.Metric -> {
             (this / 1000).toDouble().round(2)
         }
@@ -113,6 +118,7 @@ fun Float.getDistanceString(selectedUnitType: UnitType, isYearSummary: Boolean =
                     .replace("\\.$".toRegex(), "")
             } mi"
         }
+
         UnitType.Metric -> {
             var elevation: Number = (this / 1000).toDouble().round(decimals)
             "${elevation.toString().replace("0*$".toRegex(), "").replace("\\.$".toRegex(), "")} km"
@@ -120,12 +126,12 @@ fun Float.getDistanceString(selectedUnitType: UnitType, isYearSummary: Boolean =
     }
 }
 
-fun Int.format(): String{
-    return if(this in 0..9) "0$this" else this.toString()
+fun Int.format(): String {
+    return if (this in 0..9) "0$this" else this.toString()
 }
 
 fun getAveragePaceString(distance: Float, time: Int, selectedUnitType: UnitType): String {
-    when(selectedUnitType){
+    when (selectedUnitType) {
         UnitType.Imperial -> {
             val distanceInMiles = distance.div(1609).toDouble().round(2)
             val minutes = time.div(60)
@@ -137,6 +143,7 @@ fun getAveragePaceString(distance: Float, time: Int, selectedUnitType: UnitType)
 
             return "${pace.toInt()}:${secondsPace.format()} / mi"
         }
+
         UnitType.Metric -> {
             val distanceInMeters = distance.div(1000).toDouble().round(2)
             val minutes = time.div(60)
@@ -169,4 +176,21 @@ fun calculatePace(movingTime: Int, distance: Float): String {
     val seconds = ((paceMinutesPerKm - minutes) * 60).toInt()
 
     return "$minutes:${String.format("%02d", seconds)} /km"
+}
+
+fun ContentResolver.getFileName(uri: Uri): String {
+    var name = ""
+    val returnCursor = this.query(uri, null, null, null, null)
+    returnCursor?.use {
+        if (it.moveToFirst()) {
+            val nameIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+            if (nameIndex != -1) {
+                name = it.getString(nameIndex)
+            } else {
+                // Fallback to Uri path if display name not available
+                name = uri.path?.substringAfterLast('/') ?: "unnamed_file"
+            }
+        }
+    }
+    return name
 }

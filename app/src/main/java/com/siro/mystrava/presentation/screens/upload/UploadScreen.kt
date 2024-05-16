@@ -33,7 +33,7 @@ fun UploadScreen(
     val filePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent(),
         onResult = { uri ->
-            uri?.let { viewModel.selectFile(context, uri) }
+            uri?.let { viewModel.selectFile(uri) }
         }
     )
 
@@ -71,6 +71,7 @@ fun UploadScreen(
                     verticalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
                     FilePickerCard(
+                        context = context,
                         selectedFile = selectedFile,
                         onSelectClick = { filePickerLauncher.launch("application/octet-stream") },
                         onClearClick = { },
@@ -83,7 +84,7 @@ fun UploadScreen(
                         }
 
                         is UploadUiState.FileSelected -> {
-                            FileUploadForm(viewModel)
+                            FileUploadForm(context, viewModel)
                         }
 
                         is UploadUiState.Loading -> LoadingState("Loading data ...")

@@ -6,7 +6,6 @@ import com.siro.mystrava.data.models.detail.ActivityDetail
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
-import java.io.File
 
 @Keep
 interface ActivitiesApi {
@@ -34,8 +33,9 @@ interface ActivitiesApi {
     @POST("uploads")
     suspend fun uploadActivity(
         @Part file: MultipartBody.Part,
+        @Part("name") name: RequestBody? = null,
+        @Part("description") description: RequestBody? = null,
         @Part("data_type") dataType: RequestBody,
-        @Part("name") name: RequestBody? = null
     ): UploadResponse
 
 }
