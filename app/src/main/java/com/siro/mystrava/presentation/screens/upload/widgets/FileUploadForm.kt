@@ -6,6 +6,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.unit.dp
+import com.garmin.fit.FitDecoder
 import com.siro.mystrava.presentation.viewmodels.UploadViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -19,6 +20,7 @@ fun FileUploadForm(
     var dataType by remember { mutableStateOf("") }
     var deviceName by remember { mutableStateOf("") }
     val selectedFile by viewModel.selectedFile.collectAsState()
+    //val fitDecoder: FitDecoder()
 
     Column(
         modifier = Modifier

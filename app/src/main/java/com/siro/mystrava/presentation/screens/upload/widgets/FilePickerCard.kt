@@ -43,7 +43,7 @@ fun FilePickerCard(
             }
 
             Text(
-                text = "Selected file: $fileInfo",
+                text = "Selected File:\n$fileInfo",
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(bottom = 12.dp)
             )
