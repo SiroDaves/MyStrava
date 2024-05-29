@@ -79,9 +79,7 @@ fun UploadScreen(
                     )
 
                     when (uiState) {
-                        is UploadUiState.Loaded -> {
-
-                        }
+                        is UploadUiState.Loaded -> TODO()
 
                         is UploadUiState.FileSelected -> {
                             FileUploadForm(context, viewModel)
