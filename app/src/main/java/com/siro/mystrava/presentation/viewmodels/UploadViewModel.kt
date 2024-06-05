@@ -52,7 +52,7 @@ class UploadViewModel @Inject constructor(
         )
     }
 
-    fun uploadSelectedFile(context: Context) {
+    fun uploadSelectedFile(context: Context, name: String, description: String, dataType: String) {
         val uri = _selectedFile.value ?: run {
             _uiState.value = UploadUiState.Error("No file selected")
             return
@@ -61,7 +61,7 @@ class UploadViewModel @Inject constructor(
             _uiState.value = UploadUiState.Uploading
             try {
                 val filePart = createMultipartBody(uri, context)
-                workoutRepo.uploadActivity(filePart, "", "", "fit")
+                workoutRepo.uploadActivity(filePart, name, description, dataType)
                 _uiState.value = UploadUiState.Success
             } catch (e: Exception) {
                 Log.d("TAG", "Upload has failed: ${e.message}")

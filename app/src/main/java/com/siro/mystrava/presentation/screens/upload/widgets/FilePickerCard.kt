@@ -1,5 +1,6 @@
 package com.siro.mystrava.presentation.screens.upload.widgets
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import androidx.compose.foundation.layout.*
@@ -8,8 +9,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.unit.dp
-import com.siro.mystrava.core.utils.getFileName
+import com.siro.mystrava.core.utils.*
 
+@SuppressLint("DefaultLocale")
 @Composable
 fun FilePickerCard(
     context: Context,
@@ -32,7 +34,12 @@ fun FilePickerCard(
             modifier = Modifier
                 .padding(16.dp)
         ) {
-            val fileName = selectedFile?.let { context.contentResolver.getFileName(it) } ?: "No file selected"
+            val fileSize =
+                selectedFile?.let { context.contentResolver.getFileSize(it) } ?: 0
+            val fileSizeMB = String.format("%.2f MB", fileSize / (1024.0 * 1024.0))
+            val fileName =
+                selectedFile?.let { context.contentResolver.getFileName(it) + fileSizeMB }
+                    ?: "No file selected"
             Text(
                 text = "Selected file: $fileName",
                 style = MaterialTheme.typography.bodyLarge,

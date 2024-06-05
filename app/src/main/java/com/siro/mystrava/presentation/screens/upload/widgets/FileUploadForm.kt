@@ -16,8 +16,9 @@ fun FileUploadForm(
 ) {
     var name by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
-    var type by remember { mutableStateOf("") }
-    var workoutType by remember { mutableStateOf("") }
+    var dataType by remember { mutableStateOf("fit") }
+    var deviceName by remember { mutableStateOf("") }
+    val selectedFile by viewModel.selectedFile.collectAsState()
 
     Column(
         modifier = Modifier
@@ -44,18 +45,18 @@ fun FileUploadForm(
         Spacer(Modifier.height(8.dp))
 
         TextField(
-            value = type,
-            onValueChange = { type = it },
-            label = { Text("Activity Type") },
+            value = dataType,
+            onValueChange = { dataType = it },
+            label = { Text("Data Type") },
             modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(Modifier.height(16.dp))
 
         TextField(
-            value = workoutType,
-            onValueChange = { workoutType = it },
-            label = { Text("WorkOut Type") },
+            value = deviceName,
+            onValueChange = { deviceName = it },
+            label = { Text("Device Name") },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -63,7 +64,12 @@ fun FileUploadForm(
 
         Button(
             onClick = {
-                viewModel.uploadSelectedFile(context)
+                viewModel.uploadSelectedFile(
+                    context,
+                    name,
+                    description,
+                    dataType,
+                )
             },
             modifier = Modifier
                 .fillMaxWidth()

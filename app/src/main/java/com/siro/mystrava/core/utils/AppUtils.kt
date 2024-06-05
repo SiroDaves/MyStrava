@@ -178,6 +178,18 @@ fun calculatePace(movingTime: Int, distance: Float): String {
     return "$minutes:${String.format("%02d", seconds)} /km"
 }
 
+fun ContentResolver.getFileSize(uri: Uri): Long {
+    var size = 0L
+    val returnCursor = query(uri, null, null, null, null)
+    if (returnCursor != null) {
+        val sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE)
+        returnCursor.moveToFirst()
+        size = returnCursor.getLong(sizeIndex)
+        returnCursor.close()
+    }
+    return size
+}
+
 fun ContentResolver.getFileName(uri: Uri): String {
     var name = ""
     val returnCursor = this.query(uri, null, null, null, null)
