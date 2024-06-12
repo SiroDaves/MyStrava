@@ -80,18 +80,14 @@ fun UploadScreen(
 
                     when (uiState) {
                         is UploadUiState.Loaded -> TODO()
-
-                        is UploadUiState.FileSelected -> {
-                            FileUploadForm(context, viewModel)
-                        }
-
                         is UploadUiState.Loading -> LoadingState("Loading data ...")
+                        is UploadUiState.Uploading -> LoadingState("Uploading data ...")
+                        is UploadUiState.FileSelected ->  FileUploadForm(context, viewModel)
+
                         is UploadUiState.Success -> {
                             Icon(Icons.Default.CheckCircle, contentDescription = "Success")
                             Text("Upload successful!", color = MaterialTheme.colorScheme.primary)
                         }
-
-                        is UploadUiState.Uploading -> LoadingState("Uploading data ...")
 
                         is UploadUiState.Error -> {
                             val errorMessage = (uiState as UploadUiState.Error).errorMessage
