@@ -16,7 +16,7 @@ fun FileUploadForm(
 ) {
     var name by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
-    var dataType by remember { mutableStateOf("fit") }
+    var dataType by remember { mutableStateOf("") }
     var deviceName by remember { mutableStateOf("") }
     val selectedFile by viewModel.selectedFile.collectAsState()
 

@@ -34,18 +34,19 @@ fun FilePickerCard(
             modifier = Modifier
                 .padding(16.dp)
         ) {
-            val fileSize =
-                selectedFile?.let { context.contentResolver.getFileSize(it) } ?: 0
-            val fileSizeMB = String.format("%.2f MB", fileSize / (1024.0 * 1024.0))
-            val fileName =
-                selectedFile?.let { context.contentResolver.getFileName(it) + fileSizeMB }
-                    ?: "No file selected"
+            val fileInfo = remember(selectedFile) {
+                selectedFile?.let { uri ->
+                    val name = context.contentResolver.getFileName(uri)
+                    val size = context.contentResolver.getFormattedFileSize(uri)
+                    "$name ($size)"
+                } ?: "No file selected"
+            }
+
             Text(
-                text = "Selected file: $fileName",
+                text = "Selected file: $fileInfo",
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(bottom = 12.dp)
             )
-
 
             Row(
                 modifier = Modifier

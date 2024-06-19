@@ -190,6 +190,25 @@ fun ContentResolver.getFileSize(uri: Uri): Long {
     return size
 }
 
+fun ContentResolver.getFormattedFileSize(uri: Uri): String {
+    val size = this.getFileSize(uri)
+    return when {
+        size >= 1024 * 1024 * 1024 -> {
+            val value = size / (1024.0 * 1024.0 * 1024.0)
+            if (value % 1 == 0.0) "%.0f GB" else "%.1f GB".format(value)
+        }
+        size >= 1024 * 1024 -> {
+            val value = size / (1024.0 * 1024.0)
+            if (value % 1 == 0.0) "%.0f MB" else "%.1f MB".format(value)
+        }
+        size >= 1024 -> {
+            val value = size / 1024.0
+            if (value % 1 == 0.0) "%.0f KB" else "%.1f KB".format(value)
+        }
+        else -> "$size bytes"
+    }
+}
+
 fun ContentResolver.getFileName(uri: Uri): String {
     var name = ""
     val returnCursor = this.query(uri, null, null, null, null)
