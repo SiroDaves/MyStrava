@@ -196,8 +196,6 @@ class SportContainer(val summary: SportSummary, val sportDetail: SportDetail) {
 
 }
 
-class GaitContainer(val step: Long, val stride: Long, val stepFrequency: Long)
-
 class ActivityData(
     val timestamp: Date,
     val latitude: Double?,
