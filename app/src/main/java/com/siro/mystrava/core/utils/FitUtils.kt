@@ -9,7 +9,7 @@ import java.io.File
 import java.util.Date
 
 @SuppressLint("NewApi")
-class FitConverter {
+class FitUtils {
     fun convertToFit(outputDirectory: File, summary: SportSummary, detail: SportDetail): File? {
         val container = SportContainer(summary, detail)
         Log.i("TAG", "Generating fit file for activity [${container.id}]")
@@ -29,7 +29,7 @@ class FitConverter {
         } else {
             Log.w(
                 "TAG",
-                "Unsupported activity type identified in Zepp with [${container.summary.type}]. Skipping trackId [${container.id}]"
+                "Unsupported activity type identified with [${container.summary.type}]. Skipping trackId [${container.id}]"
             )
         }
         return null

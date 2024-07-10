@@ -4,11 +4,15 @@ import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.*
+import com.siro.mystrava.core.utils.FitParser
+import com.siro.mystrava.core.utils.FitUtils
 import com.siro.mystrava.data.models.detail.ActivityDetail
 import com.siro.mystrava.domain.repositories.WorkoutRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -67,6 +71,46 @@ class UploadViewModel @Inject constructor(
                 Log.d("TAG", "Upload has failed: ${e.message}")
                 _uiState.value = UploadUiState.Error("Upload failed: ${e.message}")
             }
+        }
+    }
+
+    fun processSelectedFile(context: Context) {
+        val uri = _selectedFile.value ?: run {
+            _uiState.value = UploadUiState.Error("No file selected")
+            return
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            _uiState.value = UploadUiState.Uploading
+            try {
+                val tempFile = createTempFile(context, uri)
+
+                val fitParser = FitParser()
+                val parsedData = fitParser.parseFitFile(tempFile)
+
+                if (parsedData != null) {
+                    Log.d("ViewModel", "Parsed FIT file successfully")
+                } else {
+                    throw Exception("Failed to parse FIT file")
+                }
+                _uiState.value = UploadUiState.FileSelected
+            } catch (e: Exception) {
+                Log.d("TAG", "Processing failed: ${e.message}")
+                _uiState.value = UploadUiState.Error("Processing failed: ${e.message}")
+            }
+        }
+    }
+
+    private suspend fun createTempFile(context: Context, uri: Uri): File {
+        return withContext(Dispatchers.IO) {
+            val tempFile = File.createTempFile("fit_", ".fit", context.cacheDir).apply {
+                deleteOnExit()
+            }
+            context.contentResolver.openInputStream(uri)?.use { input ->
+                tempFile.outputStream().use { output ->
+                    input.copyTo(output)
+                }
+            }
+            tempFile
         }
     }
 }

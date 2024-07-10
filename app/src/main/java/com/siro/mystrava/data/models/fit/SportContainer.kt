@@ -3,7 +3,6 @@ package com.siro.mystrava.data.models.fit
 import java.time.Duration
 import java.util.Date
 import kotlin.math.max
-import kotlin.times
 
 class SportContainer(val summary: SportSummary, val sportDetail: SportDetail) {
 
@@ -195,6 +194,8 @@ class SportContainer(val summary: SportSummary, val sportDetail: SportDetail) {
     }
 
 }
+
+class GaitContainer(val step: Long, val stride: Long, val stepFrequency: Long)
 
 class ActivityData(
     val timestamp: Date,

@@ -1,7 +1,7 @@
 package com.siro.mystrava.data.models.fit
 
 data class SportDetail(
-    var trackid: Int,
+    var trackid: Int?,
     var source: String?,
     var longitude_latitude: String?,
     var altitude: String?,
@@ -15,7 +15,7 @@ data class SportDetail(
     var kilo_pace: String?,
     var mile_pace: String?,
     var heart_rate: String?,
-    var version: Int,
+    var version: Int?,
     var provider: String?,
     var speed: String?,
     var bearing: String?,
