@@ -5,7 +5,6 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.*
 import com.siro.mystrava.core.utils.FitParser
-import com.siro.mystrava.core.utils.FitUtils
 import com.siro.mystrava.data.models.detail.ActivityDetail
 import com.siro.mystrava.domain.repositories.WorkoutRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -66,7 +65,7 @@ class UploadViewModel @Inject constructor(
             try {
                 val filePart = createMultipartBody(uri, context)
                 workoutRepo.uploadActivity(filePart, name, description, dataType)
-                _uiState.value = UploadUiState.Success
+                processSelectedFile(context)
             } catch (e: Exception) {
                 Log.d("TAG", "Upload has failed: ${e.message}")
                 _uiState.value = UploadUiState.Error("Upload failed: ${e.message}")
@@ -83,9 +82,7 @@ class UploadViewModel @Inject constructor(
             _uiState.value = UploadUiState.Uploading
             try {
                 val tempFile = createTempFile(context, uri)
-
-                val fitParser = FitParser()
-                val parsedData = fitParser.parseFitFile(tempFile)
+                val parsedData = FitParser().parseFitFile(tempFile)
 
                 if (parsedData != null) {
                     Log.d("ViewModel", "Parsed FIT file successfully")
