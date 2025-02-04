@@ -11,15 +11,14 @@ import com.siro.mystrava.ui.settings.SettingsRepo
 import com.siro.mystrava.ui.settings.SettingsRepoImpl
 import com.siro.mystrava.ui.spotifyjourney.SpotifyJourneyRepository
 import com.siro.mystrava.ui.widget.WidgetWorkerFactory
-import dagger.Module
-import dagger.Provides
+import dagger.*
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
-@Module(dagger.Module.includes = [StravaNetworkModule::class, SpotifyNetworkModule::class] )
+@Module(includes = [StravaNetworkModule::class, SpotifyNetworkModule::class] )
 class AppModule {
 
     @Provides
