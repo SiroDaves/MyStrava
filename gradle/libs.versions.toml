@@ -7,23 +7,23 @@ junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.10.1"
-composeBom = "2024.04.01"
+composeBom = "2025.03.01"
 accompanist = "0.30.1"
-hilt = "2.45"
-appCompat = "1.6.1"
-constraintlayout = "1.0.1"
-splashscreen = "1.0.0-beta02"
-livedata = "1.4.2"
-room = "2.5.1"
-workmanager = "2.8.1"
-glance = "1.0.0-beta01"
-material = "1.9.0"
-hiltCompose = "1.0.0"
-navigationCompose = "2.5.3"
-squareup = "2.6.1"
-squareupOkhttp3 = "3.8.0"
-espresso = "3.5.1"
-androidxTest = "1.1.5"
+hilt = "2.51.1"
+appCompat = "1.7.0"
+constraintlayout = "1.1.1"
+splashscreen = "1.0.1"
+livedata = "1.7.8"
+room = "2.6.1"
+workmanager = "2.10.0"
+glance = "1.1.1"
+material = "1.12.0"
+hiltCompose = "1.2.0"
+navigationCompose = "2.8.9"
+squareup = "2.9.0"
+squareupOkhttp3 = "4.12.0"
+espresso = "3.6.1"
+androidxTest = "1.2.1"
 leakCanary = "2.10"
 
 [libraries]
@@ -31,6 +31,7 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
 accompanist-webview = {module = "com.google.accompanist:accompanist-webview", version.ref = "accompanist"}
 accompanist-swiperefresh = {module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "accompanist"}
+#noinspection SimilarGradleDependency
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraintlayout"}
 androidx-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "splashscreen" }

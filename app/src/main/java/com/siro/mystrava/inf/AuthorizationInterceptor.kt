@@ -23,7 +23,7 @@ class AuthorizationInterceptor @Inject constructor(val stravaSessionRepository: 
         val requestBuilder = original.newBuilder()
             .header("Accept", "application/json")
             .header("Authorization", "Bearer $token")
-            .method(original.method(), original.body())
+            .method(original.method, original.body)
         val request = requestBuilder.build()
         return chain.proceed(request)
     }

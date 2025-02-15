@@ -100,7 +100,7 @@ object StravaNetworkModule {
     @JvmStatic
     internal fun provideOkHttp(): OkHttpClient.Builder {
         val logging = HttpLoggingInterceptor()
-        okhttp3.logging.HttpLoggingInterceptor.setLevel = HttpLoggingInterceptor.Level.BODY
+        //okhttp3.logging.HttpLoggingInterceptor.setLevel = HttpLoggingInterceptor.Level.BODY
 
         val okHttpClient = OkHttpClient.Builder()
         if (BuildConfig.DEBUG) {
