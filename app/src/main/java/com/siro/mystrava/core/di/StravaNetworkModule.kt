@@ -1,4 +1,4 @@
-package com.siro.mystrava.di
+package com.siro.mystrava.core.di
 
 import android.content.Context
 import com.siro.mystrava.BuildConfig
@@ -100,7 +100,7 @@ object StravaNetworkModule {
     @JvmStatic
     internal fun provideOkHttp(): OkHttpClient.Builder {
         val logging = HttpLoggingInterceptor()
-        logging.level = HttpLoggingInterceptor.Level.BODY
+        okhttp3.logging.HttpLoggingInterceptor.setLevel = HttpLoggingInterceptor.Level.BODY
 
         val okHttpClient = OkHttpClient.Builder()
         if (BuildConfig.DEBUG) {

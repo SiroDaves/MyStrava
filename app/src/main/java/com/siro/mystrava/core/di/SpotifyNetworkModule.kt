@@ -1,4 +1,4 @@
-package com.siro.mystrava.di
+package com.siro.mystrava.core.di
 
 import android.content.Context
 import com.siro.mystrava.inf.Session

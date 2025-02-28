@@ -1,4 +1,4 @@
-package com.siro.mystrava.di
+package com.siro.mystrava.core.di
 
 import android.content.Context
 import androidx.work.Configuration
@@ -19,7 +19,7 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
-@Module(includes = [StravaNetworkModule::class, SpotifyNetworkModule::class] )
+@Module(dagger.Module.includes = [StravaNetworkModule::class, SpotifyNetworkModule::class] )
 class AppModule {
 
     @Provides

@@ -1,8 +1,7 @@
-package com.siro.mystrava.ui.utils
+package com.siro.mystrava.core.utils
 
 import androidx.compose.ui.unit.dp
 import com.siro.mystrava.ui.dashboard.UnitType
-import com.siro.mystrava.ui.utils.Food.MacAndCheese
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -24,7 +23,7 @@ fun doSomethign(foodName: Food){
 }
 
 fun callIt(){
-    doSomethign(MacAndCheese())
+    doSomethign(com.siro.mystrava.core.utils.Food.MacAndCheese())
 }
 
 
