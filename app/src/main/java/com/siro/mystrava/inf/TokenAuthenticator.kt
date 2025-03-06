@@ -3,10 +3,7 @@ package com.siro.mystrava.inf
 import android.util.Log
 import androidx.annotation.Keep
 import kotlinx.coroutines.runBlocking
-import okhttp3.Authenticator
-import okhttp3.Request
-import okhttp3.Response
-import okhttp3.Route
+import okhttp3.*
 import javax.inject.Inject
 
 @Keep
@@ -15,13 +12,13 @@ class TokenAuthenticator @Inject constructor(val stravaSessionRepository: Strava
         // This is a synchronous call
         val updatedToken = getNewToken()
 
-        val newRequest = response.request().newBuilder()
+        val newRequest = response.request.newBuilder()
             .removeHeader("Authorization")
             .header("Accept", "application/json")
             .header("Authorization", "Bearer $updatedToken")
             .build()
 
-        Log.d("TAG", "authenticate: ${newRequest.headers().names().toString()}")
+        Log.d("TAG", "authenticate: ${newRequest.headers.names().toString()}")
 
         return newRequest
     }

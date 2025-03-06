@@ -23,7 +23,7 @@ class SpotifyTokenInterceptor @Inject constructor(private val spotifySessionRepo
         val requestBuilder = original.newBuilder()
             .header("Accept", "application/json")
             .header("Authorization", "Bearer $token")
-            .method(original.method(), original.body())
+            .method(original.method, original.body)
         val request = requestBuilder.build()
         return chain.proceed(request)
     }

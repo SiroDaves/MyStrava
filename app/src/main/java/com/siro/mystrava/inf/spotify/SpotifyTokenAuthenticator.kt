@@ -16,13 +16,13 @@ class SpotifyTokenAuthenticator @Inject constructor(val spotifySessionRepository
         // This is a synchronous call
         val updatedToken = getNewToken()
 
-        val newRequest = response.request().newBuilder()
+        val newRequest = response.request.newBuilder()
             .removeHeader("Authorization")
             .header("Accept", "application/json")
             .header("Authorization", "Bearer $updatedToken")
             .build()
 
-        Log.d("TAG", "authenticate: ${newRequest.headers().names().toString()}")
+        Log.d("TAG", "authenticate: ${newRequest.headers.names().toString()}")
 
         return newRequest
     }
