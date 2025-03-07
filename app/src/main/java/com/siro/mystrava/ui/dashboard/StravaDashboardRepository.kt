@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import com.siro.mystrava.R
+import com.siro.mystrava.core.utils.*
 import com.siro.mystrava.strava.api.ActivitiesApi
 import com.siro.mystrava.strava.model.activites.ActivitiesItem
 import com.siro.mystrava.strava.model.activites.db.ActivitiesDao
@@ -15,8 +16,6 @@ import com.siro.mystrava.ui.dashboard.ActivityType.valueOf
 import com.siro.mystrava.ui.dashboard.data.CalendarActivities
 import com.siro.mystrava.ui.dashboard.data.CalendarData
 import com.siro.mystrava.ui.dashboard.data.getEpoch
-import com.siro.mystrava.ui.utils.getDate
-import com.siro.mystrava.ui.utils.getDateTime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
