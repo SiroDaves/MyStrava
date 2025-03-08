@@ -22,9 +22,9 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.siro.mystrava.R
 import com.siro.mystrava.ui.dashboard.DashboardStat
-import com.siro.mystrava.ui.dashboard.StreakWidgetCard
+import com.siro.mystrava.ui.dashboard.MyWidgetCard
 import com.siro.mystrava.ui.dashboard.data.SummaryInfo
-import com.siro.mystrava.ui.utils.getBarHeight
+import com.siro.mystrava.core.utils.getBarHeight
 import java.time.DayOfWeek
 import java.time.LocalDate
 
@@ -36,7 +36,7 @@ fun WeekSummaryWidget(
     isLoading: Boolean,
     onClick : () -> Unit
 ) {
-    StreakWidgetCard(
+    MyWidgetCard(
         onClick = onClick,
         content = {
             BoxWithConstraints(

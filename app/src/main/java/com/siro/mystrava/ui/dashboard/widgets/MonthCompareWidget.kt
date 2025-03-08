@@ -1,5 +1,6 @@
 package com.siro.mystrava.ui.dashboard.widgets
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -18,18 +19,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.siro.mystrava.R
-import com.siro.mystrava.ui.dashboard.ActivityType
-import com.siro.mystrava.ui.dashboard.DashboardStat
-import com.siro.mystrava.ui.dashboard.MonthTextStat
-import com.siro.mystrava.ui.dashboard.PercentDelta
-import com.siro.mystrava.ui.dashboard.StatType
-import com.siro.mystrava.ui.dashboard.StreakWidgetCard
-import com.siro.mystrava.ui.dashboard.SummaryMetrics
-import com.siro.mystrava.ui.dashboard.UnitType
-import com.siro.mystrava.ui.utils.getDistanceString
-import com.siro.mystrava.ui.utils.getElevationString
-import com.siro.mystrava.ui.utils.getTimeStringHoursAndMinutes
+import com.siro.mystrava.ui.dashboard.*
+import com.siro.mystrava.core.utils.*
 
+@SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 fun CompareWidget(
     dashboardType: DashboardType,
@@ -40,7 +33,7 @@ fun CompareWidget(
     currentMonthMetrics: SummaryMetrics,
     selectedUnitType: UnitType?
 ) {
-    StreakWidgetCard(
+    MyWidgetCard(
         content = {
 
             BoxWithConstraints(

@@ -14,13 +14,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.siro.mystrava.ui.dashboard.ActivityType
-import com.siro.mystrava.ui.dashboard.StreakWidgetCard
+import com.siro.mystrava.ui.dashboard.MyWidgetCard
 import com.siro.mystrava.ui.dashboard.SummaryMetrics
 import com.siro.mystrava.ui.dashboard.UnitType
-import com.siro.mystrava.ui.utils.getAveragePaceString
-import com.siro.mystrava.ui.utils.getDistanceString
-import com.siro.mystrava.ui.utils.getElevationString
-import com.siro.mystrava.ui.utils.getTimeStringHoursAndMinutes
+import com.siro.mystrava.core.utils.getAveragePaceString
+import com.siro.mystrava.core.utils.getDistanceString
+import com.siro.mystrava.core.utils.getElevationString
+import com.siro.mystrava.core.utils.getTimeStringHoursAndMinutes
 
 @Composable
 fun YearWidget(
@@ -29,7 +29,7 @@ fun YearWidget(
     selectedUnitType: UnitType?,
     isLoading: Boolean,
 ) {
-    StreakWidgetCard(
+    MyWidgetCard(
         content = {
             Column(
                 modifier = Modifier

@@ -24,14 +24,14 @@ import com.siro.mystrava.R
 import com.siro.mystrava.strava.model.activites.ActivitiesItem
 import com.siro.mystrava.ui.dashboard.ActivityType
 import com.siro.mystrava.ui.dashboard.DashboardStat
-import com.siro.mystrava.ui.dashboard.StreakWidgetCard
+import com.siro.mystrava.ui.dashboard.MyWidgetCard
 import com.siro.mystrava.ui.dashboard.SummaryMetrics
 import com.siro.mystrava.ui.dashboard.UnitType
-import com.siro.mystrava.ui.utils.getAveragePaceString
-import com.siro.mystrava.ui.utils.getDate
-import com.siro.mystrava.ui.utils.getDistanceString
-import com.siro.mystrava.ui.utils.getElevationString
-import com.siro.mystrava.ui.utils.getTimeStringHoursAndMinutes
+import com.siro.mystrava.core.utils.getAveragePaceString
+import com.siro.mystrava.core.utils.getDate
+import com.siro.mystrava.core.utils.getDistanceString
+import com.siro.mystrava.core.utils.getElevationString
+import com.siro.mystrava.core.utils.getTimeStringHoursAndMinutes
 import java.time.YearMonth
 import java.util.Locale
 
@@ -47,7 +47,7 @@ fun MonthWidget(
 ) {
     val currentMonth = YearMonth.now().month
 
-    StreakWidgetCard(
+    MyWidgetCard(
         content = {
             BoxWithConstraints(
                 modifier = Modifier.padding(

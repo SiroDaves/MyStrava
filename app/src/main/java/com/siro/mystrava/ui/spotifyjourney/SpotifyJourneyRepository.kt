@@ -5,7 +5,7 @@ import com.siro.mystrava.inf.spotify.SpotifyApis
 import com.siro.mystrava.inf.spotify.model.Track
 import com.siro.mystrava.strava.model.activites.ActivitiesItem
 import com.siro.mystrava.ui.dashboard.StravaDashboardRepository
-import com.siro.mystrava.ui.utils.getDateTime
+import com.siro.mystrava.core.utils.getDateTime
 import java.time.ZoneOffset
 import javax.inject.Inject
 import javax.inject.Singleton

@@ -25,15 +25,15 @@ import com.siro.mystrava.ui.dashboard.DashboardStat
 import com.siro.mystrava.ui.dashboard.MonthTextStat
 import com.siro.mystrava.ui.dashboard.PercentDelta
 import com.siro.mystrava.ui.dashboard.StatType
-import com.siro.mystrava.ui.dashboard.StreakWidgetCard
+import com.siro.mystrava.ui.dashboard.MyWidgetCard
 import com.siro.mystrava.ui.dashboard.SummaryMetrics
 import com.siro.mystrava.ui.dashboard.UnitType
-import com.siro.mystrava.ui.utils.getAveragePaceFromDistance
-import com.siro.mystrava.ui.utils.getAveragePaceString
-import com.siro.mystrava.ui.utils.getDate
-import com.siro.mystrava.ui.utils.getDistanceString
-import com.siro.mystrava.ui.utils.getElevationString
-import com.siro.mystrava.ui.utils.getTimeStringHoursAndMinutes
+import com.siro.mystrava.core.utils.getAveragePaceFromDistance
+import com.siro.mystrava.core.utils.getAveragePaceString
+import com.siro.mystrava.core.utils.getDate
+import com.siro.mystrava.core.utils.getDistanceString
+import com.siro.mystrava.core.utils.getElevationString
+import com.siro.mystrava.core.utils.getTimeStringHoursAndMinutes
 
 @Composable
 fun WeekCompareWidget(
@@ -44,7 +44,7 @@ fun WeekCompareWidget(
     monthWeekMap: MutableMap<Int, MutableList<Pair<Int, Int>>>,
     isLoading: Boolean,
 ) {
-    StreakWidgetCard(
+    MyWidgetCard(
         content = {
             BoxWithConstraints(
                 modifier = Modifier.padding(
