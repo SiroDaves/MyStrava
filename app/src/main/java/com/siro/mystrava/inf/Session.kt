@@ -1,7 +1,7 @@
 package com.siro.mystrava.inf
 
 import androidx.annotation.Keep
-import com.siro.mystrava.inf.model.TokenResponse
+import com.siro.mystrava.data.models.TokenResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST

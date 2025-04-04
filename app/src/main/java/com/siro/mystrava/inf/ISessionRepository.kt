@@ -1,7 +1,7 @@
 package com.siro.mystrava.inf
 
 import androidx.annotation.Keep
-import com.siro.mystrava.inf.model.TokenResponse
+import com.siro.mystrava.data.models.TokenResponse
 
 @Keep
 interface ISessionRepository {

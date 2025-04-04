@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.annotation.Keep
 import com.siro.mystrava.R
-import com.siro.mystrava.inf.model.GrantType
-import com.siro.mystrava.inf.model.TokenResponse
+import com.siro.mystrava.data.models.GrantType
+import com.siro.mystrava.data.models.TokenResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

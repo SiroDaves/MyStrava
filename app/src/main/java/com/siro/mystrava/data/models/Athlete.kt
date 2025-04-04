@@ -1,4 +1,4 @@
-package com.siro.mystrava.inf.model
+package com.siro.mystrava.data.models
 
 import androidx.annotation.Keep
 
