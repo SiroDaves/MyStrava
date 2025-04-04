@@ -4,12 +4,9 @@ import android.content.Context
 import androidx.work.Configuration
 import com.siro.mystrava.presentation.dashboard.StravaDashboardRepository
 import com.siro.mystrava.inf.StravaSessionRepository
-import com.siro.mystrava.inf.spotify.SpotifyApis
 import com.siro.mystrava.strava.api.ActivitiesApi
 import com.siro.mystrava.strava.api.AthleteApi
-import com.siro.mystrava.presentation.settings.SettingsRepo
-import com.siro.mystrava.presentation.settings.SettingsRepoImpl
-import com.siro.mystrava.presentation.spotifyjourney.SpotifyJourneyRepository
+import com.siro.mystrava.presentation.settings.*
 import com.siro.mystrava.presentation.widget.WidgetWorkerFactory
 import dagger.*
 import dagger.hilt.InstallIn
@@ -18,7 +15,7 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
-@Module(includes = [NetworkModule::class, SpotifyNetworkModule::class] )
+@Module(includes = [NetworkModule::class] )
 class AppModule {
 
     @Provides
@@ -31,14 +28,6 @@ class AppModule {
             context,
             activitiesApi
         )
-
-    @Provides
-    @Singleton
-    fun provideSpotifyJourneyRepository(
-        spotifyApis: SpotifyApis,
-        stravaDashboardRepository: StravaDashboardRepository
-    ): SpotifyJourneyRepository =
-        SpotifyJourneyRepository(spotifyApis, stravaDashboardRepository)
 
     @Provides
     @Singleton
