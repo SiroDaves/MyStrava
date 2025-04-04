@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.annotation.Keep
 import com.siro.mystrava.R
-import com.siro.mystrava.core.auth.Session
+import com.siro.mystrava.data.sources.remote.Session
 import com.siro.mystrava.data.models.GrantType
 import com.siro.mystrava.data.models.TokenResponse
 import kotlinx.coroutines.Dispatchers

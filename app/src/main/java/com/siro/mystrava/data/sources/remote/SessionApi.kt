@@ -1,13 +1,11 @@
-package com.siro.mystrava.core.auth
+package com.siro.mystrava.data.sources.remote
 
 import androidx.annotation.Keep
-import com.siro.mystrava.data.models.TokenResponse
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import com.siro.mystrava.data.models.user.TokenResponse
+import retrofit2.http.*
 
 @Keep
-interface Session {
+interface SessionApi {
     @POST("/oauth/token")
     @FormUrlEncoded
     suspend fun getFirstToken(

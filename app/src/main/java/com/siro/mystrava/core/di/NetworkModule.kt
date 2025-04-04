@@ -3,11 +3,9 @@ package com.siro.mystrava.core.di
 import android.content.Context
 import com.siro.mystrava.BuildConfig
 import com.siro.mystrava.core.auth.AuthorizationInterceptor
-import com.siro.mystrava.core.auth.Session
 import com.siro.mystrava.data.repositories.SessionRepository
 import com.siro.mystrava.core.auth.TokenAuthenticator
-import com.siro.mystrava.data.sources.remote.ActivitiesApi
-import com.siro.mystrava.data.sources.remote.AthleteApi
+import com.siro.mystrava.data.sources.remote.*
 import dagger.*
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -26,8 +24,8 @@ object NetworkModule {
     @Provides
     @Reusable
     @JvmStatic
-    internal fun provideStravaSession(@Named("strava") retrofit: Retrofit): Session {
-        return retrofit.create(Session::class.java)
+    internal fun provideSession(@Named("strava") retrofit: Retrofit): SessionApi {
+        return retrofit.create(SessionApi::class.java)
     }
 
     @Provides
@@ -48,9 +46,9 @@ object NetworkModule {
     @Singleton
     fun providesSessionRepository(
         @ApplicationContext context: Context,
-        session: Session
+        api: SessionApi
     ): SessionRepository =
-        SessionRepository(context, session)
+        SessionRepository(context, api)
 
     /**
      * a strava api makes the calls to the api and attaches the token to the header with an okhttp interceptor from the session. Session should have a
