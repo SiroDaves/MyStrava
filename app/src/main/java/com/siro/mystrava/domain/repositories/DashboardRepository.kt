@@ -10,13 +10,9 @@ import com.siro.mystrava.data.sources.remote.ActivitiesApi
 import com.siro.mystrava.data.sources.local.ActivitiesDao
 import com.siro.mystrava.strava.model.activites.db.ActivitiesDatabase
 import com.siro.mystrava.data.models.detail.ActivityDetail
-import com.siro.mystrava.domain.entities.CalendarActivities
-import com.siro.mystrava.domain.entities.CalendarData
-import com.siro.mystrava.domain.entities.getEpoch
-import com.siro.mystrava.presentation.viewmodels.ActivityType
+import com.siro.mystrava.domain.entities.*
+import com.siro.mystrava.presentation.viewmodels.*
 import com.siro.mystrava.presentation.viewmodels.ActivityType.*
-import com.siro.mystrava.presentation.viewmodels.MeasureType
-import com.siro.mystrava.presentation.viewmodels.UnitType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.*
