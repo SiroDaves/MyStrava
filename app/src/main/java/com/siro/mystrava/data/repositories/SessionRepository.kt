@@ -2,6 +2,7 @@ package com.siro.mystrava.data.repositories
 
 import android.content.*
 import androidx.annotation.Keep
+import com.siro.mystrava.BuildConfig.*
 import com.siro.mystrava.R
 import com.siro.mystrava.data.models.user.*
 import com.siro.mystrava.data.sources.remote.SessionApi
@@ -23,8 +24,8 @@ class SessionRepository @Inject constructor(
         val firstToken: TokenResponse
         withContext(context = Dispatchers.IO) {
             firstToken = api.getFirstToken(
-                CLIENT_ID,
-                CLIENT_SECRET,
+                STRAVA_CLIENT_ID,
+                STRAVA_CLIENT_SECRET,
                 code,
                 GrantType.AUTHORIZATION_CODE.toString()
             )
@@ -39,8 +40,8 @@ class SessionRepository @Inject constructor(
     override suspend fun refreshToken() : String {
         return withContext(context = Dispatchers.IO) {
             val newTokens = api.refreshToken(
-                CLIENT_ID,
-                CLIENT_SECRET,
+                STRAVA_CLIENT_ID,
+                STRAVA_CLIENT_SECRET,
                 getRefreshToken(),
                 GrantType.REFRESH_TOKEN.toString()
             )
@@ -98,8 +99,6 @@ class SessionRepository @Inject constructor(
 
     @Keep
     companion object {
-        const val CLIENT_ID = 66172
-        const val CLIENT_SECRET = "9d8bc5846db6c2df5750f0a130fd88c445b0b363"
         private const val ACCESS_TOKEN = "ACCESS_TOKEN"
         private const val REFRESH_TOKEN = "REFRESH_TOKEN"
         private const val EXPIRATION = "EXPIRATION"

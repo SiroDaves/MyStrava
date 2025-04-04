@@ -2,9 +2,9 @@ package com.siro.mystrava.core.di
 
 import android.content.Context
 import com.siro.mystrava.BuildConfig
-import com.siro.mystrava.core.auth.AuthorizationInterceptor
+import com.siro.mystrava.core.auth.*
 import com.siro.mystrava.data.repositories.SessionRepository
-import com.siro.mystrava.core.auth.TokenAuthenticator
+import com.siro.mystrava.core.utils.ApiConstants
 import com.siro.mystrava.data.sources.remote.*
 import dagger.*
 import dagger.hilt.InstallIn
@@ -20,7 +20,6 @@ import javax.inject.*
 @Module
 @Suppress("unused")
 object NetworkModule {
-
     @Provides
     @Reusable
     @JvmStatic
@@ -50,11 +49,6 @@ object NetworkModule {
     ): SessionRepository =
         SessionRepository(context, api)
 
-    /**
-     * a strava api makes the calls to the api and attaches the token to the header with an okhttp interceptor from the session. Session should have a
-     * getter method that checks the expiration and automatically gets a new token if needed. Session
-     */
-
     @Provides
     @Named("stravaApi")
     @Reusable
@@ -68,23 +62,19 @@ object NetworkModule {
         okHttpClient.authenticator(authenticator)
 
         return Retrofit.Builder()
-            .baseUrl("https://www.strava.com/api/v3/")
+            .baseUrl(ApiConstants.Api.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient.build())
             .build()
     }
 
-    /**
-     * Provides the Retrofit object.
-     * @return the Retrofit object
-     */
     @Provides
     @Named("strava")
     @Reusable
     @JvmStatic
     internal fun provideStravaRetrofitInterface(okHttpClient: OkHttpClient.Builder): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://www.strava.com/api/v3/")
+            .baseUrl(ApiConstants.Api.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient.build())
             .build()
