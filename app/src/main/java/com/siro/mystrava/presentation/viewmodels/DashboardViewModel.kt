@@ -1,4 +1,4 @@
-package com.siro.mystrava.presentation.dashboard
+package com.siro.mystrava.presentation.viewmodels
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
@@ -12,6 +12,8 @@ import com.siro.mystrava.domain.repositories.DashboardRepository
 import com.siro.mystrava.domain.entities.CalendarActivities
 import com.siro.mystrava.domain.entities.CalendarData
 import com.siro.mystrava.domain.repositories.SettingsRepository
+import com.siro.mystrava.presentation.screens.dashboard.SummaryMetrics
+import com.siro.mystrava.presentation.screens.dashboard.getStats
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -97,7 +99,7 @@ class StravaDashboardViewModel @Inject constructor(
     private fun yearlySummaryMetrics(currentYearActivities: CalendarActivities) {
         val preferredActivity = currentYearActivities.preferredActivityType
         _yearlySummaryMetrics.postValue( buildList {
-            if (currentYearActivities.preferredMeasureType == MeasureType.Absolute) {
+            if (currentYearActivities.preferredMeasureType equals MeasureType.Absolute) {
                 add(currentYearActivities.currentYearActivities.getStats(preferredActivity))
                 add(currentYearActivities.previousYearActivities.getStats(preferredActivity))
                 add(currentYearActivities.twoYearsAgoActivities.getStats(preferredActivity))

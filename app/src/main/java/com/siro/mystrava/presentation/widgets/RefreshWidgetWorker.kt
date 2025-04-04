@@ -1,4 +1,4 @@
-package com.siro.mystrava.presentation.widget
+package com.siro.mystrava.presentation.widgets
 
 import android.content.Context
 import androidx.work.*

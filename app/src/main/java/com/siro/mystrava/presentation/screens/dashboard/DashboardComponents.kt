@@ -1,4 +1,4 @@
-package com.siro.mystrava.presentation.dashboard
+package com.siro.mystrava.presentation.screens.dashboard
 
 import android.util.Log
 import androidx.annotation.DrawableRes

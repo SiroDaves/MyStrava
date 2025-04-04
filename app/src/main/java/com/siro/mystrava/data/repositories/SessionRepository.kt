@@ -1,20 +1,17 @@
 package com.siro.mystrava.data.repositories
 
-import android.content.Context
-import android.content.SharedPreferences
+import android.content.*
 import androidx.annotation.Keep
 import com.siro.mystrava.R
-import com.siro.mystrava.data.sources.remote.Session
-import com.siro.mystrava.data.models.GrantType
-import com.siro.mystrava.data.models.TokenResponse
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import com.siro.mystrava.data.models.user.*
+import com.siro.mystrava.data.sources.remote.SessionApi
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @Keep
 class SessionRepository @Inject constructor(
     val context: Context,
-    private val session: Session
+    private val api: SessionApi
 ) : ISessionRepository {
 
     private val preferences: SharedPreferences = context.getSharedPreferences(
@@ -25,7 +22,7 @@ class SessionRepository @Inject constructor(
     override suspend fun getFirstTokens(code: String): TokenResponse {
         val firstToken: TokenResponse
         withContext(context = Dispatchers.IO) {
-            firstToken = session.getFirstToken(
+            firstToken = api.getFirstToken(
                 CLIENT_ID,
                 CLIENT_SECRET,
                 code,
@@ -41,7 +38,7 @@ class SessionRepository @Inject constructor(
 
     override suspend fun refreshToken() : String {
         return withContext(context = Dispatchers.IO) {
-            val newTokens = session.refreshToken(
+            val newTokens = api.refreshToken(
                 CLIENT_ID,
                 CLIENT_SECRET,
                 getRefreshToken(),

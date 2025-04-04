@@ -19,8 +19,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.*
-import com.siro.mystrava.presentation.dashboard.*
-import com.siro.mystrava.presentation.settings.*
+import com.siro.mystrava.presentation.screens.auth.StravaAuthWebView
+import com.siro.mystrava.presentation.viewmodels.ActivityType
+import com.siro.mystrava.presentation.viewmodels.MeasureType
+import com.siro.mystrava.presentation.screens.dashboard.StravaDashboard
+import com.siro.mystrava.presentation.viewmodels.StravaDashboardViewModel
+import com.siro.mystrava.presentation.viewmodels.UnitType
+import com.siro.mystrava.presentation.screens.settings.StreakSettingsView
 import com.siro.mystrava.presentation.theme.*
 import dagger.hilt.android.AndroidEntryPoint
 

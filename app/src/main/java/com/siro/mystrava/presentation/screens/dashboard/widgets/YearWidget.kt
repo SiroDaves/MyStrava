@@ -1,4 +1,4 @@
-package com.siro.mystrava.presentation.dashboard.widgets
+package com.siro.mystrava.presentation.screens.dashboard.widgets
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,14 +13,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.siro.mystrava.presentation.dashboard.ActivityType
-import com.siro.mystrava.presentation.dashboard.MyWidgetCard
-import com.siro.mystrava.presentation.dashboard.SummaryMetrics
-import com.siro.mystrava.presentation.dashboard.UnitType
 import com.siro.mystrava.core.utils.getAveragePaceString
 import com.siro.mystrava.core.utils.getDistanceString
 import com.siro.mystrava.core.utils.getElevationString
 import com.siro.mystrava.core.utils.getTimeStringHoursAndMinutes
+import com.siro.mystrava.presentation.viewmodels.ActivityType
+import com.siro.mystrava.presentation.screens.dashboard.MyWidgetCard
+import com.siro.mystrava.presentation.screens.dashboard.SummaryMetrics
+import com.siro.mystrava.presentation.viewmodels.UnitType
 
 @Composable
 fun YearWidget(
@@ -83,7 +83,10 @@ fun YearWidget(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {

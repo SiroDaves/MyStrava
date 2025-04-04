@@ -1,19 +1,17 @@
-package com.siro.mystrava.presentation.settings
+package com.siro.mystrava.presentation.screens.auth
 
 import android.annotation.TargetApi
 import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.view.View
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.*
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
-import com.siro.mystrava.data.models.StravaLogin
-import com.siro.mystrava.presentation.dashboard.StravaDashboardViewModel
+import com.siro.mystrava.data.models.user.StravaLogin
+import com.siro.mystrava.presentation.viewmodels.StravaDashboardViewModel
 
 @Composable
 fun StravaAuthWebView(viewModel: StravaDashboardViewModel, onFinish: () -> Unit) {

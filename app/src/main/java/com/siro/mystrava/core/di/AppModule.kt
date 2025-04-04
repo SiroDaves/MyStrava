@@ -8,7 +8,7 @@ import com.siro.mystrava.domain.repositories.SettingsRepository
 import com.siro.mystrava.domain.repositories.SettingsRepositoryImpl
 import com.siro.mystrava.data.sources.remote.ActivitiesApi
 import com.siro.mystrava.data.sources.remote.AthleteApi
-import com.siro.mystrava.presentation.widget.WidgetWorkerFactory
+import com.siro.mystrava.presentation.widgets.WidgetWorkerFactory
 import dagger.*
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext

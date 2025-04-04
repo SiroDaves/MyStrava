@@ -1,4 +1,4 @@
-package com.siro.mystrava.presentation.dashboard.widgets
+package com.siro.mystrava.presentation.screens.dashboard.widgets
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -10,10 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Divider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,17 +18,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.siro.mystrava.R
-import com.siro.mystrava.strava.model.activites.ActivitiesItem
-import com.siro.mystrava.presentation.dashboard.ActivityType
-import com.siro.mystrava.presentation.dashboard.DashboardStat
-import com.siro.mystrava.presentation.dashboard.MyWidgetCard
-import com.siro.mystrava.presentation.dashboard.SummaryMetrics
-import com.siro.mystrava.presentation.dashboard.UnitType
-import com.siro.mystrava.core.utils.getAveragePaceString
-import com.siro.mystrava.core.utils.getDate
-import com.siro.mystrava.core.utils.getDistanceString
-import com.siro.mystrava.core.utils.getElevationString
-import com.siro.mystrava.core.utils.getTimeStringHoursAndMinutes
+import com.siro.mystrava.core.utils.*
+import com.siro.mystrava.data.models.activites.ActivitiesItem
+import com.siro.mystrava.presentation.viewmodels.ActivityType
+import com.siro.mystrava.presentation.screens.dashboard.DashboardStat
+import com.siro.mystrava.presentation.screens.dashboard.MyWidgetCard
+import com.siro.mystrava.presentation.screens.dashboard.SummaryMetrics
+import com.siro.mystrava.presentation.viewmodels.UnitType
 import java.time.YearMonth
 import java.util.Locale
 
@@ -185,7 +178,9 @@ fun MonthWidget(
                                                     listOfDaysLoggedActivity.contains(it.second) -> MaterialTheme.colorScheme.primary
                                                     it.second < today!! -> MaterialTheme.colorScheme.onSurface
                                                     it.second == today -> MaterialTheme.colorScheme.primary
-                                                    else -> MaterialTheme.colorScheme.onSurface.copy(alpha = .5f)
+                                                    else -> MaterialTheme.colorScheme.onSurface.copy(
+                                                        alpha = .5f
+                                                    )
                                                 }
                                         }
 

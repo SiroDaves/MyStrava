@@ -1,40 +1,27 @@
-package com.siro.mystrava.presentation.dashboard.widgets
+package com.siro.mystrava.presentation.screens.dashboard.widgets
 
+import android.annotation.SuppressLint
 import android.util.Log
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Divider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.ui.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.siro.mystrava.R
-import com.siro.mystrava.strava.model.activites.ActivitiesItem
-import com.siro.mystrava.presentation.dashboard.ActivityType
-import com.siro.mystrava.presentation.dashboard.DashboardStat
-import com.siro.mystrava.presentation.dashboard.MonthTextStat
-import com.siro.mystrava.presentation.dashboard.PercentDelta
-import com.siro.mystrava.presentation.dashboard.StatType
-import com.siro.mystrava.presentation.dashboard.MyWidgetCard
-import com.siro.mystrava.presentation.dashboard.SummaryMetrics
-import com.siro.mystrava.presentation.dashboard.UnitType
-import com.siro.mystrava.core.utils.getAveragePaceFromDistance
-import com.siro.mystrava.core.utils.getAveragePaceString
-import com.siro.mystrava.core.utils.getDate
-import com.siro.mystrava.core.utils.getDistanceString
-import com.siro.mystrava.core.utils.getElevationString
-import com.siro.mystrava.core.utils.getTimeStringHoursAndMinutes
+import com.siro.mystrava.core.utils.*
+import com.siro.mystrava.data.models.activites.ActivitiesItem
+import com.siro.mystrava.presentation.viewmodels.ActivityType
+import com.siro.mystrava.presentation.screens.dashboard.DashboardStat
+import com.siro.mystrava.presentation.screens.dashboard.MonthTextStat
+import com.siro.mystrava.presentation.screens.dashboard.MyWidgetCard
+import com.siro.mystrava.presentation.screens.dashboard.PercentDelta
+import com.siro.mystrava.presentation.screens.dashboard.StatType
+import com.siro.mystrava.presentation.screens.dashboard.SummaryMetrics
+import com.siro.mystrava.presentation.viewmodels.UnitType
 
+@SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 fun WeekCompareWidget(
     activitesList: List<ActivitiesItem>,

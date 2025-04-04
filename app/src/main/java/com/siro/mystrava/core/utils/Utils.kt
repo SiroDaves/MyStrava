@@ -1,7 +1,7 @@
 package com.siro.mystrava.core.utils
 
 import androidx.compose.ui.unit.dp
-import com.siro.mystrava.presentation.dashboard.UnitType
+import com.siro.mystrava.presentation.viewmodels.UnitType
 import java.time.*
 import java.time.format.DateTimeFormatter
 

@@ -1,14 +1,10 @@
-package com.siro.mystrava.presentation.settings
+package com.siro.mystrava.presentation.viewmodels
 
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import com.siro.mystrava.data.models.profile.*
 import com.siro.mystrava.data.repositories.SessionRepository
 import com.siro.mystrava.domain.repositories.SettingsRepository
-import com.siro.mystrava.strava.model.profile.AthleteStats
-import com.siro.mystrava.strava.model.profile.StravaAthlete
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
