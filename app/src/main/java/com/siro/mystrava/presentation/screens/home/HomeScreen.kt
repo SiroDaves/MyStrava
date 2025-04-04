@@ -1,4 +1,4 @@
-package com.siro.mystrava.presentation.screens.dashboard
+package com.siro.mystrava.presentation.screens.home
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -17,17 +17,17 @@ import androidx.compose.ui.window.Dialog
 import com.google.accompanist.swiperefresh.*
 import com.siro.mystrava.R
 import com.siro.mystrava.data.models.activites.ActivitiesItem
-import com.siro.mystrava.presentation.screens.dashboard.widgets.CompareWidget
-import com.siro.mystrava.presentation.screens.dashboard.widgets.DashboardType
-import com.siro.mystrava.presentation.screens.dashboard.widgets.MonthWidget
-import com.siro.mystrava.presentation.screens.dashboard.widgets.WeekCompareWidget
-import com.siro.mystrava.presentation.screens.dashboard.widgets.WeekSummaryWidget
-import com.siro.mystrava.presentation.screens.dashboard.widgets.YearWidget
+import com.siro.mystrava.presentation.screens.home.widgets.CompareWidget
+import com.siro.mystrava.presentation.screens.home.widgets.DashboardType
+import com.siro.mystrava.presentation.screens.home.widgets.MonthWidget
+import com.siro.mystrava.presentation.screens.home.widgets.WeekCompareWidget
+import com.siro.mystrava.presentation.screens.home.widgets.WeekSummaryWidget
+import com.siro.mystrava.presentation.screens.home.widgets.YearWidget
 import com.siro.mystrava.presentation.theme.primaryColor
 import com.siro.mystrava.presentation.viewmodels.*
 
 @Composable
-fun DashboardScreen(viewModel: DashboardViewModel, paddingValues: PaddingValues) {
+fun HomeScreen(viewModel: HomeViewModel, paddingValues: PaddingValues) {
     var fetchData by rememberSaveable { mutableStateOf(0) }
 
     if (fetchData == 0) {

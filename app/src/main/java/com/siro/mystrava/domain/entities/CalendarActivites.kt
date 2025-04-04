@@ -5,7 +5,7 @@ import com.siro.mystrava.data.models.activites.ActivitiesItem
 import com.siro.mystrava.presentation.viewmodels.ActivityType
 import com.siro.mystrava.presentation.viewmodels.MeasureType
 import com.siro.mystrava.presentation.viewmodels.UnitType
-import com.siro.mystrava.presentation.screens.dashboard.getStats
+import com.siro.mystrava.presentation.screens.home.getStats
 import java.time.Month
 import java.time.format.TextStyle
 import java.util.Locale

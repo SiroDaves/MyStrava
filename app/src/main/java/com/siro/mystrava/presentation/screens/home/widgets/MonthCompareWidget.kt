@@ -1,4 +1,4 @@
-package com.siro.mystrava.presentation.screens.dashboard.widgets
+package com.siro.mystrava.presentation.screens.home.widgets
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
@@ -21,12 +21,12 @@ import androidx.compose.ui.unit.dp
 import com.siro.mystrava.R
 import com.siro.mystrava.core.utils.*
 import com.siro.mystrava.presentation.viewmodels.ActivityType
-import com.siro.mystrava.presentation.screens.dashboard.DashboardStat
-import com.siro.mystrava.presentation.screens.dashboard.MonthTextStat
-import com.siro.mystrava.presentation.screens.dashboard.MyWidgetCard
-import com.siro.mystrava.presentation.screens.dashboard.PercentDelta
-import com.siro.mystrava.presentation.screens.dashboard.StatType
-import com.siro.mystrava.presentation.screens.dashboard.SummaryMetrics
+import com.siro.mystrava.presentation.screens.home.DashboardStat
+import com.siro.mystrava.presentation.screens.home.MonthTextStat
+import com.siro.mystrava.presentation.screens.home.MyWidgetCard
+import com.siro.mystrava.presentation.screens.home.PercentDelta
+import com.siro.mystrava.presentation.screens.home.StatType
+import com.siro.mystrava.presentation.screens.home.SummaryMetrics
 import com.siro.mystrava.presentation.viewmodels.UnitType
 
 @SuppressLint("UnusedBoxWithConstraintsScope")

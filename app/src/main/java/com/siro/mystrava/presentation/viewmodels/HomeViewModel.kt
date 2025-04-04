@@ -7,7 +7,7 @@ import com.siro.mystrava.data.models.detail.ActivityDetail
 import com.siro.mystrava.data.repositories.*
 import com.siro.mystrava.domain.entities.*
 import com.siro.mystrava.domain.repositories.*
-import com.siro.mystrava.presentation.screens.dashboard.*
+import com.siro.mystrava.presentation.screens.home.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -15,7 +15,7 @@ import retrofit2.HttpException
 import javax.inject.Inject
 
 @HiltViewModel
-class DashboardViewModel @Inject constructor(
+class HomeViewModel @Inject constructor(
     private val dashRepo: DashboardRepository,
     private val stravaSessionRepository: SessionRepository,
     private val settingsRepo: SettingsRepository,

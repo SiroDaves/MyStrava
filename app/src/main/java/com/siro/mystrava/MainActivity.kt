@@ -9,14 +9,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import com.siro.mystrava.presentation.screens.auth.AuthScreen
-import com.siro.mystrava.presentation.screens.dashboard.DashboardScreen
+import com.siro.mystrava.presentation.screens.home.HomeScreen
 import com.siro.mystrava.presentation.theme.*
-import com.siro.mystrava.presentation.viewmodels.DashboardViewModel
+import com.siro.mystrava.presentation.viewmodels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val viewModel: DashboardViewModel by viewModels()
+    private val viewModel: HomeViewModel by viewModels()
 
     @OptIn(ExperimentalMaterial3Api::class)
     @RequiresApi(Build.VERSION_CODES.S)
@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
                     if (loggedIn) {
                         Scaffold(
                             content = { paddingValues ->
-                                DashboardScreen(
+                                HomeScreen(
                                     viewModel = viewModel,
                                     paddingValues = paddingValues
                                 )

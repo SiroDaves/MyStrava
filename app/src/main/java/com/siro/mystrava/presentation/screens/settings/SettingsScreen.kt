@@ -20,7 +20,7 @@ import com.siro.mystrava.presentation.viewmodels.*
 @ExperimentalComposeUiApi
 @Composable
 fun StreakSettingsView(
-    viewModel: DashboardViewModel,
+    viewModel: HomeViewModel,
     selectedActivityType: ActivityType?,
     selectedUnitType: UnitType?,
     selectedMeasureType: MeasureType?

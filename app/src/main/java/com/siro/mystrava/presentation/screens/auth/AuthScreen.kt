@@ -10,10 +10,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.siro.mystrava.R
 import com.siro.mystrava.presentation.theme.*
-import com.siro.mystrava.presentation.viewmodels.DashboardViewModel
+import com.siro.mystrava.presentation.viewmodels.HomeViewModel
 
 @Composable
-fun AuthScreen(viewModel: DashboardViewModel) {
+fun AuthScreen(viewModel: HomeViewModel) {
     var showLoginDialog by remember { mutableStateOf(false) }
 
     Scaffold(

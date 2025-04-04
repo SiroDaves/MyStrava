@@ -1,4 +1,4 @@
-package com.siro.mystrava.presentation.screens.dashboard.widgets
+package com.siro.mystrava.presentation.screens.home.widgets
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -21,9 +21,9 @@ import com.siro.mystrava.R
 import com.siro.mystrava.core.utils.*
 import com.siro.mystrava.data.models.activites.ActivitiesItem
 import com.siro.mystrava.presentation.viewmodels.ActivityType
-import com.siro.mystrava.presentation.screens.dashboard.DashboardStat
-import com.siro.mystrava.presentation.screens.dashboard.MyWidgetCard
-import com.siro.mystrava.presentation.screens.dashboard.SummaryMetrics
+import com.siro.mystrava.presentation.screens.home.DashboardStat
+import com.siro.mystrava.presentation.screens.home.MyWidgetCard
+import com.siro.mystrava.presentation.screens.home.SummaryMetrics
 import com.siro.mystrava.presentation.viewmodels.UnitType
 import java.time.YearMonth
 import java.util.Locale

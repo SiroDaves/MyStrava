@@ -1,4 +1,4 @@
-package com.siro.mystrava.presentation.screens.dashboard.widgets
+package com.siro.mystrava.presentation.screens.home.widgets
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,8 +18,8 @@ import com.siro.mystrava.core.utils.getDistanceString
 import com.siro.mystrava.core.utils.getElevationString
 import com.siro.mystrava.core.utils.getTimeStringHoursAndMinutes
 import com.siro.mystrava.presentation.viewmodels.ActivityType
-import com.siro.mystrava.presentation.screens.dashboard.MyWidgetCard
-import com.siro.mystrava.presentation.screens.dashboard.SummaryMetrics
+import com.siro.mystrava.presentation.screens.home.MyWidgetCard
+import com.siro.mystrava.presentation.screens.home.SummaryMetrics
 import com.siro.mystrava.presentation.viewmodels.UnitType
 
 @Composable
