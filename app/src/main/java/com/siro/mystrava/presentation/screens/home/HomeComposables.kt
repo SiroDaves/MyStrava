@@ -1,0 +1,27 @@
+package com.siro.mystrava.presentation.screens.home
+
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.*
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.*
+import androidx.compose.ui.window.Dialog
+import com.google.accompanist.swiperefresh.*
+import com.siro.mystrava.R
+import com.siro.mystrava.data.models.activites.ActivitiesItem
+import com.siro.mystrava.presentation.screens.home.widgets.CompareWidget
+import com.siro.mystrava.presentation.screens.home.widgets.DashboardType
+import com.siro.mystrava.presentation.screens.home.widgets.MonthWidget
+import com.siro.mystrava.presentation.screens.home.widgets.WeekCompareWidget
+import com.siro.mystrava.presentation.screens.home.widgets.WeekSummaryWidget
+import com.siro.mystrava.presentation.screens.home.widgets.YearWidget
+import com.siro.mystrava.presentation.theme.primaryColor
+import com.siro.mystrava.presentation.viewmodels.*

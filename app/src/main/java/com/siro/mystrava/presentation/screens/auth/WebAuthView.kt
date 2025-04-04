@@ -61,7 +61,7 @@ fun WebAuthView(viewModel: HomeViewModel, onFinish: () -> Unit) {
 
 private fun loadLoginUrl(context: Context): String = StravaLogin.withContext(context)
     .withClientID(66172)
-    .withRedirectURI("https://www.streakstravaapp.com")
+    .withRedirectURI("https://www.strava.com")
     .withApprovalPrompt("auto")
     .withAccessScope("activity:read,activity:write")
     .makeLoginURL()
