@@ -26,11 +26,8 @@ import com.siro.mystrava.presentation.screens.dashboard.widgets.YearWidget
 import com.siro.mystrava.presentation.theme.primaryColor
 import com.siro.mystrava.presentation.viewmodels.*
 
-@OptIn(ExperimentalMaterial3Api::class)
-@ExperimentalComposeUiApi
-@ExperimentalFoundationApi
 @Composable
-fun Dashboard(viewModel: DashboardViewModel, paddingValues: PaddingValues) {
+fun DashboardScreen(viewModel: DashboardViewModel, paddingValues: PaddingValues) {
     var fetchData by rememberSaveable { mutableStateOf(0) }
 
     if (fetchData == 0) {
@@ -65,14 +62,12 @@ fun Dashboard(viewModel: DashboardViewModel, paddingValues: PaddingValues) {
 
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(title = {
-                Text(
-                    "Streak",
-                    style = MaterialTheme.typography.headlineMedium,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    textAlign = TextAlign.Center,
-                )
-            })
+            Text(
+                "Streak",
+                style = MaterialTheme.typography.headlineMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+                textAlign = TextAlign.Center,
+            )
         },
         content = {
             Box(
