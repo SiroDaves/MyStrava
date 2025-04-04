@@ -1,11 +1,8 @@
 package com.siro.mystrava.core.utils
 
 import androidx.compose.ui.unit.dp
-import com.siro.mystrava.ui.dashboard.UnitType
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
-import java.time.ZonedDateTime
+import com.siro.mystrava.presentation.dashboard.UnitType
+import java.time.*
 import java.time.format.DateTimeFormatter
 
 sealed class Food(val foodName: String){

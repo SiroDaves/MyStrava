@@ -2,15 +2,15 @@ package com.siro.mystrava.core.di
 
 import android.content.Context
 import androidx.work.Configuration
-import com.siro.mystrava.ui.dashboard.StravaDashboardRepository
+import com.siro.mystrava.presentation.dashboard.StravaDashboardRepository
 import com.siro.mystrava.inf.StravaSessionRepository
 import com.siro.mystrava.inf.spotify.SpotifyApis
 import com.siro.mystrava.strava.api.ActivitiesApi
 import com.siro.mystrava.strava.api.AthleteApi
-import com.siro.mystrava.ui.settings.SettingsRepo
-import com.siro.mystrava.ui.settings.SettingsRepoImpl
-import com.siro.mystrava.ui.spotifyjourney.SpotifyJourneyRepository
-import com.siro.mystrava.ui.widget.WidgetWorkerFactory
+import com.siro.mystrava.presentation.settings.SettingsRepo
+import com.siro.mystrava.presentation.settings.SettingsRepoImpl
+import com.siro.mystrava.presentation.spotifyjourney.SpotifyJourneyRepository
+import com.siro.mystrava.presentation.widget.WidgetWorkerFactory
 import dagger.*
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -18,7 +18,7 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
-@Module(includes = [StravaNetworkModule::class, SpotifyNetworkModule::class] )
+@Module(includes = [NetworkModule::class, SpotifyNetworkModule::class] )
 class AppModule {
 
     @Provides

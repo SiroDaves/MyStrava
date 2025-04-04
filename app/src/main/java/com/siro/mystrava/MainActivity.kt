@@ -1,57 +1,28 @@
 package com.siro.mystrava
 
-import android.os.Build
-import android.os.Bundle
+import android.os.*
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.annotation.Keep
-import androidx.annotation.RequiresApi
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
+import androidx.annotation.*
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.getValue
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.Modifier
+import androidx.compose.ui.*
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-import com.siro.mystrava.ui.dashboard.ActivityType
-import com.siro.mystrava.ui.dashboard.MeasureType
-import com.siro.mystrava.ui.dashboard.StravaDashboard
-import com.siro.mystrava.ui.dashboard.StravaDashboardViewModel
-import com.siro.mystrava.ui.dashboard.UnitType
-import com.siro.mystrava.ui.settings.StravaAuthWebView
-import com.siro.mystrava.ui.settings.StreakSettingsView
-import com.siro.mystrava.ui.spotifyjourney.SpotifyJourneyContent
-import com.siro.mystrava.ui.theme.Material3Theme
-import com.siro.mystrava.ui.theme.primaryColorShade1
+import androidx.navigation.compose.*
+import com.siro.mystrava.presentation.dashboard.*
+import com.siro.mystrava.presentation.settings.*
+import com.siro.mystrava.presentation.theme.*
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @ExperimentalComposeUiApi
 @ExperimentalFoundationApi
@@ -63,9 +34,6 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Handle the splash screen transition.
-        val splashScreen = installSplashScreen()
-
         super.onCreate(savedInstanceState)
 
         setContent {
@@ -83,8 +51,6 @@ class MainActivity : ComponentActivity() {
                     if (it) {
                         Scaffold(
                             content = { paddingValues ->
-                                val navBackStackEntry by navController.currentBackStackEntryAsState()
-
                                 NavHost(
                                     navController,
                                     startDestination = NavigationDestination.StravaDashboard.destination
@@ -94,9 +60,6 @@ class MainActivity : ComponentActivity() {
                                             viewModel = viewModel,
                                             paddingValues = paddingValues
                                         )
-                                    }
-                                    composable(NavigationDestination.SpotifyJourney.destination){
-                                        SpotifyJourneyContent()
                                     }
                                     composable(NavigationDestination.StreakSettings.destination) {
                                         StreakSettingsView(
@@ -119,16 +82,10 @@ class MainActivity : ComponentActivity() {
                                         onClick = {
                                             selectedTab = 0
                                             navController.navigate(NavigationDestination.StravaDashboard.destination) {
-                                                // Pop up to the start destination of the graph to
-                                                // avoid building up a large stack of destinations
-                                                // on the back stack as users select items
                                                 popUpTo(navController.graph.findStartDestination().id) {
                                                     saveState = true
                                                 }
-                                                // Avoid multiple copies of the same destination when
-                                                // reselecting the same item
                                                 launchSingleTop = true
-                                                // Restore state when reselecting a previously selected item
                                                 restoreState = true
                                             }
                                         },
@@ -136,53 +93,13 @@ class MainActivity : ComponentActivity() {
                                             Icon(
                                                 imageVector = Icons.Default.Home,
                                                 contentDescription = "",
-                                                tint = if (selectedTab == 0) tintColor else tintColor.copy(
-                                                    .7f
-                                                )
+                                                tint = if (selectedTab == 0) tintColor else tintColor.copy(.7f)
                                             )
                                         },
                                         label = {
                                             Text(
                                                 "Dashboard",
-                                                color = if (selectedTab == 0) tintColor else tintColor.copy(
-                                                    .7f
-                                                )
-                                            )
-                                        }
-                                    )
-                                    NavigationBarItem(
-                                        selected = selectedTab == 1,
-                                        onClick = {
-                                            selectedTab = 1
-                                            navController.navigate(NavigationDestination.SpotifyJourney.destination) {
-                                                // Pop up to the start destination of the graph to
-                                                // avoid building up a large stack of destinations
-                                                // on the back stack as users select items
-                                                popUpTo(navController.graph.findStartDestination().id) {
-                                                    saveState = true
-                                                }
-                                                // Avoid multiple copies of the same destination when
-                                                // reselecting the same item
-                                                launchSingleTop = true
-                                                // Restore state when reselecting a previously selected item
-                                                restoreState = true
-                                            }
-                                        },
-                                        icon = {
-                                            Icon(
-                                                painter = painterResource(id = NavigationDestination.SpotifyJourney.resId!!),
-                                                contentDescription = "",
-                                                tint = if (selectedTab == 1) tintColor else tintColor.copy(
-                                                    .7f
-                                                )
-                                            )
-                                        },
-                                        label = {
-                                            Text(
-                                                "Journey",
-                                                color = if (selectedTab == 1) tintColor else tintColor.copy(
-                                                    .7f
-                                                )
+                                                color = if (selectedTab == 0) tintColor else tintColor.copy(.7f)
                                             )
                                         }
                                     )
@@ -191,16 +108,10 @@ class MainActivity : ComponentActivity() {
                                         onClick = {
                                             selectedTab = 2
                                             navController.navigate(NavigationDestination.StreakSettings.destination) {
-                                                // Pop up to the start destination of the graph to
-                                                // avoid building up a large stack of destinations
-                                                // on the back stack as users select items
                                                 popUpTo(navController.graph.findStartDestination().id) {
                                                     saveState = true
                                                 }
-                                                // Avoid multiple copies of the same destination when
-                                                // reselecting the same item
                                                 launchSingleTop = true
-                                                // Restore state when reselecting a previously selected item
                                                 restoreState = true
                                             }
                                         },
@@ -208,17 +119,13 @@ class MainActivity : ComponentActivity() {
                                             Icon(
                                                 imageVector = Icons.Default.Settings,
                                                 contentDescription = "",
-                                                tint = if (selectedTab == 2) tintColor else tintColor.copy(
-                                                    .7f
-                                                )
+                                                tint = if (selectedTab == 2) tintColor else tintColor.copy(.7f)
                                             )
                                         },
                                         label = {
                                             Text(
                                                 "Settings",
-                                                color = if (selectedTab == 2) tintColor else tintColor.copy(
-                                                    .7f
-                                                )
+                                                color = if (selectedTab == 2) tintColor else tintColor.copy(.7f)
                                             )
                                         }
                                     )
@@ -236,23 +143,8 @@ class MainActivity : ComponentActivity() {
                                         .padding(16.dp)
                                 ) {
                                     Text(
-                                        text = "Welcome to Streak!",
+                                        text = "Welcome to My Strava!",
                                         style = MaterialTheme.typography.headlineMedium,
-                                        modifier = Modifier.padding(vertical = 16.dp)
-                                    )
-                                    Text(
-                                        text = "I have always wanted a way to analyze my athletic activity overtime, as well as track my progress",
-                                        style = MaterialTheme.typography.bodyMedium,
-                                        modifier = Modifier.padding(vertical = 16.dp)
-                                    )
-                                    Text(
-                                        text = "Streak provides snapshots of your Strava data organized by comparing your data week over week, month over month",
-                                        style = MaterialTheme.typography.bodyMedium,
-                                        modifier = Modifier.padding(vertical = 16.dp)
-                                    )
-                                    Text(
-                                        text = "Tap the \"Connect With Strava\" to login and get started",
-                                        style = MaterialTheme.typography.bodyMedium,
                                         modifier = Modifier.padding(vertical = 16.dp)
                                     )
                                     Box(
@@ -303,10 +195,8 @@ sealed class NavigationDestination(
     val resId: Int? = null,
 ) {
     object StravaDashboard :
-        NavigationDestination("stravaDashboard", "Dashboard", R.drawable.ic_dash)
-
-    object SpotifyJourney : NavigationDestination("spotifyJourney", "Spotify Journey", R.drawable.ic_speed)
+        NavigationDestination("dashboard", "Dashboard", R.drawable.ic_dash)
 
     object StreakSettings :
-        NavigationDestination("streakSettings", "Settings", R.drawable.ic_settings)
+        NavigationDestination("settings", "Settings", R.drawable.ic_settings)
 }
