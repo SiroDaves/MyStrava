@@ -1,10 +1,9 @@
-package com.siro.mystrava.presentation.settings
+package com.siro.mystrava.domain.repositories
 
-import com.siro.mystrava.strava.model.profile.AthleteStats
-import com.siro.mystrava.strava.model.profile.StravaAthlete
+import com.siro.mystrava.data.models.profile.*
 import kotlinx.coroutines.flow.SharedFlow
 
-interface SettingsRepo {
+interface SettingsRepository {
     val widgetStatus: SharedFlow<Boolean>
 
     suspend fun authAthlete(code: String)

@@ -1,4 +1,4 @@
-package com.siro.mystrava.presentation.dashboard.data
+package com.siro.mystrava.domain.entities
 
 import com.siro.mystrava.core.utils.*
 import com.siro.mystrava.data.models.activites.ActivitiesItem

@@ -1,35 +1,25 @@
-package com.siro.mystrava.domain
+package com.siro.mystrava.domain.repositories
 
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import com.siro.mystrava.R
 import com.siro.mystrava.core.utils.*
+import com.siro.mystrava.data.models.activites.ActivitiesItem
 import com.siro.mystrava.data.sources.remote.ActivitiesApi
-import com.siro.mystrava.strava.model.activites.ActivitiesItem
 import com.siro.mystrava.data.sources.local.ActivitiesDao
 import com.siro.mystrava.strava.model.activites.db.ActivitiesDatabase
 import com.siro.mystrava.data.models.detail.ActivityDetail
-import com.siro.mystrava.presentation.dashboard.ActivityType
-import com.siro.mystrava.presentation.dashboard.ActivityType.All
-import com.siro.mystrava.presentation.dashboard.ActivityType.Run
-import com.siro.mystrava.presentation.dashboard.ActivityType.valueOf
-import com.siro.mystrava.presentation.dashboard.MeasureType
-import com.siro.mystrava.presentation.dashboard.UnitType
-import com.siro.mystrava.presentation.dashboard.data.CalendarActivities
-import com.siro.mystrava.presentation.dashboard.data.CalendarData
-import com.siro.mystrava.presentation.dashboard.data.getEpoch
+import com.siro.mystrava.domain.entities.CalendarActivities
+import com.siro.mystrava.domain.entities.CalendarData
+import com.siro.mystrava.domain.entities.getEpoch
+import com.siro.mystrava.presentation.dashboard.ActivityType.*
+import com.siro.mystrava.presentation.dashboard.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
-import java.time.LocalDateTime
-import java.time.ZoneOffset
-import javax.inject.Inject
-import javax.inject.Singleton
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.*
+import java.time.*
+import javax.inject.*
 import kotlin.math.abs
 
 @Singleton
@@ -64,22 +54,6 @@ class DashboardRepository @Inject constructor(
         preferences.registerOnSharedPreferenceChangeListener(this)
         _widgetStatus.tryEmit(refreshPrefs())
     }
-
-    //    val store = StoreBuilder
-//        .from(
-//            fetcher = Fetcher.of {
-//                activitiesApi.fetchSubreddit(
-//                    it,
-//                    "10"
-//                ).data.children.map(::toPosts)
-//            },
-//            sourceOfTruth = SourceOfTruth.of(
-//                reader = db.postDao()::loadPosts,
-//                writer = db.postDao()::insertPosts,
-//                delete = db.postDao()::clearFeed,
-//                deleteAll = db.postDao()::clearAllFeeds
-//            )
-//        ).build()
 
     suspend fun getRecentActivities(): List<ActivitiesItem> {
         var allActivities: List<ActivitiesItem>

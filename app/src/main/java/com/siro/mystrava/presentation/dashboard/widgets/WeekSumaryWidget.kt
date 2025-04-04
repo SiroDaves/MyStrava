@@ -23,7 +23,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.siro.mystrava.R
 import com.siro.mystrava.presentation.dashboard.DashboardStat
 import com.siro.mystrava.presentation.dashboard.MyWidgetCard
-import com.siro.mystrava.presentation.dashboard.data.SummaryInfo
+import com.siro.mystrava.domain.entities.SummaryInfo
 import com.siro.mystrava.core.utils.getBarHeight
 import java.time.DayOfWeek
 import java.time.LocalDate

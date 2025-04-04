@@ -1,4 +1,4 @@
-package com.siro.mystrava.presentation.dashboard.data
+package com.siro.mystrava.domain.entities
 
 import android.util.Log
 import java.time.LocalDate

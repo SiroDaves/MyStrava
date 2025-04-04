@@ -1,24 +1,23 @@
-package com.siro.mystrava.presentation.settings
+package com.siro.mystrava.domain.repositories
 
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.util.Log
 import com.siro.mystrava.R
+import com.siro.mystrava.data.models.profile.*
 import com.siro.mystrava.data.repositories.SessionRepository
 import com.siro.mystrava.data.sources.remote.AthleteApi
-import com.siro.mystrava.strava.model.profile.AthleteStats
-import com.siro.mystrava.strava.model.profile.StravaAthlete
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class SettingsRepoImpl @Inject constructor(
+class SettingsRepositoryImpl @Inject constructor(
     private val sessionRepo: SessionRepository,
     private val athleteApi: AthleteApi,
     val context: Context,
-) : SettingsRepo, OnSharedPreferenceChangeListener {
+) : SettingsRepository, OnSharedPreferenceChangeListener {
 
     private val preferences: SharedPreferences = context.getSharedPreferences(
         context.getString(R.string.preference_file_key),

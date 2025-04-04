@@ -2,7 +2,7 @@ package com.siro.mystrava.presentation.widget
 
 import android.content.Context
 import androidx.work.*
-import com.siro.mystrava.domain.DashboardRepository
+import com.siro.mystrava.domain.repositories.DashboardRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 

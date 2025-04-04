@@ -8,10 +8,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.siro.mystrava.data.repositories.SessionRepository
 import com.siro.mystrava.data.models.detail.ActivityDetail
-import com.siro.mystrava.domain.DashboardRepository
-import com.siro.mystrava.presentation.dashboard.data.CalendarActivities
-import com.siro.mystrava.presentation.dashboard.data.CalendarData
-import com.siro.mystrava.presentation.settings.SettingsRepo
+import com.siro.mystrava.domain.repositories.DashboardRepository
+import com.siro.mystrava.domain.entities.CalendarActivities
+import com.siro.mystrava.domain.entities.CalendarData
+import com.siro.mystrava.domain.repositories.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,7 +26,7 @@ import javax.inject.Inject
 class StravaDashboardViewModel @Inject constructor(
     private val stravaDashboardRepository: DashboardRepository,
     private val stravaSessionRepository: SessionRepository,
-    private val settingsRepo: SettingsRepo,
+    private val settingsRepo: SettingsRepository,
 ) : ViewModel() {
 
     val widgetStatus = mutableStateOf(false)
