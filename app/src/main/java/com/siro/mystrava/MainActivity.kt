@@ -20,13 +20,11 @@ import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.*
 import com.siro.mystrava.presentation.screens.auth.StravaAuthWebView
-import com.siro.mystrava.presentation.viewmodels.ActivityType
-import com.siro.mystrava.presentation.viewmodels.MeasureType
-import com.siro.mystrava.presentation.screens.dashboard.StravaDashboard
-import com.siro.mystrava.presentation.viewmodels.StravaDashboardViewModel
+import com.siro.mystrava.presentation.viewmodels.*
 import com.siro.mystrava.presentation.viewmodels.UnitType
 import com.siro.mystrava.presentation.screens.settings.StreakSettingsView
 import com.siro.mystrava.presentation.theme.*
+import com.siro.mystrava.presentation.viewmodels.DashboardViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalComposeUiApi
@@ -34,7 +32,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @Keep
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val viewModel: StravaDashboardViewModel by viewModels()
+    private val viewModel: DashboardViewModel by viewModels()
 
     @OptIn(ExperimentalMaterial3Api::class)
     @RequiresApi(Build.VERSION_CODES.S)

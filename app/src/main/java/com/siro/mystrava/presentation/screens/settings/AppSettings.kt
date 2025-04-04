@@ -1,36 +1,26 @@
 package com.siro.mystrava.presentation.screens.settings
 
 import android.util.Log
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.siro.mystrava.presentation.viewmodels.ActivityType
-import com.siro.mystrava.presentation.viewmodels.MeasureType
-import com.siro.mystrava.presentation.viewmodels.StravaDashboardViewModel
-import com.siro.mystrava.presentation.viewmodels.UnitType
+import com.siro.mystrava.presentation.viewmodels.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalComposeUiApi
 @Composable
 fun StreakSettingsView(
-    viewModel: StravaDashboardViewModel,
+    viewModel: DashboardViewModel,
     selectedActivityType: ActivityType?,
     selectedUnitType: UnitType?,
     selectedMeasureType: MeasureType?
@@ -265,13 +255,6 @@ fun StreakSettingsView(
                         ) {
                             Text(text = "Log out")
                         }
-//                    Button(
-//                        onClick = { viewModel.logout() },
-//                        modifier = Modifier.fillMaxWidth(),
-//                        colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colorScheme.primaryContainer)
-//                    ) {
-//                        Text(text = "Log out", color = MaterialTheme.colorScheme.onPrimary)
-//                    }
                     }
                 }
 

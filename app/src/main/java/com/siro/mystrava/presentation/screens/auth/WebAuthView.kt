@@ -11,10 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import com.siro.mystrava.data.models.user.StravaLogin
-import com.siro.mystrava.presentation.viewmodels.StravaDashboardViewModel
+import com.siro.mystrava.presentation.viewmodels.DashboardViewModel
 
 @Composable
-fun StravaAuthWebView(viewModel: StravaDashboardViewModel, onFinish: () -> Unit) {
+fun WebAuthView(viewModel: DashboardViewModel, onFinish: () -> Unit) {
     AndroidView(factory = { context ->
         val loginWebview = WebView(context)
         loginWebview.settings.javaScriptEnabled = true

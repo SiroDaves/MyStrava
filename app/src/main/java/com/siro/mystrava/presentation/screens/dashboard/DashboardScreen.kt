@@ -24,18 +24,13 @@ import com.siro.mystrava.presentation.screens.dashboard.widgets.WeekCompareWidge
 import com.siro.mystrava.presentation.screens.dashboard.widgets.WeekSummaryWidget
 import com.siro.mystrava.presentation.screens.dashboard.widgets.YearWidget
 import com.siro.mystrava.presentation.theme.primaryColor
-import com.siro.mystrava.presentation.viewmodels.ActivityType
-import com.siro.mystrava.presentation.viewmodels.ActivityUiState
-import com.siro.mystrava.presentation.viewmodels.MeasureType
-import com.siro.mystrava.presentation.viewmodels.StravaDashboardViewModel
-import com.siro.mystrava.presentation.viewmodels.UnitType
-
+import com.siro.mystrava.presentation.viewmodels.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalComposeUiApi
 @ExperimentalFoundationApi
 @Composable
-fun StravaDashboard(viewModel: StravaDashboardViewModel, paddingValues: PaddingValues) {
+fun Dashboard(viewModel: DashboardViewModel, paddingValues: PaddingValues) {
     var fetchData by rememberSaveable { mutableStateOf(0) }
 
     if (fetchData == 0) {
