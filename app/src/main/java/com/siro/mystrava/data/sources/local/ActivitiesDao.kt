@@ -1,10 +1,7 @@
-package com.siro.mystrava.strava.model.activites.db
+package com.siro.mystrava.data.sources.local
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import com.siro.mystrava.strava.model.activites.ActivitiesItem
+import androidx.room.*
+import com.siro.mystrava.data.models.activites.ActivitiesItem
 
 @Dao
 interface ActivitiesDao {

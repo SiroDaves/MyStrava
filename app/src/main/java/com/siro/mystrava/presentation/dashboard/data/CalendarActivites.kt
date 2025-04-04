@@ -1,7 +1,7 @@
 package com.siro.mystrava.presentation.dashboard.data
 
 import com.siro.mystrava.core.utils.*
-import com.siro.mystrava.strava.model.activites.ActivitiesItem
+import com.siro.mystrava.data.models.activites.ActivitiesItem
 import com.siro.mystrava.presentation.dashboard.*
 import java.time.Month
 import java.time.format.TextStyle

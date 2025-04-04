@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.siro.mystrava.inf.StravaSessionRepository
+import com.siro.mystrava.data.repositories.SessionRepository
 import com.siro.mystrava.strava.model.profile.AthleteStats
 import com.siro.mystrava.strava.model.profile.StravaAthlete
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val settingsRepo: SettingsRepo,
-    private val stravaSessionRepository: StravaSessionRepository,
+    private val stravaSessionRepository: SessionRepository,
 ) : ViewModel() {
 
     private var _detailedAthlete = MutableLiveData<StravaAthlete>()

@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.util.Log
 import com.siro.mystrava.R
-import com.siro.mystrava.inf.StravaSessionRepository
+import com.siro.mystrava.data.repositories.SessionRepository
 import com.siro.mystrava.data.sources.remote.AthleteApi
 import com.siro.mystrava.strava.model.profile.AthleteStats
 import com.siro.mystrava.strava.model.profile.StravaAthlete
@@ -15,7 +15,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class SettingsRepoImpl @Inject constructor(
-    private val sessionRepo: StravaSessionRepository,
+    private val sessionRepo: SessionRepository,
     private val athleteApi: AthleteApi,
     val context: Context,
 ) : SettingsRepo, OnSharedPreferenceChangeListener {

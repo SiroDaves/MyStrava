@@ -1,10 +1,7 @@
-package com.siro.mystrava.strava.model.activites
+package com.siro.mystrava.data.models.activites
 
 import androidx.annotation.Keep
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.Index
-import androidx.room.PrimaryKey
+import androidx.room.*
 
 @Keep
 @Entity(indices = [Index(value = ["start_date"], unique = true)])

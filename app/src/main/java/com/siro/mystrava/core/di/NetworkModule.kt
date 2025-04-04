@@ -2,10 +2,10 @@ package com.siro.mystrava.core.di
 
 import android.content.Context
 import com.siro.mystrava.BuildConfig
-import com.siro.mystrava.inf.AuthorizationInterceptor
-import com.siro.mystrava.inf.Session
-import com.siro.mystrava.inf.StravaSessionRepository
-import com.siro.mystrava.inf.TokenAuthenticator
+import com.siro.mystrava.core.auth.AuthorizationInterceptor
+import com.siro.mystrava.core.auth.Session
+import com.siro.mystrava.data.repositories.SessionRepository
+import com.siro.mystrava.core.auth.TokenAuthenticator
 import com.siro.mystrava.data.sources.remote.ActivitiesApi
 import com.siro.mystrava.data.sources.remote.AthleteApi
 import dagger.*
@@ -49,8 +49,8 @@ object NetworkModule {
     fun providesSessionRepository(
         @ApplicationContext context: Context,
         session: Session
-    ): StravaSessionRepository =
-        StravaSessionRepository(context, session)
+    ): SessionRepository =
+        SessionRepository(context, session)
 
     /**
      * a strava api makes the calls to the api and attaches the token to the header with an okhttp interceptor from the session. Session should have a

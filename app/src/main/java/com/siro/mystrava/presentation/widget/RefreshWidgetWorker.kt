@@ -2,14 +2,14 @@ package com.siro.mystrava.presentation.widget
 
 import android.content.Context
 import androidx.work.*
-import com.siro.mystrava.presentation.dashboard.StravaDashboardRepository
+import com.siro.mystrava.domain.DashboardRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
 class RefreshWidgetWorker(
     appContext: Context,
     workerParams: WorkerParameters,
-    private val stravaDashboardRepository: StravaDashboardRepository
+    private val stravaDashboardRepository: DashboardRepository
 ) : Worker(appContext, workerParams) {
 
 
@@ -22,7 +22,7 @@ class RefreshWidgetWorker(
 }
 
 class RefreshWidgetWorkerFactory(
-    private val stravaDashboardRepository: StravaDashboardRepository
+    private val stravaDashboardRepository: DashboardRepository
 ) : WorkerFactory() {
 
     override fun createWorker(
@@ -43,7 +43,7 @@ class RefreshWidgetWorkerFactory(
 
 @Singleton
 class WidgetWorkerFactory @Inject constructor(
-    val stravaDashboardRepository: StravaDashboardRepository
+    val stravaDashboardRepository: DashboardRepository
 ) : DelegatingWorkerFactory() {
     init {
         addFactory(RefreshWidgetWorkerFactory(stravaDashboardRepository))

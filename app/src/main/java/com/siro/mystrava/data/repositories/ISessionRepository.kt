@@ -1,4 +1,4 @@
-package com.siro.mystrava.inf
+package com.siro.mystrava.data.repositories
 
 import androidx.annotation.Keep
 import com.siro.mystrava.data.models.TokenResponse

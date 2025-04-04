@@ -6,8 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.siro.mystrava.inf.StravaSessionRepository
-import com.siro.mystrava.data.models.detail.StravaActivityDetail
+import com.siro.mystrava.data.repositories.SessionRepository
+import com.siro.mystrava.data.models.detail.ActivityDetail
+import com.siro.mystrava.domain.DashboardRepository
 import com.siro.mystrava.presentation.dashboard.data.CalendarActivities
 import com.siro.mystrava.presentation.dashboard.data.CalendarData
 import com.siro.mystrava.presentation.settings.SettingsRepo
@@ -23,8 +24,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StravaDashboardViewModel @Inject constructor(
-    private val stravaDashboardRepository: StravaDashboardRepository,
-    private val stravaSessionRepository: StravaSessionRepository,
+    private val stravaDashboardRepository: DashboardRepository,
+    private val stravaSessionRepository: SessionRepository,
     private val settingsRepo: SettingsRepo,
 ) : ViewModel() {
 
@@ -48,8 +49,8 @@ class StravaDashboardViewModel @Inject constructor(
 
     val calendarData = CalendarData()
 
-    var _weeklyActivityDetails: MutableLiveData<List<StravaActivityDetail>> = MutableLiveData()
-    var weeklyActivityDetails: LiveData<List<StravaActivityDetail>> = _weeklyActivityDetails
+    var _weeklyActivityDetails: MutableLiveData<List<ActivityDetail>> = MutableLiveData()
+    var weeklyActivityDetails: LiveData<List<ActivityDetail>> = _weeklyActivityDetails
 
     val _yearlySummaryMetrics: MutableLiveData<List<SummaryMetrics>> = MutableLiveData()
     val yearlySummaryMetrics: MutableLiveData<List<SummaryMetrics>> = _yearlySummaryMetrics

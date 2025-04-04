@@ -1,4 +1,4 @@
-package com.siro.mystrava.presentation.dashboard
+package com.siro.mystrava.domain
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -7,12 +7,15 @@ import com.siro.mystrava.R
 import com.siro.mystrava.core.utils.*
 import com.siro.mystrava.data.sources.remote.ActivitiesApi
 import com.siro.mystrava.strava.model.activites.ActivitiesItem
-import com.siro.mystrava.strava.model.activites.db.ActivitiesDao
+import com.siro.mystrava.data.sources.local.ActivitiesDao
 import com.siro.mystrava.strava.model.activites.db.ActivitiesDatabase
-import com.siro.mystrava.data.models.detail.StravaActivityDetail
+import com.siro.mystrava.data.models.detail.ActivityDetail
+import com.siro.mystrava.presentation.dashboard.ActivityType
 import com.siro.mystrava.presentation.dashboard.ActivityType.All
 import com.siro.mystrava.presentation.dashboard.ActivityType.Run
 import com.siro.mystrava.presentation.dashboard.ActivityType.valueOf
+import com.siro.mystrava.presentation.dashboard.MeasureType
+import com.siro.mystrava.presentation.dashboard.UnitType
 import com.siro.mystrava.presentation.dashboard.data.CalendarActivities
 import com.siro.mystrava.presentation.dashboard.data.CalendarData
 import com.siro.mystrava.presentation.dashboard.data.getEpoch
@@ -27,9 +30,10 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.math.abs
 
 @Singleton
-class StravaDashboardRepository @Inject constructor(
+class DashboardRepository @Inject constructor(
     val context: Context,
     private val activitiesApi: ActivitiesApi
 ) : SharedPreferences.OnSharedPreferenceChangeListener {
@@ -87,9 +91,9 @@ class StravaDashboardRepository @Inject constructor(
         return allActivities
     }
 
-    suspend fun loadActivityDetails(activities: List<String>): Flow<List<Pair<String, StravaActivityDetail>>> =
+    suspend fun loadActivityDetails(activities: List<String>): Flow<List<Pair<String, ActivityDetail>>> =
         flow {
-            val activityMap: MutableList<Pair<String, StravaActivityDetail>> = mutableListOf()
+            val activityMap: MutableList<Pair<String, ActivityDetail>> = mutableListOf()
 
             activities.forEach { activityId ->
                 withContext(Dispatchers.IO) {
@@ -137,7 +141,7 @@ class StravaDashboardRepository @Inject constructor(
                 if (allActivities != null) {
                     //get most recently stored activity to determine the "after date" to call the api
                     val date = allActivities!!.minByOrNull {
-                        kotlin.math.abs(
+                        abs(
                             it.start_date.getDate().atStartOfDay()
                                 .toEpochSecond(ZoneOffset.UTC) - currentTime.toEpochSecond(
                                 ZoneOffset.UTC

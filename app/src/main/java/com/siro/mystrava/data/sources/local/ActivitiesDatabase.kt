@@ -1,10 +1,9 @@
 package com.siro.mystrava.strava.model.activites.db
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import com.siro.mystrava.strava.model.activites.ActivitiesItem
+import androidx.room.*
+import com.siro.mystrava.data.models.activites.ActivitiesItem
+import com.siro.mystrava.data.sources.local.ActivitiesDao
 
 @Database(entities = [ActivitiesItem::class], version = 3, exportSchema = false)
 abstract class ActivitiesDatabase : RoomDatabase() {
