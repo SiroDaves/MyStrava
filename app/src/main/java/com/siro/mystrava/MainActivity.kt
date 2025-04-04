@@ -19,7 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.*
-import com.siro.mystrava.presentation.screens.auth.StravaAuthWebView
+import com.siro.mystrava.presentation.screens.auth.WebAuthView
+import com.siro.mystrava.presentation.screens.dashboard.Dashboard
 import com.siro.mystrava.presentation.viewmodels.*
 import com.siro.mystrava.presentation.viewmodels.UnitType
 import com.siro.mystrava.presentation.screens.settings.StreakSettingsView
@@ -59,7 +60,7 @@ class MainActivity : ComponentActivity() {
                                     startDestination = NavigationDestination.StravaDashboard.destination
                                 ) {
                                     composable(NavigationDestination.StravaDashboard.destination) {
-                                        StravaDashboard(
+                                        Dashboard(
                                             viewModel = viewModel,
                                             paddingValues = paddingValues
                                         )
@@ -175,7 +176,7 @@ class MainActivity : ComponentActivity() {
                                     Dialog(onDismissRequest = {
                                         showLoginDialog = !showLoginDialog
                                     }) {
-                                        StravaAuthWebView(
+                                        WebAuthView(
                                             viewModel = viewModel,
                                             onFinish = onFinish
                                         )

@@ -101,7 +101,6 @@ dependencies {
 
     debugImplementation(libs.compose.ui.test.manifest)
     debugImplementation(libs.compose.ui.tooling)
-    debugImplementation(libs.square.leakcanary)
 
     implementation(libs.androidx.room.runtime)
     kapt(libs.androidx.room.compiler)
