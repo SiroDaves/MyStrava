@@ -1,8 +1,8 @@
-package com.siro.mystrava.strava.api
+package com.siro.mystrava.data.sources.remote
 
 import androidx.annotation.Keep
 import com.siro.mystrava.strava.model.activites.ActivitiesItem
-import com.siro.mystrava.strava.model.activitydetail.StravaActivityDetail
+import com.siro.mystrava.data.models.detail.StravaActivityDetail
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

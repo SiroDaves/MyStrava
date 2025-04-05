@@ -6,8 +6,8 @@ import com.siro.mystrava.inf.AuthorizationInterceptor
 import com.siro.mystrava.inf.Session
 import com.siro.mystrava.inf.StravaSessionRepository
 import com.siro.mystrava.inf.TokenAuthenticator
-import com.siro.mystrava.strava.api.ActivitiesApi
-import com.siro.mystrava.strava.api.AthleteApi
+import com.siro.mystrava.data.sources.remote.ActivitiesApi
+import com.siro.mystrava.data.sources.remote.AthleteApi
 import dagger.*
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext

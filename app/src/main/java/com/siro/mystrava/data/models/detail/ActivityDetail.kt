@@ -1,16 +1,8 @@
-package com.siro.mystrava.strava.model.activitydetail
+package com.siro.mystrava.data.models.detail
 
-import com.siro.mystrava.strava.model.activitydetail.Athlete
-import com.siro.mystrava.strava.model.activitydetail.Gear
-import com.siro.mystrava.strava.model.activitydetail.HighlightedKudoser
-import com.siro.mystrava.strava.model.activitydetail.Lap
-import com.siro.mystrava.strava.model.activitydetail.Map
-import com.siro.mystrava.strava.model.activitydetail.Photos
-import com.siro.mystrava.strava.model.activitydetail.SegmentEffort
-import com.siro.mystrava.strava.model.activitydetail.SplitsMetric
 import java.io.Serializable
 
-data class StravaActivityDetail(
+data class ActivityDetail(
     val achievement_count: Int,
     val athlete: Athlete,
     val athlete_count: Int,

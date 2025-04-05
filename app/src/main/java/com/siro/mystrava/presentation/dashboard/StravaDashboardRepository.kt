@@ -5,11 +5,11 @@ import android.content.SharedPreferences
 import android.util.Log
 import com.siro.mystrava.R
 import com.siro.mystrava.core.utils.*
-import com.siro.mystrava.strava.api.ActivitiesApi
+import com.siro.mystrava.data.sources.remote.ActivitiesApi
 import com.siro.mystrava.strava.model.activites.ActivitiesItem
 import com.siro.mystrava.strava.model.activites.db.ActivitiesDao
 import com.siro.mystrava.strava.model.activites.db.ActivitiesDatabase
-import com.siro.mystrava.strava.model.activitydetail.StravaActivityDetail
+import com.siro.mystrava.data.models.detail.StravaActivityDetail
 import com.siro.mystrava.presentation.dashboard.ActivityType.All
 import com.siro.mystrava.presentation.dashboard.ActivityType.Run
 import com.siro.mystrava.presentation.dashboard.ActivityType.valueOf

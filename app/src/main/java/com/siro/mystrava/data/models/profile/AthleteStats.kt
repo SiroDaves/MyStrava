@@ -1,6 +1,4 @@
-package com.siro.mystrava.strava.model.profile
-
-import com.siro.mystrava.strava.model.profile.ActivityTotal
+package com.siro.mystrava.data.models.profile
 
 data class AthleteStats(
     val all_ride_totals: ActivityTotal,

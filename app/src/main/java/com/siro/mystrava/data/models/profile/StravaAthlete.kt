@@ -1,4 +1,4 @@
-package com.siro.mystrava.strava.model.profile
+package com.siro.mystrava.data.models.profile
 
 data class StravaAthlete(
     val athlete_type: Int,

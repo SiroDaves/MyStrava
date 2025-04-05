@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.work.Configuration
 import com.siro.mystrava.presentation.dashboard.StravaDashboardRepository
 import com.siro.mystrava.inf.StravaSessionRepository
-import com.siro.mystrava.strava.api.ActivitiesApi
-import com.siro.mystrava.strava.api.AthleteApi
+import com.siro.mystrava.data.sources.remote.ActivitiesApi
+import com.siro.mystrava.data.sources.remote.AthleteApi
 import com.siro.mystrava.presentation.settings.*
 import com.siro.mystrava.presentation.widget.WidgetWorkerFactory
 import dagger.*

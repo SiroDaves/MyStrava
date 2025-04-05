@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.siro.mystrava.inf.StravaSessionRepository
-import com.siro.mystrava.strava.model.activitydetail.StravaActivityDetail
+import com.siro.mystrava.data.models.detail.StravaActivityDetail
 import com.siro.mystrava.presentation.dashboard.data.CalendarActivities
 import com.siro.mystrava.presentation.dashboard.data.CalendarData
 import com.siro.mystrava.presentation.settings.SettingsRepo

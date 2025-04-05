@@ -1,4 +1,4 @@
-package com.siro.mystrava.strava.model.activitydetail
+package com.siro.mystrava.data.models.detail
 
 data class Athlete(
     val id: Int,

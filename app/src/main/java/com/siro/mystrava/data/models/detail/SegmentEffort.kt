@@ -1,6 +1,4 @@
-package com.siro.mystrava.strava.model.activitydetail
-
-import com.siro.mystrava.strava.model.activitydetail.Segment
+package com.siro.mystrava.data.models.detail
 
 data class SegmentEffort(
     val achievements: List<Any>,

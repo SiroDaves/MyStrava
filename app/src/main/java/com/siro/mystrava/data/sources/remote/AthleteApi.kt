@@ -1,4 +1,4 @@
-package com.siro.mystrava.strava.api
+package com.siro.mystrava.data.sources.remote
 
 import com.siro.mystrava.strava.model.profile.AthleteStats
 import com.siro.mystrava.strava.model.profile.StravaAthlete
