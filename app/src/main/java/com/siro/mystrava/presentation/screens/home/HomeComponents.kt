@@ -44,7 +44,7 @@ fun MyWidgetCard(onClick: (() -> Unit)? = null, content: @Composable () -> Unit)
 }
 
 
-@Composable
+/*@Composable
 fun PercentDelta(now: Number, then: Number, monthColumnWidth: Dp, type: StatType) {
     var percent = 0.0
 
@@ -125,7 +125,7 @@ fun PercentDelta(now: Number, then: Number, monthColumnWidth: Dp, type: StatType
             color = textColor
         )
     }
-}
+}*/
 
 @Composable
 fun DashboardStat(

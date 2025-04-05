@@ -17,12 +17,6 @@ import androidx.compose.ui.window.Dialog
 import com.google.accompanist.swiperefresh.*
 import com.siro.mystrava.R
 import com.siro.mystrava.data.models.activites.ActivityItem
-import com.siro.mystrava.presentation.screens.home.widgets.CompareWidget
-import com.siro.mystrava.presentation.screens.home.widgets.DashboardType
-import com.siro.mystrava.presentation.screens.home.widgets.MonthWidget
-import com.siro.mystrava.presentation.screens.home.widgets.WeekCompareWidget
-import com.siro.mystrava.presentation.screens.home.widgets.WeekSummaryWidget
-import com.siro.mystrava.presentation.screens.home.widgets.YearWidget
 import com.siro.mystrava.presentation.theme.primaryColor
 import com.siro.mystrava.presentation.viewmodels.*
 
