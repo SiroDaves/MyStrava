@@ -11,7 +11,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.siro.mystrava.R
 import com.siro.mystrava.core.utils.*
-import com.siro.mystrava.data.models.activites.ActivitiesItem
+import com.siro.mystrava.data.models.activites.ActivityItem
 import com.siro.mystrava.presentation.viewmodels.ActivityType
 import com.siro.mystrava.presentation.screens.home.DashboardStat
 import com.siro.mystrava.presentation.screens.home.MonthTextStat
@@ -24,7 +24,7 @@ import com.siro.mystrava.presentation.viewmodels.UnitType
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 fun WeekCompareWidget(
-    activitesList: List<ActivitiesItem>,
+    activitesList: List<ActivityItem>,
     selectedActivityType: ActivityType?,
     selectedUnitType: UnitType?,
     today: Int?,
@@ -92,7 +92,7 @@ fun WeekCompareWidget(
                         val weeklyDataMap: MutableList<SummaryMetrics> =
                             mutableListOf()
 
-                        val weeklyActivitiesMap: MutableList<Pair<Int, MutableList<ActivitiesItem>>> =
+                        val weeklyActivitiesMap: MutableList<Pair<Int, MutableList<ActivityItem>>> =
                             mutableListOf()
 
                         var startingWeekInMap: MutableList<Int> = mutableListOf()
@@ -108,7 +108,7 @@ fun WeekCompareWidget(
 
                         for (i in startingWeekInMap[0] downTo (startingWeekInMap[0] - 2)) {
                             val weeklyActivitiesList =
-                                mutableListOf<ActivitiesItem>()
+                                mutableListOf<ActivityItem>()
                             activitesList.forEach { activitiesItem ->
                                 val datesInWeek = monthWeekMap.get(i)
                                 datesInWeek!!.forEach {

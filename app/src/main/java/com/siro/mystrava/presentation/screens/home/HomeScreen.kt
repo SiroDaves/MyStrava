@@ -2,30 +2,29 @@ package com.siro.mystrava.presentation.screens.home
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.*
 import com.google.accompanist.swiperefresh.*
+import com.siro.mystrava.data.models.activites.ActivityItem
 import com.siro.mystrava.presentation.screens.home.widgets.*
 import com.siro.mystrava.presentation.theme.primaryColor
 import com.siro.mystrava.presentation.viewmodels.*
 
 @Composable
-fun HomeScreen( viewModel: HomeViewModel) {
-    var fetchData by rememberSaveable { mutableStateOf(0) }
-    if (fetchData == 0) {
-        viewModel.fetchData()
-        fetchData = fetchData.inc()
-    }
+fun HomeScreen(viewModel: HomeViewModel) {
+    val activities by viewModel.activities.collectAsState(initial = emptyList())
+    val loading by viewModel.loading.collectAsState(initial = false)
+    val error by viewModel.error.collectAsState(initial = null)
+    val refreshState = rememberSwipeRefreshState(isRefreshing = loading)
 
-    val activityUiState by viewModel.activityUiState.collectAsState()
-    val selectedActivityType by viewModel.activityType.observeAsState(ActivityType.Run)
-    val selectedUnitType by viewModel.unitType.observeAsState(UnitType.Imperial)
-    val refreshState = rememberSwipeRefreshState(false)
+    LaunchedEffect(Unit) {
+        viewModel.fetchData()
+    }
 
     Scaffold(
         topBar = {
@@ -33,7 +32,6 @@ fun HomeScreen( viewModel: HomeViewModel) {
                 "My Strava",
                 style = MaterialTheme.typography.headlineMedium,
                 color = MaterialTheme.colorScheme.onSurface,
-                textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )
         },
@@ -56,10 +54,21 @@ fun HomeScreen( viewModel: HomeViewModel) {
                     )
                 },
             ) {
-                when (val state = activityUiState) {
-                    is ActivityUiState.Error -> ErrorState(state)
-                    is ActivityUiState.Loading -> LoadingState(refreshState)
-                    is ActivityUiState.DataLoaded -> HomeContent()
+                when {
+                    error != null -> ErrorState(
+                        errorMessage = error!!,
+                        onRetry = { viewModel.fetchData() }
+                    )
+
+                    activities.isEmpty() && !loading -> EmptyState()
+
+                    else -> LazyColumn(
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        items(activities) { activity ->
+                            Workout(activity = activity)
+                        }
+                    }
                 }
             }
         }
@@ -67,12 +76,28 @@ fun HomeScreen( viewModel: HomeViewModel) {
 }
 
 @Composable
-private fun HomeContent() {
-    Column(
+fun Workout(activity: ActivityItem) {
+    Row(
         modifier = Modifier
             .fillMaxWidth()
-            .verticalScroll(rememberScrollState())
+            .padding(vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 16.dp)
+        ) {
+            Text(
+                text = activity.type,
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp
+            )
+            Text(
+                text = activity.distance.toString(),
+                fontSize = 14.sp,
+                //color = Color.Gray
+            )
+        }
     }
 }

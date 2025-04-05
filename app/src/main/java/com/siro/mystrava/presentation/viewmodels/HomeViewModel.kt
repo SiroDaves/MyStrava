@@ -1,106 +1,56 @@
 package com.siro.mystrava.presentation.viewmodels
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.*
-import com.siro.mystrava.data.models.detail.ActivityDetail
+import com.siro.mystrava.data.models.activites.ActivityItem
 import com.siro.mystrava.data.repositories.*
-import com.siro.mystrava.domain.entities.*
 import com.siro.mystrava.domain.repositories.*
-import com.siro.mystrava.presentation.screens.home.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val dashRepo: DashboardRepository,
+    private val homeRepo: HomeRepository,
     private val sessionRepository: SessionRepository,
     private val settingsRepo: SettingsRepository,
 ) : ViewModel() {
 
-    val widgetStatus = mutableStateOf(false)
+    private val _loading = MutableStateFlow(false)
+    val loading: StateFlow<Boolean> get() = _loading
+
+    private val _error = MutableStateFlow<String?>(null)
+    val error: StateFlow<String?> get() = _error
 
     private var _isLoggedInStrava: MutableLiveData<Boolean> = MutableLiveData(null)
     var isLoggedInStrava: LiveData<Boolean> = _isLoggedInStrava
 
-    private val _activityUiState: MutableStateFlow<ActivityUiState> =
-        MutableStateFlow(ActivityUiState.Loading)
-    val activityUiState: StateFlow<ActivityUiState> = _activityUiState.asStateFlow()
+    private val _activities = MutableStateFlow<List<ActivityItem>>(emptyList())
+    val activities: StateFlow<List<ActivityItem>> get() = _activities
 
     var _activityType: MutableLiveData<ActivityType> = MutableLiveData()
     var activityType: LiveData<ActivityType> = _activityType
-
-    var _unitType: MutableLiveData<UnitType> = MutableLiveData()
-    var unitType: LiveData<UnitType> = _unitType
-
-    var _measureType: MutableLiveData<MeasureType> = MutableLiveData()
-    var measureType: LiveData<MeasureType> = _measureType
-
-    val calendarData = CalendarData()
-
-    var _weeklyActivityDetails: MutableLiveData<List<ActivityDetail>> = MutableLiveData()
-    var weeklyActivityDetails: LiveData<List<ActivityDetail>> = _weeklyActivityDetails
-
-    val _yearlySummaryMetrics: MutableLiveData<List<SummaryMetrics>> = MutableLiveData()
-    val yearlySummaryMetrics: MutableLiveData<List<SummaryMetrics>> = _yearlySummaryMetrics
 
     init {
         _isLoggedInStrava.postValue(sessionRepository.isLoggedIn())
     }
 
     fun fetchData() {
-        _activityUiState.tryEmit(ActivityUiState.Loading)
 
-        _activityType.postValue(dashRepo.getPreferredActivity())
-
-        _unitType.postValue(dashRepo.getPreferredUnitType())
+        _activityType.postValue(homeRepo.getPreferredActivity())
 
         viewModelScope.launch {
-            dashRepo.loadActivities(
-                after = null,
-                before = calendarData.currentYear.first,
-            ).catch { exception ->
-                Log.d("TAG", "fetchData: $exception")
-                val errorCode = (exception as HttpException).code()
-
-                val errorMessage = if (errorCode in 400..499) {
-                    "Error! Force Refresh"
-                } else {
-                    "Have issues connecting to Strava"
+            try {
+                val activities = withContext(Dispatchers.IO) {
+                    homeRepo.getRecentActivities()
                 }
-
-                _activityUiState.tryEmit(ActivityUiState.Error(errorMessage))
-            }.collect { currentYearActivities ->
-                _activityUiState.tryEmit(ActivityUiState.DataLoaded(currentYearActivities))
-
-                yearlySummaryMetrics(currentYearActivities)
-
-                dashRepo.widgetStatus.collect {
-                    widgetStatus.value = it
-                }
-
-            }
+                _activities.emit(activities)
+            } catch (e: Exception) { }
         }
     }
-
-    private fun yearlySummaryMetrics(currentYearActivities: CalendarActivities) {
-        val preferredActivity = currentYearActivities.preferredActivityType
-        _yearlySummaryMetrics.postValue( buildList {
-            if (currentYearActivities.preferredMeasureType == MeasureType.Absolute) {
-                add(currentYearActivities.currentYearActivities.getStats(preferredActivity))
-                add(currentYearActivities.previousYearActivities.getStats(preferredActivity))
-                add(currentYearActivities.twoYearsAgoActivities.getStats(preferredActivity))
-            } else {
-                add(currentYearActivities.relativeYearActivities.getStats(preferredActivity))
-                add(currentYearActivities.relativePreviousYearActivities.getStats(preferredActivity))
-                add(currentYearActivities.relativeTwoYearsAgoActivities.getStats(preferredActivity))
-            }
-        })
-    }
-
 
     fun loginAthlete(code: String) {
         viewModelScope.launch {
@@ -115,42 +65,11 @@ class HomeViewModel @Inject constructor(
     }
 
     fun updateSelectedActivity(activityType: ActivityType) {
-        dashRepo.savePreferredActivity(activityType)
-        _activityType.postValue(dashRepo.getPreferredActivity())
-    }
-
-    fun updateSelectedUnit(unitType: UnitType) {
-        dashRepo.savePreferredUnits(unitType = unitType)
-        _unitType.postValue(dashRepo.getPreferredUnitType())
-    }
-
-    fun updateMeasureType(measureType: MeasureType) {
-        dashRepo.saveMeasureType(measureType = measureType)
-        _measureType.postValue(dashRepo.getPreferredMeasureType())
-
-    }
-
-    fun saveWeeklyStats(weeklyDistance: String, weeklyElevation: String) {
-        dashRepo.saveWeeklyDistance(weeklyDistance, weeklyElevation)
-    }
-
-    fun loadWeekActivityDetails(weeklyActivityIds : List<String>) {
-        Log.d("TAG", "loadWeekActivityDetails: $weeklyActivityIds")
-        viewModelScope.launch {
-            dashRepo.loadActivityDetails(weeklyActivityIds)
-                .collectLatest {
-                    _weeklyActivityDetails.postValue(it.map { it.second })
-                }
-        }
+        homeRepo.savePreferredActivity(activityType)
+        _activityType.postValue(homeRepo.getPreferredActivity())
     }
 }
 
 enum class ActivityType { Run, Swim, Bike, All }
 enum class UnitType { Imperial, Metric }
 enum class MeasureType { Absolute, Relative }
-
-sealed class ActivityUiState {
-    object Loading : ActivityUiState()
-    class DataLoaded(val calendarActivities: CalendarActivities) : ActivityUiState()
-    class Error(val errorMessage: String) : ActivityUiState()
-}

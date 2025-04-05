@@ -19,7 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.siro.mystrava.R
 import com.siro.mystrava.core.utils.*
-import com.siro.mystrava.data.models.activites.ActivitiesItem
+import com.siro.mystrava.data.models.activites.ActivityItem
 import com.siro.mystrava.presentation.viewmodels.ActivityType
 import com.siro.mystrava.presentation.screens.home.DashboardStat
 import com.siro.mystrava.presentation.screens.home.MyWidgetCard
@@ -30,7 +30,7 @@ import java.util.Locale
 
 @Composable
 fun MonthWidget(
-    monthlyWorkouts: List<ActivitiesItem>,
+    monthlyWorkouts: List<ActivityItem>,
     updateMonthlyMetrics: (SummaryMetrics) -> Unit,
     selectedActivityType: ActivityType?,
     selectedUnitType: UnitType?,

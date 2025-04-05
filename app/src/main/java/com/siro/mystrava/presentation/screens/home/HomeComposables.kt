@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.*
 import androidx.compose.ui.window.Dialog
 import com.google.accompanist.swiperefresh.*
 import com.siro.mystrava.R
-import com.siro.mystrava.data.models.activites.ActivitiesItem
+import com.siro.mystrava.data.models.activites.ActivityItem
 import com.siro.mystrava.presentation.screens.home.widgets.CompareWidget
 import com.siro.mystrava.presentation.screens.home.widgets.DashboardType
 import com.siro.mystrava.presentation.screens.home.widgets.MonthWidget
@@ -339,7 +339,7 @@ data class SummaryMetrics(
     val totalTime: Int = 0
 )
 
-fun List<ActivitiesItem>.getStats(selectedActivity: ActivityType): SummaryMetrics {
+fun List<ActivityItem>.getStats(selectedActivity: ActivityType): SummaryMetrics {
     val filteredActivities =
         if (selectedActivity == ActivityType.All) this
         else this.filter { it.type == selectedActivity.name }

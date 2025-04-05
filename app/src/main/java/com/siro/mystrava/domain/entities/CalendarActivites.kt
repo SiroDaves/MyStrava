@@ -1,7 +1,7 @@
 package com.siro.mystrava.domain.entities
 
 import com.siro.mystrava.core.utils.*
-import com.siro.mystrava.data.models.activites.ActivitiesItem
+import com.siro.mystrava.data.models.activites.ActivityItem
 import com.siro.mystrava.presentation.screens.home.getStats
 import com.siro.mystrava.presentation.viewmodels.ActivityType
 import com.siro.mystrava.presentation.viewmodels.MeasureType
@@ -11,23 +11,23 @@ import java.time.format.TextStyle
 import java.util.Locale
 
 data class CalendarActivities(
-    val currentMonthActivities: List<ActivitiesItem> = emptyList(),
-    val previousMonthActivities: List<ActivitiesItem> = emptyList(),
-    val twoMonthAgoActivities: List<ActivitiesItem> = emptyList(),
-    val currentYearActivities: List<ActivitiesItem> = emptyList(),
-    val previousYearActivities: List<ActivitiesItem> = emptyList(),
-    val twoYearsAgoActivities: List<ActivitiesItem> = emptyList(),
+    val currentMonthActivities: List<ActivityItem> = emptyList(),
+    val previousMonthActivities: List<ActivityItem> = emptyList(),
+    val twoMonthAgoActivities: List<ActivityItem> = emptyList(),
+    val currentYearActivities: List<ActivityItem> = emptyList(),
+    val previousYearActivities: List<ActivityItem> = emptyList(),
+    val twoYearsAgoActivities: List<ActivityItem> = emptyList(),
     val preferredActivityType: ActivityType,
     val selectedUnitType: UnitType,
     val preferredMeasureType: MeasureType,
-    val relativePrevPrevMonthActivities: List<ActivitiesItem> = emptyList(),
-    val relativePreviousMonthActivities: List<ActivitiesItem> = emptyList(),
-    val relativeYearActivities: List<ActivitiesItem> = emptyList(),
-    val relativePreviousYearActivities: List<ActivitiesItem> = emptyList(),
-    val relativeTwoYearsAgoActivities: List<ActivitiesItem> = emptyList(),
-    val relativeMonthActivities: List<ActivitiesItem> = emptyList()
+    val relativePrevPrevMonthActivities: List<ActivityItem> = emptyList(),
+    val relativePreviousMonthActivities: List<ActivityItem> = emptyList(),
+    val relativeYearActivities: List<ActivityItem> = emptyList(),
+    val relativePreviousYearActivities: List<ActivityItem> = emptyList(),
+    val relativeTwoYearsAgoActivities: List<ActivityItem> = emptyList(),
+    val relativeMonthActivities: List<ActivityItem> = emptyList()
 ) {
-    val lastTwoMonthsActivities: List<ActivitiesItem> =
+    val lastTwoMonthsActivities: List<ActivityItem> =
         currentMonthActivities.plus(previousMonthActivities)
 
     val calendarData = CalendarData()
@@ -49,7 +49,7 @@ data class CalendarActivities(
     lateinit var weeklyActivityIds: MutableList<Long>
 
     private fun loadWeeklyDistanceMap(): Pair<SummaryInfo, MutableMap<Int, Int>> {
-        val activitiesForTheWeek = mutableListOf<ActivitiesItem>()
+        val activitiesForTheWeek = mutableListOf<ActivityItem>()
         calendarData.currentWeek.forEach { (monthInt, dayOfMonth) ->
             activitiesForTheWeek.addAll(
                 lastTwoMonthsActivities.filter { activity ->

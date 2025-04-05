@@ -1,56 +1,46 @@
 package com.siro.mystrava.presentation.screens.home.widgets
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.*
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.*
-import com.google.accompanist.swiperefresh.SwipeRefreshState
-import com.siro.mystrava.presentation.viewmodels.*
 
 @Composable
-fun SuccessState(
-    state: ActivityUiState.DataLoaded,
-    viewModel: HomeViewModel,
-    paddingValues: PaddingValues,
-    selectedActivityType: ActivityType,
-    selectedUnitType: UnitType,
-    //updateMonthlyMetrics: (SummaryMetrics) -> Unit,
-    onShowWeeklyDetails: () -> Unit,
-) {
-    Column(
+fun LoadingState() {
+    Box(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(paddingValues)
-            .verticalScroll(rememberScrollState())
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center
     ) {
-        /*WeekSummarySection(state, viewModel, onShowWeeklyDetails)
-        MonthSummarySection(state, viewModel, selectedActivityType, selectedUnitType, updateMonthlyMetrics)
-        WeekComparisonSection(state, viewModel, selectedActivityType, selectedUnitType)
-        MonthComparisonSection(state, viewModel, selectedActivityType, selectedUnitType)
-        YearToDateSection(state, selectedActivityType, selectedUnitType)
-        YearComparisonSection(viewModel, selectedActivityType, selectedUnitType)
-        PoweredByStravaFooter()*/
-    }
-}
-
-@Composable
-fun LoadingState(refreshState: SwipeRefreshState) {
-    if (refreshState.isRefreshing) {
-        Box(modifier = Modifier.fillMaxSize())
-    }
-}
-
-@Composable
-fun ErrorState(state: ActivityUiState.Error) {
-    if (state.errorMessage.isNotEmpty()) {
-        Snackbar(
-            action = { Text("Refresh") },
-            modifier = Modifier.padding(16.dp)
-        ) {
-            Text(state.errorMessage)
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            CircularProgressIndicator(
+                modifier = Modifier.size(50.dp),
+                color = MaterialTheme.colorScheme.primary,
+                strokeWidth = 4.dp
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(text = "Loading venues...", fontSize = 16.sp, color = Color.Gray)
         }
     }
+}
+
+@Composable
+fun ErrorState(errorMessage: String, onRetry: () -> Unit) {
+    Column(modifier = Modifier.padding(16.dp)) {
+        Text(
+            text = errorMessage,
+            color = Color.Red,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        Button(onClick = onRetry) {
+            Text(text = "Retry")
+        }
+    }
+}
+
+@Composable
+fun EmptyState() {
+    Text(text = "No data available.", modifier = Modifier.padding(16.dp))
 }

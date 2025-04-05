@@ -5,7 +5,7 @@ import androidx.room.*
 
 @Keep
 @Entity(indices = [Index(value = ["start_date"], unique = true)])
-data class ActivitiesItem(
+data class ActivityItem(
     @ColumnInfo(name = "distance") val distance: Float,
     @ColumnInfo(name = "calories") val calories: Double?,
     @ColumnInfo(name = "elapsed_time") val elapsed_time: Int,
