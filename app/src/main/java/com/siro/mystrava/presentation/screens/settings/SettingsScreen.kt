@@ -116,7 +116,7 @@ fun StreakSettingsView(
                             )
 
                             Spacer(modifier = Modifier.height(16.dp))
-                            Column(
+                            /*Column(
                                 modifier = Modifier
                                     .padding(horizontal = 16.dp)
                                     .background(
@@ -169,7 +169,7 @@ fun StreakSettingsView(
                                         )
                                     }
                                 }
-                            }
+                            }*/
                             Spacer(modifier = Modifier.height(16.dp))
 
                             Text(
@@ -179,7 +179,7 @@ fun StreakSettingsView(
                             )
 
                             Spacer(modifier = Modifier.height(16.dp))
-                            Column(
+                            /*Column(
                                 modifier = Modifier
                                     .padding(horizontal = 16.dp)
                                     .background(
@@ -232,17 +232,17 @@ fun StreakSettingsView(
                                         )
                                     }
                                 }
-                            }
+                            }*/
                             Spacer(modifier = Modifier.height(16.dp))
 
                         }
                     }
 
 
-                    val widgetStatus by viewModel.widgetStatus
+                    /*val widgetStatus by viewModel.widgetStatus
                     if (widgetStatus) {
                         Log.d("TAG", "StreakSettingsView: TRUE")
-                    }
+                    }*/
 
                     Box(
                         modifier = Modifier
