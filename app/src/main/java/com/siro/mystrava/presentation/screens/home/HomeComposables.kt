@@ -26,7 +26,7 @@ import com.siro.mystrava.presentation.screens.home.widgets.YearWidget
 import com.siro.mystrava.presentation.theme.primaryColor
 import com.siro.mystrava.presentation.viewmodels.*
 
-@Composable
+/*@Composable
 fun HomeScreenX(viewModel: HomeViewModel, paddingValues: PaddingValues) {
     var fetchData by rememberSaveable { mutableStateOf(0) }
 
@@ -362,4 +362,4 @@ fun List<ActivityItem>.getStats(selectedActivity: ActivityType): SummaryMetrics 
         totalTime = time,
         totalElevation = elevation
     )
-}
+}*/

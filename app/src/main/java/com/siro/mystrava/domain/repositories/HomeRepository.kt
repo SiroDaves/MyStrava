@@ -21,10 +21,6 @@ class HomeRepository @Inject constructor(
     val context: Context,
     private val activitiesApi: ActivitiesApi
 ) : SharedPreferences.OnSharedPreferenceChangeListener {
-
-    //Cache in memory the strava workouts
-    private lateinit var listOfStravaWorkouts: List<ActivityItem>
-
     private val preferences: SharedPreferences = context.getSharedPreferences(
         context.getString(R.string.preference_file_key),
         Context.MODE_PRIVATE
