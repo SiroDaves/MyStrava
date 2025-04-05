@@ -62,7 +62,7 @@ object NetworkModule {
         okHttpClient.authenticator(authenticator)
 
         return Retrofit.Builder()
-            .baseUrl(ApiConstants.Uri.BASE_URL)
+            .baseUrl(ApiConstants.Uri.BASE)
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient.build())
             .build()
@@ -74,7 +74,7 @@ object NetworkModule {
     @JvmStatic
     internal fun provideStravaRetrofitInterface(okHttpClient: OkHttpClient.Builder): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(ApiConstants.Uri.BASE_URL)
+            .baseUrl(ApiConstants.Uri.BASE)
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient.build())
             .build()

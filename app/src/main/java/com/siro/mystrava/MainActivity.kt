@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
                     if (loggedIn) {
                         HomeScreen(viewModel = viewModel)
                     } else {
-                        AuthScreen(viewModel)
+                        AuthScreen()
                     }
                 }
             }

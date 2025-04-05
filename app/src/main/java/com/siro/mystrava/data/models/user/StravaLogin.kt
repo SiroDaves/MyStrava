@@ -33,7 +33,7 @@ class StravaLogin(private val context: Context?) {
 
     fun makeLoginURL(): String {
         val loginURLBuilder = StringBuilder()
-        loginURLBuilder.append(ApiConstants.Uri.LOGIN_URL)
+        loginURLBuilder.append(ApiConstants.Uri.AUTH)
         loginURLBuilder.append(clientIDParameter())
         loginURLBuilder.append(redirectURIParameter())
         loginURLBuilder.append(approvalPromptParameter())
@@ -46,12 +46,12 @@ class StravaLogin(private val context: Context?) {
     }
 
     private fun redirectURIParameter(): String {
-        return "&redirect_uri=${ApiConstants.Uri.MY_URL}"
+        return "&redirect_uri=${ApiConstants.Uri.REDIRECT}"
     }
 
     private fun approvalPromptParameter(): String {
         return if (approvalPrompt != null) {
-            "&approval_prompt=" + approvalPrompt.toString()
+            "&approval_prompt=$approvalPrompt"
         } else {
             ""
         }
@@ -59,7 +59,7 @@ class StravaLogin(private val context: Context?) {
 
     private fun accessScopeParameter(): String {
         return if (accessScope != null) {
-            "&scope=" + accessScope.toString()
+            "&scope=$accessScope"
         } else {
             ""
         }

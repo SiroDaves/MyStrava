@@ -36,7 +36,7 @@ fun WebAuthView(viewModel: HomeViewModel, onFinish: () -> Unit) {
             }
 
             private fun handleUrl(uri: Uri): Boolean {
-                if (uri.toString().startsWith(ApiConstants.Uri.MY_URL)) {
+                if (uri.toString().startsWith(ApiConstants.Uri.REDIRECT)) {
                     val code = uri.getQueryParameter("code")
                     return makeResult(code)
                 }
@@ -63,7 +63,7 @@ fun WebAuthView(viewModel: HomeViewModel, onFinish: () -> Unit) {
 
 private fun loadLoginUrl(context: Context): String = StravaLogin.withContext(context)
     .withClientID(STRAVA_CLIENT_ID)
-    .withRedirectURI(ApiConstants.Uri.MY_URL)
+    .withRedirectURI(ApiConstants.Uri.REDIRECT)
     .withApprovalPrompt("auto")
     .withAccessScope("activity:read,activity:write")
     .makeLoginURL()

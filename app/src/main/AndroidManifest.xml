@@ -35,8 +35,8 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
 
                 <data
-                    android:host="authorize"
-                    android:scheme="sirofits.com"/>
+                    android:host="auth"
+                    android:scheme="mystrava"/>
             </intent-filter>
         </activity>
     </application>

@@ -1,5 +1,7 @@
 package com.siro.mystrava.presentation.screens.auth
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -8,33 +10,37 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
+import androidx.core.content.ContextCompat.startActivity
+import com.siro.mystrava.BuildConfig.STRAVA_CLIENT_ID
 import com.siro.mystrava.R
+import com.siro.mystrava.core.utils.ApiConstants
 import com.siro.mystrava.presentation.theme.*
-import com.siro.mystrava.presentation.viewmodels.HomeViewModel
 
 @Composable
-fun AuthScreen(viewModel: HomeViewModel) {
-    var showLoginDialog by remember { mutableStateOf(false) }
-
+fun AuthScreen() {
+    val context = LocalContext.current
+    val intentUri = Uri.parse(ApiConstants.Uri.AUTH)
+        .buildUpon()
+        .appendQueryParameter("client_id", STRAVA_CLIENT_ID.toString())
+        .appendQueryParameter("redirect_uri", "https://sirofits.vercel.app/strava")
+        .appendQueryParameter("response_type", "code")
+        .appendQueryParameter("approval_prompt", "auto")
+        .appendQueryParameter("scope", "activity:write,read")
+        .build()
     AuthScreenContent(
-        showLoginDialog = showLoginDialog,
-        onConnectClick = { showLoginDialog = true },
-        onDismissDialog = { showLoginDialog = false },
-        viewModel = viewModel
+        onConnectClick = {
+            val intent = Intent(Intent.ACTION_VIEW, intentUri)
+            context.startActivity(intent)
+        }
     )
 }
 
 @Composable
-fun AuthScreenContent(
-    showLoginDialog: Boolean,
-    onConnectClick: () -> Unit,
-    onDismissDialog: () -> Unit,
-    viewModel: HomeViewModel? = null
-) {
+fun AuthScreenContent(onConnectClick: () -> Unit ) {
     Scaffold(
         containerColor = primaryColorShade1,
         contentColor = MaterialTheme.colorScheme.onSurface
@@ -87,23 +93,14 @@ fun AuthScreenContent(
                     Text(text = "Connect with Strava")
                 }
             }
-
-            if (showLoginDialog && viewModel != null) {
-                Dialog(onDismissRequest = { onDismissDialog() }) {
-                    WebAuthView(viewModel) { onDismissDialog() }
-                }
-            }
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
 fun AuthScreenPreview() {
     AuthScreenContent(
-        showLoginDialog = false,
         onConnectClick = {},
-        onDismissDialog = {}
     )
 }
