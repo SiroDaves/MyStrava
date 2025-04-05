@@ -2,12 +2,10 @@ package com.siro.mystrava.core.di
 
 import android.content.Context
 import androidx.work.Configuration
-import com.siro.mystrava.domain.repositories.DashboardRepository
+import com.siro.mystrava.domain.repositories.HomeRepository
 import com.siro.mystrava.data.repositories.SessionRepository
-import com.siro.mystrava.domain.repositories.SettingsRepository
-import com.siro.mystrava.domain.repositories.SettingsRepositoryImpl
-import com.siro.mystrava.data.sources.remote.ActivitiesApi
-import com.siro.mystrava.data.sources.remote.AthleteApi
+import com.siro.mystrava.data.sources.remote.*
+import com.siro.mystrava.domain.repositories.*
 import com.siro.mystrava.presentation.widgets.WidgetWorkerFactory
 import dagger.*
 import dagger.hilt.InstallIn
@@ -21,18 +19,18 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideDashboardRepository(
+    fun provideHomeRepo(
         @ApplicationContext context: Context,
         activitiesApi: ActivitiesApi
-    ): DashboardRepository =
-        DashboardRepository(
+    ): HomeRepository =
+        HomeRepository(
             context,
             activitiesApi
         )
 
     @Provides
     @Singleton
-    fun provideSettingsRepository(
+    fun provideSettingsRepo(
         settingsRepoImpl: SessionRepository,
         athleteApi: AthleteApi,
         @ApplicationContext context: Context,
@@ -41,7 +39,7 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideWorkManagerConfiguration(
+    fun provideWorkManagerConfig(
         widgetWorkerFactory: WidgetWorkerFactory
     ): Configuration {
         return Configuration.Builder()

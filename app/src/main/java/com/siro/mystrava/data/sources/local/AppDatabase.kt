@@ -1,25 +1,24 @@
-package com.siro.mystrava.strava.model.activites.db
+package com.siro.mystrava.data.sources.local
 
 import android.content.Context
 import androidx.room.*
 import com.siro.mystrava.data.models.activites.ActivityItem
-import com.siro.mystrava.data.sources.local.ActivitiesDao
 
 @Database(entities = [ActivityItem::class], version = 3, exportSchema = false)
-abstract class ActivitiesDatabase : RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
     abstract fun activitiesDao(): ActivitiesDao
 
     companion object {
         @Volatile
-        private var INSTANCE: ActivitiesDatabase? = null
+        private var INSTANCE: AppDatabase? = null
 
-        fun getDatabase(context: Context): ActivitiesDatabase? {
+        fun getDatabase(context: Context): AppDatabase? {
             if (INSTANCE == null) {
-                synchronized(ActivitiesDatabase::class.java) {
+                synchronized(AppDatabase::class.java) {
                     if (INSTANCE == null) {
                         INSTANCE = Room.databaseBuilder(
                             context.applicationContext,
-                            ActivitiesDatabase::class.java, "activities_items"
+                            AppDatabase::class.java, "activities"
                         ).fallbackToDestructiveMigration().build()
                     }
                 }

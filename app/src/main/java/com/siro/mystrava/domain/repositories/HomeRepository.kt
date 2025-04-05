@@ -1,16 +1,13 @@
 package com.siro.mystrava.domain.repositories
 
-import android.content.Context
-import android.content.SharedPreferences
+import android.content.*
 import android.util.Log
 import com.siro.mystrava.R
-import com.siro.mystrava.core.utils.*
 import com.siro.mystrava.data.models.activites.ActivityItem
 import com.siro.mystrava.data.sources.remote.ActivitiesApi
 import com.siro.mystrava.data.sources.local.ActivitiesDao
-import com.siro.mystrava.strava.model.activites.db.ActivitiesDatabase
 import com.siro.mystrava.data.models.detail.ActivityDetail
-import com.siro.mystrava.domain.entities.*
+import com.siro.mystrava.data.sources.local.AppDatabase
 import com.siro.mystrava.presentation.viewmodels.*
 import com.siro.mystrava.presentation.viewmodels.ActivityType.*
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +15,6 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.*
 import java.time.*
 import javax.inject.*
-import kotlin.math.abs
 
 @Singleton
 class HomeRepository @Inject constructor(
@@ -43,7 +39,7 @@ class HomeRepository @Inject constructor(
     }
 
     init {
-        val db = ActivitiesDatabase.getDatabase(context)
+        val db = AppDatabase.getDatabase(context)
         activitiesDao = db?.activitiesDao()
 
         preferences.registerOnSharedPreferenceChangeListener(this)
