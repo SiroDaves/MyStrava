@@ -1,6 +1,4 @@
-### **SETUP.md** (Android-Specific)
-
-# MyStrava Android Setup Guide
+# Setup Guide
 
 ## 1. Clone the Repository
 ```bash
