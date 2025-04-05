@@ -28,14 +28,7 @@ class MainActivity : ComponentActivity() {
 
                 isLoggedIn?.let { loggedIn ->
                     if (loggedIn) {
-                        Scaffold(
-                            content = { paddingValues ->
-                                HomeScreen(
-                                    viewModel = viewModel,
-                                    paddingValues = paddingValues
-                                )
-                            },
-                        )
+                        HomeScreen(viewModel = viewModel)
                     } else {
                         AuthScreen(viewModel)
                     }
