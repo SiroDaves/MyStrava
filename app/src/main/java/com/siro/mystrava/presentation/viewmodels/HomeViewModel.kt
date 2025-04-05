@@ -39,9 +39,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun fetchData() {
-
         _activityType.postValue(homeRepo.getPreferredActivity())
-
         viewModelScope.launch {
             try {
                 val activities = withContext(Dispatchers.IO) {

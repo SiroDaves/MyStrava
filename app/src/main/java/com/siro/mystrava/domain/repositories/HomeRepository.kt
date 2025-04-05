@@ -42,14 +42,18 @@ class HomeRepository @Inject constructor(
         _widgetStatus.tryEmit(refreshPrefs())
     }
 
-    suspend fun getRecentActivities(): List<ActivityItem> {
-        var activities: List<ActivityItem>
+    suspend fun getRecentActivities(): List<ActivityItem> = withContext(Dispatchers.IO) {
+        val oneWeekAgoEpoch = LocalDate.now()
+            .minusWeeks(1)
+            .atStartOfDay(ZoneId.systemDefault())
+            .toEpochSecond()
+            .toInt()
 
-        withContext(Dispatchers.IO) {
-            activities = activitiesDao?.getLast10Activities() ?: emptyList()
-        }
-
-        return activities
+        activitiesApi.getRecentActivities(
+            after = oneWeekAgoEpoch,
+            before = null,
+            page = 1,
+        )
     }
 
     suspend fun loadActivityDetails(activities: List<String>): Flow<List<Pair<String, ActivityDetail>>> =
@@ -66,36 +70,7 @@ class HomeRepository @Inject constructor(
             emit(activityMap)
         }
 
-    fun getStravaActivitiesBeforeAndAfterPaginated(
-        before: Int?,
-        after: Int?
-    ): Flow<List<ActivityItem>> = flow {
-        val yearActivities: MutableList<ActivityItem> = mutableListOf()
-        var pageCount = 1
-        do {
-            yearActivities.addAll(
-                activitiesApi.getAthleteActivitiesBeforeAndAfter(
-                    before = before,
-                    after = after,
-                    page = pageCount
-                )
-            )
-            pageCount = pageCount.inc()
-
-            //Add activities to db
-            yearActivities.map {
-                runBlocking {
-                    saveActivty(it)
-                }
-            }
-
-        } while (yearActivities.size % 200 == 0 && yearActivities.size != 0)
-
-        emit(yearActivities)
-    }
-
-    //Write activity to db
-    suspend fun saveActivty(activitiesItem: ActivityItem) {
+    suspend fun saveActiivty(activitiesItem: ActivityItem) {
         withContext(Dispatchers.IO) {
             activitiesDao?.insertAll(activitiesItem)
         }
@@ -112,46 +87,6 @@ class HomeRepository @Inject constructor(
             )
         } ?: All
 
-    fun savePreferredUnits(unitType: UnitType) {
-        preferences.edit().putString(unitTypeKey, unitType.name).apply()
-    }
-
-    fun saveMeasureType(measureType: MeasureType) {
-        preferences.edit().putString(Companion.measureType, measureType.name).apply()
-    }
-
-    fun getPreferredMeasureType() =
-        preferences.getString(measureType, MeasureType.Absolute.name)?.let {
-            MeasureType.valueOf(
-                it
-            )
-        } ?: MeasureType.Absolute
-
-    fun getPreferredUnitType() =
-        preferences.getString(unitTypeKey, UnitType.Imperial.name)?.let {
-            UnitType.valueOf(
-                it
-            )
-        } ?: UnitType.Imperial
-
-    fun saveLastFetchTimestamp() {
-        val currentTime = LocalDateTime.now()
-        preferences.edit().putString(lastUpdatedKey, currentTime.toString()).apply()
-    }
-
-    fun fetchLastUpdatedTime(): LocalDateTime? {
-        val lastUpdatedString = preferences.getString(lastUpdatedKey, "")
-        return if (lastUpdatedString.isNullOrEmpty())
-            null
-        else
-            LocalDateTime.parse(lastUpdatedString)
-    }
-
-    fun saveWeeklyDistance(weeklyDistance: String, weeklyElevation: String) {
-        preferences.edit().putString("weeklyDistance", weeklyDistance).apply()
-        preferences.edit().putString("weeklyElevation", weeklyElevation).apply()
-    }
-
     override fun onSharedPreferenceChanged(preferences: SharedPreferences?, key: String?) {
         if (key == "widgetEnabled") {
             val widgetEnabled = preferences?.getBoolean("widgetEnable", false)
@@ -166,8 +101,5 @@ class HomeRepository @Inject constructor(
 
     companion object {
         const val activityTypeKey: String = "activityType"
-        const val unitTypeKey: String = "unitType"
-        const val measureType: String = "measureType"
-        const val lastUpdatedKey: String = "lastUpdated"
     }
 }
