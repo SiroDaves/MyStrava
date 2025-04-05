@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val dashRepo: DashboardRepository,
-    private val stravaSessionRepository: SessionRepository,
+    private val sessionRepository: SessionRepository,
     private val settingsRepo: SettingsRepository,
 ) : ViewModel() {
 
@@ -48,7 +48,7 @@ class HomeViewModel @Inject constructor(
     val yearlySummaryMetrics: MutableLiveData<List<SummaryMetrics>> = _yearlySummaryMetrics
 
     init {
-        _isLoggedInStrava.postValue(stravaSessionRepository.isLoggedIn())
+        _isLoggedInStrava.postValue(sessionRepository.isLoggedIn())
     }
 
     fun fetchData() {
@@ -105,12 +105,12 @@ class HomeViewModel @Inject constructor(
     fun loginAthlete(code: String) {
         viewModelScope.launch {
             settingsRepo.authAthlete(code)
-            _isLoggedInStrava.postValue(stravaSessionRepository.isLoggedIn())
+            _isLoggedInStrava.postValue(sessionRepository.isLoggedIn())
         }
     }
 
     fun logout() {
-        stravaSessionRepository.logOff()
+        sessionRepository.logOff()
         _isLoggedInStrava.postValue(false)
     }
 

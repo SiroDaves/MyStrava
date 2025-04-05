@@ -24,13 +24,18 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Material3Theme {
-                val isLoggedIn by viewModel.isLoggedInStrava.observeAsState()
-
-                isLoggedIn?.let { loggedIn ->
-                    if (loggedIn) {
-                        HomeScreen(viewModel = viewModel)
-                    } else {
-                        AuthScreen()
+                val code = intent?.data?.getQueryParameter("code")
+                if (code != null) {
+                    viewModel.loginAthlete(code)
+                    HomeScreen(viewModel = viewModel)
+                } else {
+                    val isLoggedIn by viewModel.isLoggedInStrava.observeAsState()
+                    isLoggedIn?.let { loggedIn ->
+                        if (loggedIn) {
+                            HomeScreen(viewModel = viewModel)
+                        } else {
+                            AuthScreen()
+                        }
                     }
                 }
             }
