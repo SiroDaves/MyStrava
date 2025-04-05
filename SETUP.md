@@ -26,6 +26,5 @@ git clone https://github.com/SiroDaves/MyStrava.git
 - The app should redirect you to Strava’s login page for authentication on first launch.
 
 ## Troubleshooting
-- **Build Errors**: Ensure `secrets.properties` is correctly formatted.
+- **Build Errors**: Ensure `local.properties` is correctly formatted.
 - **API Issues**: Verify your Strava API quota and credentials.
-```
