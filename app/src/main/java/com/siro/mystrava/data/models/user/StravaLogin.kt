@@ -2,6 +2,7 @@ package com.siro.mystrava.data.models.user
 
 import android.content.Context
 import androidx.annotation.Keep
+import com.siro.mystrava.core.utils.ApiConstants
 
 @Keep
 class StravaLogin(private val context: Context?) {
@@ -32,7 +33,7 @@ class StravaLogin(private val context: Context?) {
 
     fun makeLoginURL(): String {
         val loginURLBuilder = StringBuilder()
-        loginURLBuilder.append(STRAVA_LOGIN_URL)
+        loginURLBuilder.append(ApiConstants.Uri.LOGIN_URL)
         loginURLBuilder.append(clientIDParameter())
         loginURLBuilder.append(redirectURIParameter())
         loginURLBuilder.append(approvalPromptParameter())
@@ -45,11 +46,7 @@ class StravaLogin(private val context: Context?) {
     }
 
     private fun redirectURIParameter(): String {
-        return if (redirectURI != null) {
-            "&redirect_uri=$redirectURI"
-        } else {
-            ""
-        }
+        return "&redirect_uri=${ApiConstants.Uri.MY_URL}"
     }
 
     private fun approvalPromptParameter(): String {
@@ -69,9 +66,6 @@ class StravaLogin(private val context: Context?) {
     }
 
     companion object {
-        private const val STRAVA_LOGIN_URL =
-            "https://www.strava.com/oauth/authorize?response_type=code"
-
         fun withContext(context: Context?): StravaLogin {
             return StravaLogin(context)
         }

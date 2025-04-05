@@ -13,43 +13,40 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.ViewCompat
+// Oranges
+private val Orange200 = Color(0xFFFFAB40)  // Light Orange
+private val Orange400 = Color(0xFFFF9100)  // Medium Orange
+private val Orange600 = Color(0xFFFB8C00)  // Darker Orange
+private val Orange800 = Color(0xFFEF6C00)  // Deep Dark Orange
 
-private val Yellow400 = Color(0xFFF6E547)
-private val Yellow600 = Color(0xFFF5CF1B)
-private val Yellow700 = Color(0xFFF3B711)
-private val Yellow800 = Color(0xFFF29F05)
-
-private val Blue200 = Color(0xFF036e9a)
-private val Blue400 = Color(0xFF4860F7)
-private val Blue500 = Color(0xFF0540F2)
-private val Blue800 = Color(0xFF001CCF)
-
-private val Red300 = Color(0xFFEA6D7E)
-private val Red800 = Color(0xFFD00036)
-
-private val SkyBlue = Color(0xFF059EDC)
+// Supporting Colors
+private val Brown200 = Color(0xFF8D6E63)   // Muted Support
+private val Brown400 = Color(0xFF6D4C41)   // Muted Darker
+private val Red300 = Color(0xFFEA6D7E)     // Error Light
+private val Red800 = Color(0xFFD00036)     // Error Dark
+private val Cream = Color(0xFFFFF3E0)      // Soft Surface
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Blue200,
-    secondary = SkyBlue,
+    primary = Orange400,
+    secondary = Brown400,
     error = Red300,
 )
 
 val LightColorScheme = lightColorScheme(
-    primary = Blue200,
+    primary = Orange600,
     onPrimary = Color.Black,
-    secondary = Yellow700,
+    secondary = Brown200,
     onSecondary = Color.Black,
-    surface = SkyBlue,
-    onSurface = Color.White,
-    onBackground = Color.White,
+    surface = Cream,
+    onSurface = Color.Black,
+    onBackground = Color.Black,
     error = Red800,
     onError = Color.White
 )
 
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
-fun StreakTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
+fun MyStravaTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
 
     // Dynamic color is available on Android 12+
     val dynamicColor = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S

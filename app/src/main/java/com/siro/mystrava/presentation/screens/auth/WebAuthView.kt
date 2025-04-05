@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
+import com.siro.mystrava.BuildConfig.STRAVA_CLIENT_ID
+import com.siro.mystrava.core.utils.ApiConstants
 import com.siro.mystrava.data.models.user.StravaLogin
 import com.siro.mystrava.presentation.viewmodels.HomeViewModel
 
@@ -34,7 +36,7 @@ fun WebAuthView(viewModel: HomeViewModel, onFinish: () -> Unit) {
             }
 
             private fun handleUrl(uri: Uri): Boolean {
-                if (uri.toString().startsWith("https://www.streakstravaapp.com")) {
+                if (uri.toString().startsWith(ApiConstants.Uri.MY_URL)) {
                     val code = uri.getQueryParameter("code")
                     return makeResult(code)
                 }
@@ -60,8 +62,8 @@ fun WebAuthView(viewModel: HomeViewModel, onFinish: () -> Unit) {
 }
 
 private fun loadLoginUrl(context: Context): String = StravaLogin.withContext(context)
-    .withClientID(66172)
-    .withRedirectURI("https://www.strava.com")
+    .withClientID(STRAVA_CLIENT_ID)
+    .withRedirectURI(ApiConstants.Uri.MY_URL)
     .withApprovalPrompt("auto")
     .withAccessScope("activity:read,activity:write")
     .makeLoginURL()
