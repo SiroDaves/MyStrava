@@ -1,10 +1,4 @@
-Apologies for the misunderstanding earlier! Let me adjust the documentation for your **Android/Kotlin-based MyStrava app**. Here’s a revised version:
-
----
-
-### **README.md** (Android App)
-```markdown
-# MyStrava 🏃♀️ (Android)
+# MyStrava
 
 An Android app built with Kotlin to interact with Strava data, track activities, and visualize fitness metrics on mobile.
 
