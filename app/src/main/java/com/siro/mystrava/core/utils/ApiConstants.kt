@@ -4,6 +4,6 @@ class ApiConstants {
     object Uri {
         const val BASE = "https://www.strava.com/api/v3/"
         const val AUTH = "https://www.strava.com/oauth/mobile/authorize"
-        const val REDIRECT = "https://sirofits.vercel.app"
+        const val REDIRECT = "https://sirofits.vercel.app/strava"
     }
 }

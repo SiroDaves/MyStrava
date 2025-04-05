@@ -26,7 +26,7 @@ fun AuthScreen() {
     val intentUri = Uri.parse(ApiConstants.Uri.AUTH)
         .buildUpon()
         .appendQueryParameter("client_id", STRAVA_CLIENT_ID.toString())
-        .appendQueryParameter("redirect_uri", "https://sirofits.vercel.app/strava")
+        .appendQueryParameter("redirect_uri", ApiConstants.Uri.REDIRECT)
         .appendQueryParameter("response_type", "code")
         .appendQueryParameter("approval_prompt", "auto")
         .appendQueryParameter("scope", "activity:write,read")
