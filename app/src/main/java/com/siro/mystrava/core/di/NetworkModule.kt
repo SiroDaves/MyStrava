@@ -3,7 +3,7 @@ package com.siro.mystrava.core.di
 import android.content.Context
 import com.siro.mystrava.BuildConfig
 import com.siro.mystrava.core.auth.*
-import com.siro.mystrava.data.repositories.SessionRepository
+import com.siro.mystrava.domain.repositories.SessionRepository
 import com.siro.mystrava.core.utils.ApiConstants
 import com.siro.mystrava.data.sources.remote.*
 import dagger.*
@@ -30,7 +30,7 @@ object NetworkModule {
     @Provides
     @Reusable
     @JvmStatic
-    internal fun provideActivites(@Named("stravaApi") retrofit: Retrofit): ActivitiesApi {
+    internal fun provideActivities(@Named("stravaApi") retrofit: Retrofit): ActivitiesApi {
         return retrofit.create(ActivitiesApi::class.java)
     }
 
@@ -56,9 +56,9 @@ object NetworkModule {
     internal fun provideStravaApi(
         okHttpClient: OkHttpClient.Builder,
         authenticator: TokenAuthenticator,
-        authorizationInterceptor: AuthorizationInterceptor
+        interceptor: AuthorizationInterceptor
     ): Retrofit {
-        okHttpClient.addInterceptor(authorizationInterceptor)
+        okHttpClient.addInterceptor(interceptor)
         okHttpClient.authenticator(authenticator)
 
         return Retrofit.Builder()

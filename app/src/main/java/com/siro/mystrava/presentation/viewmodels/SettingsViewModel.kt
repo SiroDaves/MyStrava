@@ -3,7 +3,7 @@ package com.siro.mystrava.presentation.viewmodels
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.*
 import com.siro.mystrava.data.models.profile.*
-import com.siro.mystrava.data.repositories.SessionRepository
+import com.siro.mystrava.domain.repositories.SessionRepository
 import com.siro.mystrava.domain.repositories.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

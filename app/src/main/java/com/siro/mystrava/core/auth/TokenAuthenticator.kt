@@ -2,7 +2,7 @@ package com.siro.mystrava.core.auth
 
 import android.util.Log
 import androidx.annotation.Keep
-import com.siro.mystrava.data.repositories.SessionRepository
+import com.siro.mystrava.domain.repositories.SessionRepository
 import kotlinx.coroutines.runBlocking
 import okhttp3.*
 import javax.inject.Inject

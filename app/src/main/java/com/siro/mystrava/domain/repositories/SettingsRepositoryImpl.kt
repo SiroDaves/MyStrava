@@ -6,7 +6,6 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.util.Log
 import com.siro.mystrava.R
 import com.siro.mystrava.data.models.profile.*
-import com.siro.mystrava.data.repositories.SessionRepository
 import com.siro.mystrava.data.sources.remote.AthleteApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*

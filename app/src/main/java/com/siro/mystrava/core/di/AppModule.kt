@@ -2,10 +2,8 @@ package com.siro.mystrava.core.di
 
 import android.content.Context
 import androidx.work.Configuration
-import com.siro.mystrava.domain.repositories.HomeRepository
-import com.siro.mystrava.data.repositories.SessionRepository
-import com.siro.mystrava.data.sources.remote.*
 import com.siro.mystrava.domain.repositories.*
+import com.siro.mystrava.data.sources.remote.*
 import com.siro.mystrava.presentation.widgets.WidgetWorkerFactory
 import dagger.*
 import dagger.hilt.InstallIn
@@ -16,26 +14,21 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 @Module(includes = [NetworkModule::class] )
 class AppModule {
-
     @Provides
     @Singleton
     fun provideHomeRepo(
         @ApplicationContext context: Context,
-        activitiesApi: ActivitiesApi
-    ): HomeRepository =
-        HomeRepository(
-            context,
-            activitiesApi
-        )
+        api: ActivitiesApi
+    ): HomeRepository = HomeRepository( context, api )
 
     @Provides
     @Singleton
     fun provideSettingsRepo(
         settingsRepoImpl: SessionRepository,
-        athleteApi: AthleteApi,
+        api: AthleteApi,
         @ApplicationContext context: Context,
     ): SettingsRepository =
-        SettingsRepositoryImpl(settingsRepoImpl, athleteApi, context)
+        SettingsRepositoryImpl(settingsRepoImpl, api, context)
 
     @Singleton
     @Provides

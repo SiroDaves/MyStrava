@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id("kotlin-kapt")
+    id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
 }
 
@@ -111,9 +111,9 @@ dependencies {
     debugImplementation(libs.compose.ui.tooling)
 
     implementation(libs.androidx.room.runtime)
-    kapt(libs.androidx.room.compiler)
-    kapt(libs.hilt.compiler)
-    kaptAndroidTest(libs.hilt.android.compiler)
+
+    ksp(libs.androidx.room.compiler)
+    ksp(libs.hilt.compiler)
 
     annotationProcessor(libs.androidx.room.compiler)
 }

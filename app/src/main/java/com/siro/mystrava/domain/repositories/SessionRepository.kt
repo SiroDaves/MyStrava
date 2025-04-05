@@ -1,10 +1,11 @@
-package com.siro.mystrava.data.repositories
+package com.siro.mystrava.domain.repositories
 
 import android.content.*
 import androidx.annotation.Keep
 import com.siro.mystrava.BuildConfig.*
 import com.siro.mystrava.R
 import com.siro.mystrava.data.models.user.*
+import com.siro.mystrava.data.repositories.ISessionRepository
 import com.siro.mystrava.data.sources.remote.SessionApi
 import kotlinx.coroutines.*
 import javax.inject.Inject

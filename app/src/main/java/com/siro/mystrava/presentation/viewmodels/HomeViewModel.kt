@@ -1,9 +1,8 @@
 package com.siro.mystrava.presentation.viewmodels
 
-import androidx.compose.runtime.mutableStateOf
+import android.util.Log
 import androidx.lifecycle.*
 import com.siro.mystrava.data.models.activites.ActivityItem
-import com.siro.mystrava.data.repositories.*
 import com.siro.mystrava.domain.repositories.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -41,12 +40,22 @@ class HomeViewModel @Inject constructor(
     fun fetchData() {
         _activityType.postValue(homeRepo.getPreferredActivity())
         viewModelScope.launch {
+            _loading.value = true
+            _error.value = null
             try {
+                Log.d("HomeViewModel", "Fetching activities...")
                 val activities = withContext(Dispatchers.IO) {
-                    homeRepo.getRecentActivities()
+                    homeRepo.getRecentActivities().also {
+                        Log.d("HomeViewModel", "Fetched ${it.size} activities")
+                    }
                 }
+
                 _activities.emit(activities)
-            } catch (e: Exception) { }
+            } catch (e: Exception) {
+                _error.value = e.localizedMessage ?: "Failed to load activities"
+            } finally {
+                _loading.value = false
+            }
         }
     }
 
@@ -70,4 +79,3 @@ class HomeViewModel @Inject constructor(
 
 enum class ActivityType { Run, Swim, Bike, All }
 enum class UnitType { Imperial, Metric }
-enum class MeasureType { Absolute, Relative }

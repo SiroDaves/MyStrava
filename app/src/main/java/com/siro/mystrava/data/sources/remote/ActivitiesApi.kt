@@ -10,10 +10,10 @@ interface ActivitiesApi {
 
     @GET("athlete/activities")
     suspend fun getRecentActivities(
-        @Query("before") before: Int?,
-        @Query("after") after: Int?,
-        @Query("per_page") count: Int = 200,
-        @Query("page") page: Int = 1
+        @Query("before") before: Int? = null,
+        @Query("after") after: Int? = null,
+        @Query("page") page: Int = 1,
+        @Query("per_page") perPage: Int = 30
     ): List<ActivityItem>
 
     @GET("athlete/activities")

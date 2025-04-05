@@ -49,11 +49,7 @@ class HomeRepository @Inject constructor(
             .toEpochSecond()
             .toInt()
 
-        activitiesApi.getRecentActivities(
-            after = oneWeekAgoEpoch,
-            before = null,
-            page = 1,
-        )
+        activitiesApi.getRecentActivities(after = oneWeekAgoEpoch)
     }
 
     suspend fun loadActivityDetails(activities: List<String>): Flow<List<Pair<String, ActivityDetail>>> =

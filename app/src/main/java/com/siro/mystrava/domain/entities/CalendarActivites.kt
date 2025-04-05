@@ -1,6 +1,7 @@
 package com.siro.mystrava.domain.entities
 
 import com.siro.mystrava.core.utils.*
+import com.siro.mystrava.core.utils.DateUtils
 import com.siro.mystrava.data.models.activites.ActivityItem
 import com.siro.mystrava.presentation.viewmodels.*
 import java.time.Month
@@ -16,7 +17,6 @@ data class CalendarActivities(
     val twoYearsAgoActivities: List<ActivityItem> = emptyList(),
     val preferredActivityType: ActivityType,
     val selectedUnitType: UnitType,
-    val preferredMeasureType: MeasureType,
     val relativePrevPrevMonthActivities: List<ActivityItem> = emptyList(),
     val relativePreviousMonthActivities: List<ActivityItem> = emptyList(),
     val relativeYearActivities: List<ActivityItem> = emptyList(),
@@ -26,8 +26,6 @@ data class CalendarActivities(
 ) {
     val lastTwoMonthsActivities: List<ActivityItem> =
         currentMonthActivities.plus(previousMonthActivities)
-
-    val calendarData = CalendarData()
 
     val weeklyDistanceMap: Pair<SummaryInfo, MutableMap<Int, Int>> = loadWeeklyDistanceMap()
 
@@ -47,7 +45,7 @@ data class CalendarActivities(
 
     private fun loadWeeklyDistanceMap(): Pair<SummaryInfo, MutableMap<Int, Int>> {
         val activitiesForTheWeek = mutableListOf<ActivityItem>()
-        calendarData.currentWeek.forEach { (monthInt, dayOfMonth) ->
+        DateUtils.currentWeek.forEach { (monthInt, dayOfMonth) ->
             activitiesForTheWeek.addAll(
                 lastTwoMonthsActivities.filter { activity ->
                     val date = activity.start_date.getDate()
@@ -66,17 +64,17 @@ data class CalendarActivities(
 
         val weeklySummaryInfoData = SummaryInfo(
             widgetTitle = " | ${
-                Month.of(calendarData.currentWeek[0].first).getDisplayName(
+                Month.of(DateUtils.currentWeek[0].first).getDisplayName(
                     TextStyle.SHORT_STANDALONE,
                     Locale.getDefault()
                 )
-            } ${calendarData.currentWeek[0].second}-" +
+            } ${DateUtils.currentWeek[0].second}-" +
                     "${
-                        Month.of(calendarData.currentWeek.last().first).getDisplayName(
+                        Month.of(DateUtils.currentWeek.last().first).getDisplayName(
                             TextStyle.SHORT_STANDALONE,
                             Locale.getDefault()
                         )
-                    }  ${calendarData.currentWeek.last().second}",
+                    }  ${DateUtils.currentWeek.last().second}",
             distance = totalWeeklyDistance.getDistanceString(selectedUnitType),
             totalTime = totalWeeklyTime.getTimeStringHoursAndMinutes(),
             elevation = activitiesForTheWeek

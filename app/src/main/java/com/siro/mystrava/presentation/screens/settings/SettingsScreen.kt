@@ -19,11 +19,10 @@ import com.siro.mystrava.presentation.viewmodels.*
 @OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalComposeUiApi
 @Composable
-fun StreakSettingsView(
+fun SettingsScreen(
     viewModel: HomeViewModel,
     selectedActivityType: ActivityType?,
     selectedUnitType: UnitType?,
-    selectedMeasureType: MeasureType?
 ) {
     Scaffold(
         topBar = {
