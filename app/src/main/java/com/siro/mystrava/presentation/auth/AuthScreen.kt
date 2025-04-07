@@ -12,7 +12,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.siro.mystrava.R
-import com.siro.mystrava.presentation.viewmodels.StravaDashboardViewModel
+import com.siro.mystrava.presentation.viewmodels.HomeViewModel
 import com.siro.mystrava.presentation.theme.primaryColorShade1
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -21,7 +21,7 @@ fun AuthScreen(
     showLoginDialog: Boolean,
     onLoginClick: () -> Unit,
     onDialogDismiss: () -> Unit,
-    viewModel: StravaDashboardViewModel
+    viewModel: HomeViewModel
 ) {
     Scaffold(
         containerColor = primaryColorShade1,

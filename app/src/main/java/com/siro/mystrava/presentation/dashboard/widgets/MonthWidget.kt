@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.siro.mystrava.R
 import com.siro.mystrava.presentation.viewmodels.ActivityType
 import com.siro.mystrava.presentation.dashboard.DashboardStat
-import com.siro.mystrava.presentation.dashboard.StreakWidgetCard
+import com.siro.mystrava.presentation.dashboard.MyStravaWidgetCard
 import com.siro.mystrava.presentation.dashboard.SummaryMetrics
 import com.siro.mystrava.presentation.viewmodels.UnitType
 import com.siro.mystrava.core.utils.getAveragePaceString
@@ -47,7 +47,7 @@ fun MonthWidget(
 ) {
     val currentMonth = YearMonth.now().month
 
-    StreakWidgetCard(
+    MyStravaWidgetCard(
         content = {
             BoxWithConstraints(
                 modifier = Modifier.padding(

@@ -7,6 +7,6 @@ pluginManagement {
     }
 }
 
-rootProject.name = "Streak"
+rootProject.name = "MyStrava"
 
 include(":app")

@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun StreakWidgetCard(onClick: (() -> Unit)? = null, content: @Composable () -> Unit) {
+fun MyStravaWidgetCard(onClick: (() -> Unit)? = null, content: @Composable () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()

@@ -22,14 +22,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.siro.mystrava.presentation.viewmodels.ActivityType
 import com.siro.mystrava.presentation.viewmodels.MeasureType
-import com.siro.mystrava.presentation.viewmodels.StravaDashboardViewModel
+import com.siro.mystrava.presentation.viewmodels.HomeViewModel
 import com.siro.mystrava.presentation.viewmodels.UnitType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalComposeUiApi
 @Composable
-fun StreakSettingsView(
-    viewModel: StravaDashboardViewModel,
+fun MyStravaSettingsView(
+    viewModel: HomeViewModel,
     selectedActivityType: ActivityType?,
     selectedUnitType: UnitType?,
     selectedMeasureType: MeasureType?
@@ -250,7 +250,7 @@ fun StreakSettingsView(
 
                     val widgetStatus by viewModel.widgetStatus
                     if (widgetStatus) {
-                        Log.d("TAG", "StreakSettingsView: TRUE")
+                        Log.d("TAG", "MyStravaSettingsView: TRUE")
                     }
 
                     Box(

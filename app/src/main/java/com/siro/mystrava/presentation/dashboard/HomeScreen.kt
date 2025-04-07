@@ -55,7 +55,7 @@ import com.siro.mystrava.presentation.theme.primaryColor
 import com.siro.mystrava.presentation.viewmodels.ActivityType
 import com.siro.mystrava.presentation.viewmodels.ActivityUiState
 import com.siro.mystrava.presentation.viewmodels.MeasureType
-import com.siro.mystrava.presentation.viewmodels.StravaDashboardViewModel
+import com.siro.mystrava.presentation.viewmodels.HomeViewModel
 import com.siro.mystrava.presentation.viewmodels.UnitType
 
 
@@ -63,7 +63,7 @@ import com.siro.mystrava.presentation.viewmodels.UnitType
 @ExperimentalComposeUiApi
 @ExperimentalFoundationApi
 @Composable
-fun StravaDashboard(viewModel: StravaDashboardViewModel, paddingValues: PaddingValues) {
+fun HomeScreen(viewModel: HomeViewModel) {
     var fetchData by rememberSaveable { mutableStateOf(0) }
 
     if (fetchData == 0) {
@@ -97,16 +97,6 @@ fun StravaDashboard(viewModel: StravaDashboardViewModel, paddingValues: PaddingV
     val weeklySnapshotDetails by viewModel.weeklyActivityDetails.observeAsState(emptyList())
 
     Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(title = {
-                Text(
-                    "Streak",
-                    style = MaterialTheme.typography.headlineMedium,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    textAlign = TextAlign.Center,
-                )
-            })
-        },
         content = {
             Box(
                 modifier = Modifier
@@ -139,9 +129,7 @@ fun StravaDashboard(viewModel: StravaDashboardViewModel, paddingValues: PaddingV
 
                         is ActivityUiState.Loading -> {
                             refreshState.isRefreshing = true
-                            Column(modifier = Modifier.fillMaxSize()) {
-
-                            }
+                            Column(modifier = Modifier.fillMaxSize()) { }
                         }
 
                         is ActivityUiState.DataLoaded -> {
@@ -150,12 +138,11 @@ fun StravaDashboard(viewModel: StravaDashboardViewModel, paddingValues: PaddingV
                                 Column(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(paddingValues = paddingValues)
                                         .verticalScroll(rememberScrollState())
                                         .background(color = MaterialTheme.colorScheme.surface)
                                 ) {
 
-                                    StreakDashboardWidget(
+                                    MyStravaDashboardWidget(
                                         content = {
                                             WeekSummaryWidget(
                                                 weeklyDistanceMap = state.calendarActivities.weeklyDistanceMap,
@@ -171,7 +158,7 @@ fun StravaDashboard(viewModel: StravaDashboardViewModel, paddingValues: PaddingV
                                         widgetName = "Week Summary"
                                     )
 
-                                    StreakDashboardWidget(
+                                    MyStravaDashboardWidget(
                                         content = {
                                             MonthWidget(
                                                 monthlyWorkouts = state.calendarActivities.currentMonthActivities,
@@ -185,7 +172,7 @@ fun StravaDashboard(viewModel: StravaDashboardViewModel, paddingValues: PaddingV
                                         }, widgetName = "Month Summary"
                                     )
 
-                                    StreakDashboardWidget(
+                                    MyStravaDashboardWidget(
                                         content = {
                                             WeekCompareWidget(
                                                 activitesList = state.calendarActivities.lastTwoMonthsActivities,
@@ -198,7 +185,7 @@ fun StravaDashboard(viewModel: StravaDashboardViewModel, paddingValues: PaddingV
                                         }, widgetName = "Week vs Week"
                                     )
 
-                                    StreakDashboardWidget(
+                                    MyStravaDashboardWidget(
                                         content = {
                                             CompareWidget(
                                                 dashboardType = DashboardType.Month,
@@ -216,7 +203,7 @@ fun StravaDashboard(viewModel: StravaDashboardViewModel, paddingValues: PaddingV
                                         }, widgetName = "Month vs Month"
                                     )
 
-                                    StreakDashboardWidget(
+                                    MyStravaDashboardWidget(
                                         content = {
                                             YearWidget(
                                                 yearMetrics = state.calendarActivities.currentYearActivities.getStats(
@@ -229,7 +216,7 @@ fun StravaDashboard(viewModel: StravaDashboardViewModel, paddingValues: PaddingV
                                         }, widgetName = "Year to Date"
                                     )
 
-                                    StreakDashboardWidget(
+                                    MyStravaDashboardWidget(
                                         content = {
                                             val yearlySummaryMetrics by viewModel.yearlySummaryMetrics.observeAsState(
                                                 initial = emptyList()
@@ -340,7 +327,7 @@ fun ColumnScope.Title(text: String) {
 
 
 @Composable
-fun StreakDashboardWidget(content: @Composable () -> Unit, widgetName: String) {
+fun MyStravaDashboardWidget(content: @Composable () -> Unit, widgetName: String) {
     Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(6.dp)) {
         Row(
             modifier = Modifier.fillMaxWidth(),

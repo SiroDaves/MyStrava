@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.siro.mystrava.core.auth.StravaSessionRepository
+import com.siro.mystrava.domain.repositories.SessionRepository
 import com.siro.mystrava.data.models.profile.*
 import com.siro.mystrava.domain.repositories.SettingsRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val settingsRepo: SettingsRepo,
-    private val stravaSessionRepository: StravaSessionRepository,
+    private val sessionRepo: SessionRepository,
 ) : ViewModel() {
 
     private var _detailedAthlete = MutableLiveData<StravaAthlete>()
@@ -36,7 +36,7 @@ class SettingsViewModel @Inject constructor(
     val widgetStatus = mutableStateOf(false)
 
     init {
-        _isLoggedIn.postValue(stravaSessionRepository.isLoggedIn())
+        _isLoggedIn.postValue(sessionRepo.isLoggedIn())
 
         viewModelScope.launch{
             settingsRepo.widgetStatus.collect{
@@ -48,7 +48,7 @@ class SettingsViewModel @Inject constructor(
     fun loginAthlete(code: String) {
         viewModelScope.launch {
             settingsRepo.authAthlete(code)
-            _isLoggedIn.postValue(stravaSessionRepository.isLoggedIn())
+            _isLoggedIn.postValue(sessionRepo.isLoggedIn())
         }
     }
 
@@ -61,7 +61,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun logOff() {
-        stravaSessionRepository.logOff()
+        sessionRepo.logOff()
         _isLoggedIn.postValue(false)
     }
 }

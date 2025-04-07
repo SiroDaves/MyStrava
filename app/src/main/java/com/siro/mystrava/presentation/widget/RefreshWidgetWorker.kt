@@ -2,19 +2,19 @@ package com.siro.mystrava.presentation.widget
 
 import android.content.Context
 import androidx.work.*
-import com.siro.mystrava.domain.repositories.StravaDashboardRepository
+import com.siro.mystrava.domain.repositories.HomeRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
 class RefreshWidgetWorker(
     appContext: Context,
     workerParams: WorkerParameters,
-    private val stravaDashboardRepository: StravaDashboardRepository
+    private val homeRepo: HomeRepository
 ) : Worker(appContext, workerParams) {
 
 
     override fun doWork(): Result {
-        stravaDashboardRepository.loadActivities()
+        homeRepo.loadActivities()
 
         // Indicate whether the work finished successfully with the Result
         return Result.success()
@@ -22,7 +22,7 @@ class RefreshWidgetWorker(
 }
 
 class RefreshWidgetWorkerFactory(
-    private val stravaDashboardRepository: StravaDashboardRepository
+    private val homeRepo: HomeRepository
 ) : WorkerFactory() {
 
     override fun createWorker(
@@ -32,7 +32,7 @@ class RefreshWidgetWorkerFactory(
     ): ListenableWorker? {
         return when (workerClassName) {
             RefreshWidgetWorker::class.java.name ->
-                RefreshWidgetWorker(appContext, workerParameters, stravaDashboardRepository)
+                RefreshWidgetWorker(appContext, workerParameters, homeRepo)
             else ->
                 // Return null, so that the base class can delegate to the default WorkerFactory.
                 null
@@ -43,9 +43,9 @@ class RefreshWidgetWorkerFactory(
 
 @Singleton
 class WidgetWorkerFactory @Inject constructor(
-    val stravaDashboardRepository: StravaDashboardRepository
+    val homeRepo: HomeRepository
 ) : DelegatingWorkerFactory() {
     init {
-        addFactory(RefreshWidgetWorkerFactory(stravaDashboardRepository))
+        addFactory(RefreshWidgetWorkerFactory(homeRepo))
     }
 }

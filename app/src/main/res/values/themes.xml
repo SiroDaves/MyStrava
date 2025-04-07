@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Streak" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.MyStrava" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryVariant">@color/color_primary_variant</item>
@@ -39,19 +39,19 @@
 
         <!-- Set the theme of the Activity that directly follows your splash screen. -->
         <!-- Required -->
-        <item name="postSplashScreenTheme">@style/Theme.Streak</item>
+        <item name="postSplashScreenTheme">@style/Theme.MyStrava</item>
     </style>
 
-    <style name="Theme.Streak.NoActionBar">
+    <style name="Theme.MyStrava.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.Streak.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.MyStrava.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="Theme.Streak.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.MyStrava.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="SplashTheme" parent="Theme.Streak.NoActionBar">
+    <style name="SplashTheme" parent="Theme.MyStrava.NoActionBar">
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
 </resources>

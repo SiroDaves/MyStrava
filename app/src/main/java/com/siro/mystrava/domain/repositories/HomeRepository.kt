@@ -34,7 +34,7 @@ import javax.inject.Singleton
 import kotlin.math.abs
 
 @Singleton
-class StravaDashboardRepository @Inject constructor(
+class HomeRepository @Inject constructor(
     val context: Context,
     private val activitiesApi: ActivitiesApi
 ) : SharedPreferences.OnSharedPreferenceChangeListener {

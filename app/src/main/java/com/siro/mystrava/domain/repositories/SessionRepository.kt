@@ -1,17 +1,19 @@
-package com.siro.mystrava.core.auth
+package com.siro.mystrava.domain.repositories
 
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.annotation.Keep
 import com.siro.mystrava.BuildConfig.*
 import com.siro.mystrava.R
+import com.siro.mystrava.core.auth.ISessionRepository
+import com.siro.mystrava.core.auth.Session
 import com.siro.mystrava.data.models.auth.TokenResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @Keep
-class StravaSessionRepository @Inject constructor(
+class SessionRepository @Inject constructor(
     val context: Context,
     private val session: Session
 ) : ISessionRepository {

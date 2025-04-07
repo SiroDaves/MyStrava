@@ -24,7 +24,7 @@ import com.siro.mystrava.presentation.dashboard.DashboardStat
 import com.siro.mystrava.presentation.dashboard.MonthTextStat
 import com.siro.mystrava.presentation.dashboard.PercentDelta
 import com.siro.mystrava.presentation.dashboard.StatType
-import com.siro.mystrava.presentation.dashboard.StreakWidgetCard
+import com.siro.mystrava.presentation.dashboard.MyStravaWidgetCard
 import com.siro.mystrava.presentation.dashboard.SummaryMetrics
 import com.siro.mystrava.presentation.viewmodels.UnitType
 import com.siro.mystrava.core.utils.getAveragePaceFromDistance
@@ -44,7 +44,7 @@ fun WeekCompareWidget(
     monthWeekMap: MutableMap<Int, MutableList<Pair<Int, Int>>>,
     isLoading: Boolean,
 ) {
-    StreakWidgetCard(
+    MyStravaWidgetCard(
         content = {
             BoxWithConstraints(
                 modifier = Modifier.padding(
@@ -169,7 +169,7 @@ fun WeekCompareWidget(
                             )
                             Log.d(
                                 "TAG",
-                                "StravaDashboard: $count, ${
+                                "HomeScreen: $count, ${
                                     distance.getDistanceString(
                                         selectedUnitType!!
                                     )

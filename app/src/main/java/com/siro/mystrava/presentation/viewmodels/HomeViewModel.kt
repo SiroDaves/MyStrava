@@ -6,9 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.siro.mystrava.core.auth.StravaSessionRepository
+import com.siro.mystrava.domain.repositories.SessionRepository
 import com.siro.mystrava.data.models.activitydetail.StravaActivityDetail
-import com.siro.mystrava.domain.repositories.StravaDashboardRepository
+import com.siro.mystrava.domain.repositories.HomeRepository
 import com.siro.mystrava.presentation.dashboard.SummaryMetrics
 import com.siro.mystrava.domain.entities.CalendarActivities
 import com.siro.mystrava.domain.entities.CalendarData
@@ -25,9 +25,9 @@ import retrofit2.HttpException
 import javax.inject.Inject
 
 @HiltViewModel
-class StravaDashboardViewModel @Inject constructor(
-    private val stravaDashboardRepository: StravaDashboardRepository,
-    private val stravaSessionRepository: StravaSessionRepository,
+class HomeViewModel @Inject constructor(
+    private val homeRepo: HomeRepository,
+    private val sessionRepo: SessionRepository,
     private val settingsRepo: SettingsRepo,
 ) : ViewModel() {
 
@@ -58,18 +58,18 @@ class StravaDashboardViewModel @Inject constructor(
     val yearlySummaryMetrics: MutableLiveData<List<SummaryMetrics>> = _yearlySummaryMetrics
 
     init {
-        _isLoggedInStrava.postValue(stravaSessionRepository.isLoggedIn())
+        _isLoggedInStrava.postValue(sessionRepo.isLoggedIn())
     }
 
     fun fetchData() {
         _activityUiState.tryEmit(ActivityUiState.Loading)
 
-        _activityType.postValue(stravaDashboardRepository.getPreferredActivity())
+        _activityType.postValue(homeRepo.getPreferredActivity())
 
-        _unitType.postValue(stravaDashboardRepository.getPreferredUnitType())
+        _unitType.postValue(homeRepo.getPreferredUnitType())
 
         viewModelScope.launch {
-            stravaDashboardRepository.loadActivities(
+            homeRepo.loadActivities(
                 after = null,
                 before = calendarData.currentYear.first,
             ).catch { exception ->
@@ -88,7 +88,7 @@ class StravaDashboardViewModel @Inject constructor(
 
                 yearlySummaryMetrics(currentYearActivities)
 
-                stravaDashboardRepository.widgetStatus.collect {
+                homeRepo.widgetStatus.collect {
                     widgetStatus.value = it
                 }
 
@@ -115,39 +115,39 @@ class StravaDashboardViewModel @Inject constructor(
     fun loginAthlete(code: String) {
         viewModelScope.launch {
             settingsRepo.authAthlete(code)
-            _isLoggedInStrava.postValue(stravaSessionRepository.isLoggedIn())
+            _isLoggedInStrava.postValue(sessionRepo.isLoggedIn())
         }
     }
 
     fun logout() {
-        stravaSessionRepository.logOff()
+        sessionRepo.logOff()
         _isLoggedInStrava.postValue(false)
     }
 
     fun updateSelectedActivity(activityType: ActivityType) {
-        stravaDashboardRepository.savePreferredActivity(activityType)
-        _activityType.postValue(stravaDashboardRepository.getPreferredActivity())
+        homeRepo.savePreferredActivity(activityType)
+        _activityType.postValue(homeRepo.getPreferredActivity())
     }
 
     fun updateSelectedUnit(unitType: UnitType) {
-        stravaDashboardRepository.savePreferredUnits(unitType = unitType)
-        _unitType.postValue(stravaDashboardRepository.getPreferredUnitType())
+        homeRepo.savePreferredUnits(unitType = unitType)
+        _unitType.postValue(homeRepo.getPreferredUnitType())
     }
 
     fun updateMeasureType(measureType: MeasureType) {
-        stravaDashboardRepository.saveMeasureType(measureType = measureType)
-        _measureType.postValue(stravaDashboardRepository.getPreferredMeasureType())
+        homeRepo.saveMeasureType(measureType = measureType)
+        _measureType.postValue(homeRepo.getPreferredMeasureType())
 
     }
 
     fun saveWeeklyStats(weeklyDistance: String, weeklyElevation: String) {
-        stravaDashboardRepository.saveWeeklyDistance(weeklyDistance, weeklyElevation)
+        homeRepo.saveWeeklyDistance(weeklyDistance, weeklyElevation)
     }
 
     fun loadWeekActivityDetails(weeklyActivityIds : List<String>) {
         Log.d("TAG", "loadWeekActivityDetails: $weeklyActivityIds")
         viewModelScope.launch {
-            stravaDashboardRepository.loadActivityDetails(weeklyActivityIds)
+            homeRepo.loadActivityDetails(weeklyActivityIds)
                 .collectLatest {
                     _weeklyActivityDetails.postValue(it.map { it.second })
                 }

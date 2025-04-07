@@ -2,8 +2,8 @@ package com.siro.mystrava.core.di
 
 import android.content.Context
 import androidx.work.Configuration
-import com.siro.mystrava.domain.repositories.StravaDashboardRepository
-import com.siro.mystrava.core.auth.StravaSessionRepository
+import com.siro.mystrava.domain.repositories.HomeRepository
+import com.siro.mystrava.domain.repositories.SessionRepository
 import com.siro.mystrava.data.sources.remote.ActivitiesApi
 import com.siro.mystrava.data.sources.remote.AthleteApi
 import com.siro.mystrava.domain.repositories.SettingsRepo
@@ -24,8 +24,8 @@ class AppModule {
     fun provideDashboardRepository(
         @ApplicationContext context: Context,
         activitiesApi: ActivitiesApi
-    ): StravaDashboardRepository =
-        StravaDashboardRepository(
+    ): HomeRepository =
+        HomeRepository(
             context,
             activitiesApi
         )
@@ -33,7 +33,7 @@ class AppModule {
     @Provides
     @Singleton
     fun provideSettingsRepository(
-        settingsRepoImpl: StravaSessionRepository,
+        settingsRepoImpl: SessionRepository,
         athleteApi: AthleteApi,
         @ApplicationContext context: Context,
     ): SettingsRepo =

@@ -49,7 +49,7 @@ val LightColorScheme = lightColorScheme(
 
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
-fun StreakTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
+fun MyStravaTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
 
     // Dynamic color is available on Android 12+
     val dynamicColor = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S

@@ -55,7 +55,7 @@ class WeeklyStatsWidget : GlanceAppWidget() {
                     verticalAlignment = Alignment.Vertical.CenterVertically
                 ) {
                     Text(
-                        text = "Streak",
+                        text = "MyStrava",
                         style = TextStyle(
                             color = ColorProvider(MaterialTheme.colorScheme.primary),
                             fontSize = MaterialTheme.typography.headlineSmall.fontSize,

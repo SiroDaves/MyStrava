@@ -4,7 +4,7 @@ import android.content.Context
 import com.siro.mystrava.BuildConfig
 import com.siro.mystrava.core.auth.AuthorizationInterceptor
 import com.siro.mystrava.core.auth.Session
-import com.siro.mystrava.core.auth.StravaSessionRepository
+import com.siro.mystrava.domain.repositories.SessionRepository
 import com.siro.mystrava.core.auth.TokenAuthenticator
 import com.siro.mystrava.core.utils.ApiConstants
 import com.siro.mystrava.data.sources.remote.ActivitiesApi
@@ -53,8 +53,8 @@ object NetworkModule {
     fun providesSessionRepository(
         @ApplicationContext context: Context,
         session: Session
-    ): StravaSessionRepository =
-        StravaSessionRepository(context, session)
+    ): SessionRepository =
+        SessionRepository(context, session)
 
     @Provides
     @Named("stravaApi")
