@@ -1,7 +1,23 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="jbr-21" project-jdk-type="JavaSDK">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/jtmac/Documents/Android/streak/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.23489583333333333" />
+        <entry key="..\:/Users/jtmac/Documents/Android/streak/app/src/main/res/drawable/background.xml" value="0.403125" />
+        <entry key="..\:/Users/jtmac/Documents/Android/streak/app/src/main/res/drawable/ic_up_right.xml" value="0.3890625" />
+        <entry key="..\:/Users/jtmac/Documents/Android/streak/app/src/main/res/drawable/splash.xml" value="0.30462962962962964" />
+        <entry key="..\:/Users/jtmac/Documents/Android/streak/app/src/main/res/layout/compose_view.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/jtmac/Documents/Android/streak/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.23489583333333333" />
+        <entry key="..\:/Users/jtmac/Documents/Android/streak/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.403125" />
+        <entry key="..\:/Users/jtmac/Documents/Android/streak/app/src/main/res/xml/filepaths.xml" value="0.38697916666666665" />
+        <entry key="app/src/main/res/drawable/outline_speed_24.xml" value="0.26197916666666665" />
+        <entry key="app/src/main/res/drawable/splash.xml" value="0.2984375" />
+        <entry key="app/src/main/res/layout/compose_view.xml" value="0.15942028985507245" />
+        <entry key="app/src/main/res/xml/widgetinfo.xml" value="0.17028985507246377" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

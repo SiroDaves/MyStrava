@@ -2,10 +2,15 @@ package com.siro.mystrava.core.di
 
 import android.content.Context
 import androidx.work.Configuration
-import com.siro.mystrava.data.sources.remote.*
-import com.siro.mystrava.domain.repositories.*
-import com.siro.mystrava.presentation.widgets.WidgetWorkerFactory
-import dagger.*
+import com.siro.mystrava.domain.repositories.StravaDashboardRepository
+import com.siro.mystrava.core.auth.StravaSessionRepository
+import com.siro.mystrava.data.sources.remote.ActivitiesApi
+import com.siro.mystrava.data.sources.remote.AthleteApi
+import com.siro.mystrava.domain.repositories.SettingsRepo
+import com.siro.mystrava.domain.repositories.SettingsRepoImpl
+import com.siro.mystrava.presentation.widget.WidgetWorkerFactory
+import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
@@ -16,23 +21,27 @@ import javax.inject.Singleton
 class AppModule {
     @Provides
     @Singleton
-    fun provideHomeRepo(
+    fun provideDashboardRepository(
         @ApplicationContext context: Context,
-        api: ActivitiesApi
-    ): HomeRepository = HomeRepository( context, api )
+        activitiesApi: ActivitiesApi
+    ): StravaDashboardRepository =
+        StravaDashboardRepository(
+            context,
+            activitiesApi
+        )
 
     @Provides
     @Singleton
-    fun provideSettingsRepo(
-        settingsRepoImpl: SessionRepository,
-        api: AthleteApi,
+    fun provideSettingsRepository(
+        settingsRepoImpl: StravaSessionRepository,
+        athleteApi: AthleteApi,
         @ApplicationContext context: Context,
-    ): SettingsRepository =
-        SettingsRepositoryImpl(settingsRepoImpl, api, context)
+    ): SettingsRepo =
+        SettingsRepoImpl(settingsRepoImpl, athleteApi, context)
 
     @Singleton
     @Provides
-    fun provideWorkManagerConfig(
+    fun provideWorkManagerConfiguration(
         widgetWorkerFactory: WidgetWorkerFactory
     ): Configuration {
         return Configuration.Builder()

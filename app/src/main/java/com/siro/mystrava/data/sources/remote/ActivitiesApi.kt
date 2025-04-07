@@ -2,18 +2,17 @@ package com.siro.mystrava.data.sources.remote
 
 import androidx.annotation.Keep
 import com.siro.mystrava.data.models.activites.ActivityItem
-import com.siro.mystrava.data.models.detail.ActivityDetail
+import com.siro.mystrava.data.models.activitydetail.StravaActivityDetail
 import retrofit2.http.*
 
 @Keep
 interface ActivitiesApi {
 
     @GET("athlete/activities")
-    suspend fun getRecentActivities(
-        @Query("before") before: Int? = null,
-        @Query("after") after: Int? = null,
-        @Query("page") page: Int = 1,
-        @Query("per_page") perPage: Int = 30
+    suspend fun getAthleteActivitiesAfter(
+        @Query("after") after: Int,
+        @Query("per_page") count: Int = 200,
+        @Query("page") page: Int = 1
     ): List<ActivityItem>
 
     @GET("athlete/activities")
@@ -27,6 +26,6 @@ interface ActivitiesApi {
     @GET("activities/{id}")
     suspend fun getActivityDetail(
         @Path("id") activityId: String
-    ): ActivityDetail
+    ): StravaActivityDetail
 
 }

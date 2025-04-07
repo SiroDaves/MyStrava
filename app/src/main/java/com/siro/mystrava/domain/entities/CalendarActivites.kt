@@ -1,9 +1,14 @@
 package com.siro.mystrava.domain.entities
 
-import com.siro.mystrava.core.utils.*
-import com.siro.mystrava.core.utils.DateUtils
-import com.siro.mystrava.data.models.activites.ActivityItem
 import com.siro.mystrava.presentation.viewmodels.*
+import com.siro.mystrava.presentation.viewmodels.UnitType
+import com.siro.mystrava.presentation.dashboard.getStats
+import com.siro.mystrava.core.utils.getAveragePaceString
+import com.siro.mystrava.core.utils.getDate
+import com.siro.mystrava.core.utils.getDistanceString
+import com.siro.mystrava.core.utils.getElevationString
+import com.siro.mystrava.core.utils.getTimeStringHoursAndMinutes
+import com.siro.mystrava.data.models.activites.ActivityItem
 import java.time.Month
 import java.time.format.TextStyle
 import java.util.Locale
@@ -17,6 +22,7 @@ data class CalendarActivities(
     val twoYearsAgoActivities: List<ActivityItem> = emptyList(),
     val preferredActivityType: ActivityType,
     val selectedUnitType: UnitType,
+    val preferredMeasureType: MeasureType,
     val relativePrevPrevMonthActivities: List<ActivityItem> = emptyList(),
     val relativePreviousMonthActivities: List<ActivityItem> = emptyList(),
     val relativeYearActivities: List<ActivityItem> = emptyList(),
@@ -27,9 +33,11 @@ data class CalendarActivities(
     val lastTwoMonthsActivities: List<ActivityItem> =
         currentMonthActivities.plus(previousMonthActivities)
 
+    val calendarData = CalendarData()
+
     val weeklyDistanceMap: Pair<SummaryInfo, MutableMap<Int, Int>> = loadWeeklyDistanceMap()
 
-    /*val monthlySummaryMetrics = buildList {
+    val monthlySummaryMetrics = buildList {
         if (preferredMeasureType == MeasureType.Absolute) {
             add(currentMonthActivities.getStats(preferredActivityType))
             add(previousMonthActivities.getStats(preferredActivityType))
@@ -39,13 +47,13 @@ data class CalendarActivities(
             add(relativePreviousMonthActivities.getStats(preferredActivityType))
             add(relativePrevPrevMonthActivities.getStats(preferredActivityType))
         }
-    }*/
+    }
 
     lateinit var weeklyActivityIds: MutableList<Long>
 
     private fun loadWeeklyDistanceMap(): Pair<SummaryInfo, MutableMap<Int, Int>> {
         val activitiesForTheWeek = mutableListOf<ActivityItem>()
-        DateUtils.currentWeek.forEach { (monthInt, dayOfMonth) ->
+        calendarData.currentWeek.forEach { (monthInt, dayOfMonth) ->
             activitiesForTheWeek.addAll(
                 lastTwoMonthsActivities.filter { activity ->
                     val date = activity.start_date.getDate()
@@ -64,17 +72,17 @@ data class CalendarActivities(
 
         val weeklySummaryInfoData = SummaryInfo(
             widgetTitle = " | ${
-                Month.of(DateUtils.currentWeek[0].first).getDisplayName(
+                Month.of(calendarData.currentWeek[0].first).getDisplayName(
                     TextStyle.SHORT_STANDALONE,
                     Locale.getDefault()
                 )
-            } ${DateUtils.currentWeek[0].second}-" +
+            } ${calendarData.currentWeek[0].second}-" +
                     "${
-                        Month.of(DateUtils.currentWeek.last().first).getDisplayName(
+                        Month.of(calendarData.currentWeek.last().first).getDisplayName(
                             TextStyle.SHORT_STANDALONE,
                             Locale.getDefault()
                         )
-                    }  ${DateUtils.currentWeek.last().second}",
+                    }  ${calendarData.currentWeek.last().second}",
             distance = totalWeeklyDistance.getDistanceString(selectedUnitType),
             totalTime = totalWeeklyTime.getTimeStringHoursAndMinutes(),
             elevation = activitiesForTheWeek

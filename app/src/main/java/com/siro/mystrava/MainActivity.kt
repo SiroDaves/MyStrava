@@ -1,67 +1,66 @@
 package com.siro.mystrava
 
-import android.os.*
+import android.os.Build
+import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.annotation.*
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.annotation.Keep
+import androidx.annotation.RequiresApi
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import com.siro.mystrava.presentation.screens.auth.AuthScreen
-import com.siro.mystrava.presentation.screens.home.HomeScreen
-import com.siro.mystrava.presentation.theme.*
-import com.siro.mystrava.presentation.viewmodels.HomeViewModel
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.ExperimentalComposeUiApi
+import com.siro.mystrava.presentation.auth.AuthScreen
+import com.siro.mystrava.presentation.dashboard.StravaDashboard
+import com.siro.mystrava.presentation.viewmodels.StravaDashboardViewModel
+import com.siro.mystrava.presentation.theme.Material3Theme
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
+
+@ExperimentalComposeUiApi
+@ExperimentalFoundationApi
+@Keep
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val viewModel: HomeViewModel by viewModels()
+    private val viewModel: StravaDashboardViewModel by viewModels()
 
     @OptIn(ExperimentalMaterial3Api::class)
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val code = intent?.data?.getQueryParameter("code")
-        if (!code.isNullOrEmpty()) {
-            Timber.d("Auth: code $code")
-            viewModel.loginAthlete(code)
-        }
-
         setContent {
-            Material3Theme {
-                val isLoggedIn by viewModel.isLoggedInStrava.observeAsState()
-                val isLoggingIn by viewModel.loginInProgress.collectAsState()
 
-                when {
-                    isLoggingIn -> {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            CircularProgressIndicator(
-                                modifier = Modifier.size(64.dp),
-                                strokeWidth = 6.dp
-                            )
-                        }
-                    }
-                    isLoggedIn == true -> {
-                        HomeScreen(viewModel = viewModel)
-                    }
-                    else -> {
-                        AuthScreen()
+            Material3Theme(content = {
+                val isLoggedIn by viewModel.isLoggedInStrava.observeAsState()
+                var showLoginDialog by remember { mutableStateOf(false) }
+
+                isLoggedIn?.let {
+                    if (it) {
+                        Scaffold(
+                            content = { paddingValues ->
+                                StravaDashboard(
+                                    viewModel = viewModel,
+                                    paddingValues = paddingValues
+                                )
+                            },
+                        )
+                    } else {
+                        AuthScreen(
+                            showLoginDialog = showLoginDialog,
+                            onLoginClick = { showLoginDialog = true },
+                            onDialogDismiss = { showLoginDialog = false },
+                            viewModel = viewModel
+                        )
                     }
                 }
-            }
+            })
         }
     }
 }
