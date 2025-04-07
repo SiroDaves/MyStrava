@@ -20,19 +20,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.siro.mystrava.R
 import com.siro.mystrava.presentation.viewmodels.ActivityType
-import com.siro.mystrava.presentation.dashboard.DashboardStat
-import com.siro.mystrava.presentation.dashboard.MonthTextStat
-import com.siro.mystrava.presentation.dashboard.PercentDelta
-import com.siro.mystrava.presentation.dashboard.StatType
-import com.siro.mystrava.presentation.dashboard.MyStravaWidgetCard
-import com.siro.mystrava.presentation.dashboard.SummaryMetrics
+import com.siro.mystrava.presentation.dashboard.*
 import com.siro.mystrava.presentation.viewmodels.UnitType
-import com.siro.mystrava.core.utils.getAveragePaceFromDistance
-import com.siro.mystrava.core.utils.getAveragePaceString
-import com.siro.mystrava.core.utils.getDate
-import com.siro.mystrava.core.utils.getDistanceString
-import com.siro.mystrava.core.utils.getElevationString
-import com.siro.mystrava.core.utils.getTimeStringHoursAndMinutes
+import com.siro.mystrava.core.utils.*
 import com.siro.mystrava.data.models.activites.ActivityItem
 
 @Composable

@@ -45,7 +45,6 @@ fun HomeScreenWidgets1(
             },
             widgetName = "Week Summary"
         )
-
         MyStravaWidget(
             content = {
                 MonthWidget(
@@ -59,7 +58,6 @@ fun HomeScreenWidgets1(
                 )
             }, widgetName = "Month Summary"
         )
-
         MyStravaWidget(
             content = {
                 WeekCompareWidget(
@@ -72,7 +70,6 @@ fun HomeScreenWidgets1(
                 )
             }, widgetName = "Week vs Week"
         )
-
         MyStravaWidget(
             content = {
                 CompareWidget(
@@ -90,7 +87,6 @@ fun HomeScreenWidgets1(
                 )
             }, widgetName = "Month vs Month"
         )
-
         MyStravaWidget(
             content = {
                 YearWidget(
@@ -103,7 +99,6 @@ fun HomeScreenWidgets1(
                 )
             }, widgetName = "Year to Date"
         )
-
         MyStravaWidget(
             content = {
                 val yearlySummaryMetrics by viewModel.yearlySummaryMetrics.observeAsState(
