@@ -5,6 +5,7 @@ import com.siro.mystrava.domain.repositories.SessionRepository
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
+import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
 
@@ -21,6 +22,8 @@ class AuthorizationInterceptor @Inject constructor(val sessionRepo: SessionRepos
 
         val token = sessionRepo.getAccessToken()
         val original = chain.request()
+        Timber.d("Access token: $token")
+
         val requestBuilder = original.newBuilder()
             .header("Accept", "application/json")
             .header("Authorization", "Bearer $token")

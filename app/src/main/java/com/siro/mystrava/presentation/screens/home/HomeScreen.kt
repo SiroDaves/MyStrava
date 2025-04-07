@@ -15,6 +15,7 @@ import com.siro.mystrava.presentation.screens.home.widgets.*
 import com.siro.mystrava.presentation.theme.primaryColor
 import com.siro.mystrava.presentation.viewmodels.*
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(viewModel: HomeViewModel) {
     val activities by viewModel.activities.collectAsState(initial = emptyList())
@@ -28,11 +29,14 @@ fun HomeScreen(viewModel: HomeViewModel) {
 
     Scaffold(
         topBar = {
-            Text(
-                "My Strava",
-                style = MaterialTheme.typography.headlineMedium,
-                color = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.fillMaxWidth()
+            TopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.primary,
+                ),
+                title = {
+                    Text("My Strava")
+                }
             )
         },
     ) { innerPadding ->

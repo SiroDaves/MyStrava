@@ -5,6 +5,7 @@ import androidx.annotation.Keep
 import com.siro.mystrava.domain.repositories.SessionRepository
 import kotlinx.coroutines.runBlocking
 import okhttp3.*
+import timber.log.Timber
 import javax.inject.Inject
 
 @Keep
@@ -19,8 +20,7 @@ class TokenAuthenticator @Inject constructor(val stravaSessionRepository: Sessio
             .header("Authorization", "Bearer $updatedToken")
             .build()
 
-        Log.d("TAG", "authenticate: ${newRequest.headers.names().toString()}")
-
+        Timber.d("authenticate: ${newRequest.headers.names().toString()}")
         return newRequest
     }
 

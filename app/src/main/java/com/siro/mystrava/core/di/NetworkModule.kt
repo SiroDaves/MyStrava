@@ -11,9 +11,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import timber.log.Timber
 import javax.inject.*
 
 @InstallIn(SingletonComponent::class)
@@ -46,8 +46,7 @@ object NetworkModule {
     fun providesSessionRepository(
         @ApplicationContext context: Context,
         api: SessionApi
-    ): SessionRepository =
-        SessionRepository(context, api)
+    ): SessionRepository = SessionRepository(context, api)
 
     @Provides
     @Named("stravaApi")
@@ -84,13 +83,26 @@ object NetworkModule {
     @Reusable
     @JvmStatic
     internal fun provideOkHttp(): OkHttpClient.Builder {
-        val logging = HttpLoggingInterceptor()
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY)
-
         val okHttpClient = OkHttpClient.Builder()
+
         if (BuildConfig.DEBUG) {
-            okHttpClient.addInterceptor(logging)
+            okHttpClient.addInterceptor { chain ->
+                val request = chain.request()
+                Timber.d("Request: ${request.method} ${request.url}")
+                Timber.d("Headers: ${request.headers}")
+
+                val response = chain.proceed(request)
+
+                Timber.d("Response Code: ${response.code}")
+                Timber.d("Response Headers: ${response.headers}")
+                val responseBody = response.peekBody(Long.MAX_VALUE)
+                Timber.d("Response Body: ${responseBody.string()}")
+
+                response
+            }
         }
+
         return okHttpClient
     }
+
 }

@@ -34,7 +34,6 @@ class SessionRepository @Inject constructor(
             setRefreshToken(firstToken.refresh_token)
             firstToken
         }
-
         return firstToken
     }
 

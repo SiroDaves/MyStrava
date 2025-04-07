@@ -12,3 +12,4 @@ interface SettingsRepository {
 
     suspend fun fetchAthleteStats(id: String): AthleteStats?
 }
+

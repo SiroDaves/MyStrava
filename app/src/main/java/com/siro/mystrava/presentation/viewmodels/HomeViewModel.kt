@@ -1,20 +1,18 @@
 package com.siro.mystrava.presentation.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.siro.mystrava.data.models.activites.ActivityItem
 import com.siro.mystrava.domain.repositories.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val homeRepo: HomeRepository,
-    private val sessionRepository: SessionRepository,
+    private val sessionRepo: SessionRepository,
     private val settingsRepo: SettingsRepository,
 ) : ViewModel() {
 
@@ -33,8 +31,12 @@ class HomeViewModel @Inject constructor(
     var _activityType: MutableLiveData<ActivityType> = MutableLiveData()
     var activityType: LiveData<ActivityType> = _activityType
 
+    // ✅ Add login in progress state
+    private val _loginInProgress = MutableStateFlow(false)
+    val loginInProgress: StateFlow<Boolean> get() = _loginInProgress
+
     init {
-        _isLoggedInStrava.postValue(sessionRepository.isLoggedIn())
+        _isLoggedInStrava.postValue(sessionRepo.isLoggedIn())
     }
 
     fun fetchData() {
@@ -43,10 +45,10 @@ class HomeViewModel @Inject constructor(
             _loading.value = true
             _error.value = null
             try {
-                Log.d("HomeViewModel", "Fetching activities...")
+                Timber.d("Fetching activities...")
                 val activities = withContext(Dispatchers.IO) {
                     homeRepo.getRecentActivities().also {
-                        Log.d("HomeViewModel", "Fetched ${it.size} activities")
+                        Timber.d("Fetched ${it.size} activities")
                     }
                 }
 
@@ -61,13 +63,23 @@ class HomeViewModel @Inject constructor(
 
     fun loginAthlete(code: String) {
         viewModelScope.launch {
-            settingsRepo.authAthlete(code)
-            _isLoggedInStrava.postValue(sessionRepository.isLoggedIn())
+            _loginInProgress.value = true
+            try {
+                settingsRepo.authAthlete(code)
+                Timber.d("Login successful")
+                _isLoggedInStrava.postValue(sessionRepo.isLoggedIn())
+            } catch (e: Exception) {
+                Timber.e(e, "Login failed")
+                _isLoggedInStrava.postValue(false)
+                _error.value = e.localizedMessage ?: "Login failed"
+            } finally {
+                _loginInProgress.value = false
+            }
         }
     }
 
     fun logout() {
-        sessionRepository.logOff()
+        sessionRepo.logOff()
         _isLoggedInStrava.postValue(false)
     }
 

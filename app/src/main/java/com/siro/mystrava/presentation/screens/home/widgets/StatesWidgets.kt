@@ -21,7 +21,7 @@ fun LoadingState() {
                 strokeWidth = 4.dp
             )
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = "Loading venues...", fontSize = 16.sp, color = Color.Gray)
+            Text(text = "Loading data ...", fontSize = 16.sp, color = Color.Gray)
         }
     }
 }

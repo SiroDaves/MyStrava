@@ -111,6 +111,7 @@ dependencies {
     debugImplementation(libs.compose.ui.tooling)
 
     implementation(libs.androidx.room.runtime)
+    implementation(libs.jakewharton.timber)
 
     ksp(libs.androidx.room.compiler)
     ksp(libs.hilt.compiler)

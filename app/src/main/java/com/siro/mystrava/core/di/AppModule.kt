@@ -2,8 +2,8 @@ package com.siro.mystrava.core.di
 
 import android.content.Context
 import androidx.work.Configuration
-import com.siro.mystrava.domain.repositories.*
 import com.siro.mystrava.data.sources.remote.*
+import com.siro.mystrava.domain.repositories.*
 import com.siro.mystrava.presentation.widgets.WidgetWorkerFactory
 import dagger.*
 import dagger.hilt.InstallIn
