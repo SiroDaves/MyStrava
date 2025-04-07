@@ -2,24 +2,15 @@ package com.siro.mystrava.presentation.viewmodels
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.siro.mystrava.domain.repositories.SessionRepository
 import com.siro.mystrava.data.models.activitydetail.StravaActivityDetail
 import com.siro.mystrava.domain.repositories.HomeRepository
-import com.siro.mystrava.presentation.dashboard.SummaryMetrics
-import com.siro.mystrava.domain.entities.CalendarActivities
-import com.siro.mystrava.domain.entities.CalendarData
-import com.siro.mystrava.presentation.dashboard.getStats
+import com.siro.mystrava.domain.entities.*
 import com.siro.mystrava.domain.repositories.SettingsRepo
+import com.siro.mystrava.presentation.dashboard.widgets.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -69,6 +60,7 @@ class HomeViewModel @Inject constructor(
         _unitType.postValue(homeRepo.getPreferredUnitType())
 
         viewModelScope.launch {
+            homeRepo.getRecentActivities()
             homeRepo.loadActivities(
                 after = null,
                 before = calendarData.currentYear.first,
