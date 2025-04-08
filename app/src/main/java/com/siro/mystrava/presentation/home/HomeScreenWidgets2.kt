@@ -1,21 +1,21 @@
-package com.siro.mystrava.presentation.dashboard
+package com.siro.mystrava.presentation.home
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.*
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.siro.mystrava.data.models.activitydetail.StravaActivityDetail
-import com.siro.mystrava.presentation.dashboard.widgets.*
-import com.siro.mystrava.presentation.viewmodels.*
+import androidx.compose.ui.unit.sp
+import com.siro.mystrava.data.models.activites.ActivityItem
+import com.siro.mystrava.data.models.detail.ActivityDetail
 
 @Composable
 fun HomeScreenWidgets2(
-    weeklySnapshotDetails: List<StravaActivityDetail>,
+    weeklySnapshotDetails: List<ActivityDetail>,
 ) {
 
     Column(
@@ -64,6 +64,38 @@ fun HomeScreenWidgets2(
                 Text("Avg Bpm")
                 Text("${bpm.div(weeklySnapshotDetails.size)} bpm")
             }
+        }
+    }
+}
+
+@Composable
+fun Workout(activity: ActivityItem) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 16.dp)
+        ) {
+            Text(
+                text = activity.type,
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp
+            )
+            Text(
+                text = activity.type,
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp
+            )
+            Text(
+                text = activity.distance.toString(),
+                fontSize = 14.sp,
+                //color = Color.Gray
+            )
         }
     }
 }

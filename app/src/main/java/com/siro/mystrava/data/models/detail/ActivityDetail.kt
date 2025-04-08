@@ -1,8 +1,8 @@
-package com.siro.mystrava.data.models.activitydetail
+package com.siro.mystrava.data.models.detail
 
 import java.io.Serializable
 
-data class StravaActivityDetail(
+data class ActivityDetail(
     val achievement_count: Int,
     val athlete: Athlete,
     val athlete_count: Int,
@@ -65,7 +65,6 @@ data class StravaActivityDetail(
     val utc_offset: Int,
     val weighted_average_watts: Int,
     val workout_type: Int,
-
     var miles: String,
     var formattedDate: String,
     var duration: String

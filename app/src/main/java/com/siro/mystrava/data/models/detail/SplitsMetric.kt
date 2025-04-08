@@ -1,4 +1,4 @@
-package com.siro.mystrava.data.models.activitydetail
+package com.siro.mystrava.data.models.detail
 
 data class SplitsMetric(
     val average_speed: Float,

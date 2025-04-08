@@ -1,22 +1,22 @@
-package com.siro.mystrava.data.models.activitydetail
+package com.siro.mystrava.data.models.detail
 
-data class Lap(
+data class SegmentEffort(
+    val achievements: List<Any>,
     val average_cadence: Double,
-    val average_speed: Double,
     val average_watts: Double,
     val device_watts: Boolean,
     val distance: Double,
     val elapsed_time: Int,
     val end_index: Int,
+    val hidden: Boolean,
     val id: Long,
-    val lap_index: Int,
-    val max_speed: Double,
+    val kom_rank: Any,
     val moving_time: Int,
     val name: String,
+    val pr_rank: Any,
     val resource_state: Int,
-    val split: Int,
+    val segment: Segment,
     val start_date: String,
     val start_date_local: String,
-    val start_index: Int,
-    val total_elevation_gain: Double
+    val start_index: Int
 )

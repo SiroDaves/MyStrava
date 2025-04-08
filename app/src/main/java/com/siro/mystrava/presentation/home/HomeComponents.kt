@@ -1,4 +1,4 @@
-package com.siro.mystrava.presentation.dashboard
+package com.siro.mystrava.presentation.home
 
 import android.util.Log
 import androidx.annotation.DrawableRes
@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
-import com.siro.mystrava.presentation.dashboard.widgets.StatType
+import com.siro.mystrava.presentation.home.widgets.StatType
 
 @Composable
 fun MyStravaWidgetCard(onClick: (() -> Unit)? = null, content: @Composable () -> Unit) {

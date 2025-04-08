@@ -10,7 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
 import com.siro.mystrava.presentation.auth.AuthScreen
-import com.siro.mystrava.presentation.dashboard.HomeScreen
+import com.siro.mystrava.presentation.home.HomeScreen
 import com.siro.mystrava.presentation.viewmodels.HomeViewModel
 import com.siro.mystrava.presentation.theme.Material3Theme
 import dagger.hilt.android.AndroidEntryPoint

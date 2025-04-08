@@ -1,4 +1,4 @@
-package com.siro.mystrava.presentation.dashboard.widgets
+package com.siro.mystrava.presentation.home.widgets
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,7 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.siro.mystrava.presentation.viewmodels.ActivityType
-import com.siro.mystrava.presentation.dashboard.*
+import com.siro.mystrava.presentation.home.*
 import com.siro.mystrava.presentation.viewmodels.UnitType
 import com.siro.mystrava.core.utils.getAveragePaceString
 import com.siro.mystrava.core.utils.getDistanceString

@@ -2,7 +2,7 @@ package com.siro.mystrava.data.sources.remote
 
 import androidx.annotation.Keep
 import com.siro.mystrava.data.models.activites.ActivityItem
-import com.siro.mystrava.data.models.activitydetail.StravaActivityDetail
+import com.siro.mystrava.data.models.detail.ActivityDetail
 import retrofit2.http.*
 
 @Keep
@@ -26,6 +26,6 @@ interface ActivitiesApi {
     @GET("activities/{id}")
     suspend fun getActivityDetail(
         @Path("id") activityId: String
-    ): StravaActivityDetail
+    ): ActivityDetail
 
 }

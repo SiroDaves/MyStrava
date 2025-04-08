@@ -3,15 +3,18 @@ package com.siro.mystrava.presentation.viewmodels
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.*
+import com.siro.mystrava.data.models.activites.ActivityItem
 import com.siro.mystrava.domain.repositories.SessionRepository
-import com.siro.mystrava.data.models.activitydetail.StravaActivityDetail
+import com.siro.mystrava.data.models.detail.ActivityDetail
 import com.siro.mystrava.domain.repositories.HomeRepository
 import com.siro.mystrava.domain.entities.*
 import com.siro.mystrava.domain.repositories.SettingsRepo
-import com.siro.mystrava.presentation.dashboard.widgets.*
+import com.siro.mystrava.presentation.home.widgets.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import javax.inject.Inject
 
@@ -21,7 +24,6 @@ class HomeViewModel @Inject constructor(
     private val sessionRepo: SessionRepository,
     private val settingsRepo: SettingsRepo,
 ) : ViewModel() {
-
     val widgetStatus = mutableStateOf(false)
 
     private var _isLoggedInStrava: MutableLiveData<Boolean> = MutableLiveData(null)
@@ -42,11 +44,14 @@ class HomeViewModel @Inject constructor(
 
     val calendarData = CalendarData()
 
-    var _weeklyActivityDetails: MutableLiveData<List<StravaActivityDetail>> = MutableLiveData()
-    var weeklyActivityDetails: LiveData<List<StravaActivityDetail>> = _weeklyActivityDetails
+    var _weeklyActivityDetails: MutableLiveData<List<ActivityDetail>> = MutableLiveData()
+    var weeklyActivityDetails: LiveData<List<ActivityDetail>> = _weeklyActivityDetails
 
     val _yearlySummaryMetrics: MutableLiveData<List<SummaryMetrics>> = MutableLiveData()
     val yearlySummaryMetrics: MutableLiveData<List<SummaryMetrics>> = _yearlySummaryMetrics
+
+    private val _activities = MutableStateFlow<List<ActivityItem>>(emptyList())
+    val activities: StateFlow<List<ActivityItem>> get() = _activities
 
     init {
         _isLoggedInStrava.postValue(sessionRepo.isLoggedIn())
@@ -54,19 +59,21 @@ class HomeViewModel @Inject constructor(
 
     fun fetchData() {
         _activityUiState.tryEmit(ActivityUiState.Loading)
-
-        _activityType.postValue(homeRepo.getPreferredActivity())
-
         _unitType.postValue(homeRepo.getPreferredUnitType())
 
         viewModelScope.launch {
-            homeRepo.getRecentActivities()
+            launch {
+                homeRepo.widgetStatus.collect {
+                    widgetStatus.value = it
+                }
+            }
+
             homeRepo.loadActivities(
                 after = null,
                 before = calendarData.currentYear.first,
             ).catch { exception ->
                 Log.d("TAG", "fetchData: $exception")
-                val errorCode = (exception as HttpException).code()
+                val errorCode = (exception as? HttpException)?.code()
 
                 val errorMessage = if (errorCode in 400..499) {
                     "Error! Force Refresh"
@@ -77,20 +84,19 @@ class HomeViewModel @Inject constructor(
                 _activityUiState.tryEmit(ActivityUiState.Error(errorMessage))
             }.collect { currentYearActivities ->
                 _activityUiState.tryEmit(ActivityUiState.DataLoaded(currentYearActivities))
-
                 yearlySummaryMetrics(currentYearActivities)
-
-                homeRepo.widgetStatus.collect {
-                    widgetStatus.value = it
-                }
-
             }
+
+            val activities = withContext(Dispatchers.IO) {
+                homeRepo.getRecentActivities()
+            }
+            _activities.emit(activities)
         }
     }
 
     private fun yearlySummaryMetrics(currentYearActivities: CalendarActivities) {
         val preferredActivity = currentYearActivities.preferredActivityType
-        _yearlySummaryMetrics.postValue( buildList {
+        _yearlySummaryMetrics.postValue(buildList {
             if (currentYearActivities.preferredMeasureType == MeasureType.Absolute) {
                 add(currentYearActivities.currentYearActivities.getStats(preferredActivity))
                 add(currentYearActivities.previousYearActivities.getStats(preferredActivity))
@@ -136,7 +142,7 @@ class HomeViewModel @Inject constructor(
         homeRepo.saveWeeklyDistance(weeklyDistance, weeklyElevation)
     }
 
-    fun loadWeekActivityDetails(weeklyActivityIds : List<String>) {
+    fun loadWeekActivityDetails(weeklyActivityIds: List<String>) {
         Log.d("TAG", "loadWeekActivityDetails: $weeklyActivityIds")
         viewModelScope.launch {
             homeRepo.loadActivityDetails(weeklyActivityIds)

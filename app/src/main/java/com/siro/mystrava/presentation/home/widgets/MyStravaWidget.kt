@@ -1,4 +1,4 @@
-package com.siro.mystrava.presentation.dashboard.widgets
+package com.siro.mystrava.presentation.home.widgets
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

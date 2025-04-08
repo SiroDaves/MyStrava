@@ -9,7 +9,7 @@ import com.siro.mystrava.presentation.viewmodels.ActivityType.*
 import com.siro.mystrava.domain.entities.*
 import com.siro.mystrava.core.utils.*
 import com.siro.mystrava.data.models.activites.ActivityItem
-import com.siro.mystrava.data.models.activitydetail.StravaActivityDetail
+import com.siro.mystrava.data.models.detail.ActivityDetail
 import com.siro.mystrava.data.sources.local.AppDatabase
 import com.siro.mystrava.presentation.viewmodels.*
 import kotlinx.coroutines.Dispatchers
@@ -62,9 +62,9 @@ class HomeRepository @Inject constructor(
         return allActivities
     }
 
-    suspend fun loadActivityDetails(activities: List<String>): Flow<List<Pair<String, StravaActivityDetail>>> =
+    suspend fun loadActivityDetails(activities: List<String>): Flow<List<Pair<String, ActivityDetail>>> =
         flow {
-            val activityMap: MutableList<Pair<String, StravaActivityDetail>> = mutableListOf()
+            val activityMap: MutableList<Pair<String, ActivityDetail>> = mutableListOf()
 
             activities.forEach { activityId ->
                 withContext(Dispatchers.IO) {
