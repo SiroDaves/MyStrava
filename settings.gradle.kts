@@ -1,12 +1,23 @@
 pluginManagement {
     repositories {
-        gradlePluginPortal()
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+            }
+        }
         mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
         google()
-        maven(url = "https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        mavenCentral()
     }
 }
 
-rootProject.name = "MyStrava"
-
+rootProject.name = "My Strava"
 include(":app")

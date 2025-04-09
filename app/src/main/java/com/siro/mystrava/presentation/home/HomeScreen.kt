@@ -10,8 +10,9 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.*
+import androidx.compose.ui.window.Dialog
 import com.google.accompanist.swiperefresh.*
-import com.siro.mystrava.presentation.screens.home.widgets.*
+import com.siro.mystrava.presentation.home.widgets.*
 import com.siro.mystrava.presentation.theme.primaryColor
 import com.siro.mystrava.presentation.viewmodels.*
 
@@ -69,7 +70,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
                         LazyColumn(
                             modifier = Modifier.fillMaxSize()
                         ) {
-                            /*item {
+                            item {
                                 HomeScreenWidgets1(
                                     state = state,
                                     viewModel = viewModel,
@@ -92,7 +93,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
                                         )
                                     }
                                 }
-                            }*/
+                            }
 
                             items(activities) { activity ->
                                 Workout(activity = activity)
@@ -104,7 +105,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
                     refreshing = isRefreshing,
                     state = pullRefreshState,
                     modifier = Modifier.align(Alignment.TopCenter),
-                    contentColor = primaryColor
+                    contentColor = primaryColor,
                 )
             }
         }

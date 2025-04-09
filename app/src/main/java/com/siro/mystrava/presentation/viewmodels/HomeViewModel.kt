@@ -67,7 +67,6 @@ class HomeViewModel @Inject constructor(
                     widgetStatus.value = it
                 }
             }
-
             homeRepo.loadActivities(
                 after = null,
                 before = calendarData.currentYear.first,
@@ -78,9 +77,8 @@ class HomeViewModel @Inject constructor(
                 val errorMessage = if (errorCode in 400..499) {
                     "Error! Force Refresh"
                 } else {
-                    "Have issues connecting to Strava"
+                    "We have some issues connecting to Strava: $exception"
                 }
-
                 _activityUiState.tryEmit(ActivityUiState.Error(errorMessage))
             }.collect { currentYearActivities ->
                 _activityUiState.tryEmit(ActivityUiState.DataLoaded(currentYearActivities))

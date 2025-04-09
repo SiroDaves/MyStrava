@@ -1,10 +1,11 @@
-package com.siro.mystrava.presentation.screens.home.widgets
+package com.siro.mystrava.presentation.home.widgets
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.*
 
 @Composable
@@ -15,13 +16,8 @@ fun LoadingState() {
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            CircularProgressIndicator(
-                modifier = Modifier.size(50.dp),
-                color = MaterialTheme.colorScheme.primary,
-                strokeWidth = 4.dp
-            )
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = "Loading data ...", fontSize = 16.sp, color = Color.Gray)
+            Text(text = "Loading data ...", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color.Gray)
         }
     }
 }
