@@ -13,6 +13,7 @@ import androidx.compose.ui.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.google.accompanist.swiperefresh.*
+import com.siro.mystrava.domain.entities.*
 import com.siro.mystrava.presentation.home.widgets.*
 import com.siro.mystrava.presentation.theme.primaryColor
 import com.siro.mystrava.presentation.viewmodels.*
@@ -30,7 +31,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
     }
 
     val activities by viewModel.activities.collectAsState(initial = emptyList())
-    val activityUiState by viewModel.activityUiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
     val selectedActivityType by viewModel.activityType.observeAsState(ActivityType.Run)
     val selectedUnitType by viewModel.unitType.observeAsState(UnitType.Imperial)
 
@@ -39,7 +40,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
     var showWeeklyDetailSnapshot by remember { mutableStateOf(false) }
     val weeklySnapshotDetails by viewModel.weeklyActivityDetails.observeAsState(emptyList())
 
-    val isRefreshing = activityUiState is ActivityUiState.Loading
+    val isRefreshing = uiState is UiState.Loading
     val pullRefreshState = rememberPullRefreshState(
         refreshing = isRefreshing,
         onRefresh = { viewModel.fetchData() }
@@ -52,8 +53,8 @@ fun HomeScreen(viewModel: HomeViewModel) {
                     .fillMaxSize()
                     .background(color = MaterialTheme.colorScheme.surface)
             ) {
-                when (val state = activityUiState) {
-                    is ActivityUiState.Error -> {
+                when (val state = uiState) {
+                    is UiState.Error -> {
                         refreshState.isRefreshing = false
                         ErrorState(
                             errorMessage = state.errorMessage,
@@ -61,12 +62,12 @@ fun HomeScreen(viewModel: HomeViewModel) {
                         )
                     }
 
-                    is ActivityUiState.Loading -> {
+                    is UiState.Loading -> {
                         refreshState.isRefreshing = true
                         LoadingState()
                     }
 
-                    is ActivityUiState.DataLoaded -> {
+                    is UiState.Loaded -> {
                         refreshState.isRefreshing = false
                         LazyColumn(
                             modifier = Modifier.fillMaxSize(),
@@ -101,10 +102,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
                             items(activities) { activity ->
                                 Workout(
                                     activity = activity,
-                                    onActivityClick = { clickedActivity ->
-                                        // Handle the click, e.g., navigate to activity details
-                                        // viewModel.navigateToActivityDetails(clickedActivity.activityId)
-                                    },
+                                    onActivityClick = { clickedActivity -> },
                                 )
                             }
                         }

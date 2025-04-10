@@ -3,7 +3,7 @@
     package="com.siro.mystrava">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
 
     <application
         android:name=".MyStrava"
@@ -13,18 +13,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyStrava">
+        <activity
+            android:name=".presentation.workout.WorkoutScreen"
+            android:exported="false"
+            android:label="@string/title_activity_workout_screen"
+            android:theme="@style/Theme.MyStrava" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities=".fileprovider"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
         </provider>
 
-        <receiver android:name=".presentation.widget.WeeklyStatsAppWidgetReceiver"
+        <receiver
+            android:name=".presentation.widget.WeeklyStatsAppWidgetReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -39,23 +45,22 @@
             android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.App.Starting">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
                     android:host="authorize"
-                    android:scheme="mystrava"/>
+                    android:scheme="mystrava" />
             </intent-filter>
         </activity>
     </application>
+
 </manifest>

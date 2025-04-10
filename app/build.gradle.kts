@@ -57,6 +57,10 @@ android {
 }
 
 dependencies {
+    implementation(platform(libs.compose.bom))
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.compose.ui.tooling.preview)
+    androidTestImplementation(platform(libs.compose.bom))
     val composeBom = platform(libs.compose.bom)
     implementation(composeBom)
     debugImplementation(composeBom)

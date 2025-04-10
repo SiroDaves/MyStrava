@@ -60,6 +60,7 @@ junit = { module = "junit:junit", version.ref = "junit" }
 squareup-retrofit = { module = "com.squareup.retrofit2:retrofit", version = "2.6.1" }
 squareup-retrofit-gson = { module = "com.squareup.retrofit2:converter-gson", version = "2.6.1" }
 squareup-okhttp3-logging = { module = "com.squareup.okhttp3:logging-interceptor", version = "3.8.0" }
+androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

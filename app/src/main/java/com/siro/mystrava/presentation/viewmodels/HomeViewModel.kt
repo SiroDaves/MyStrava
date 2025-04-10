@@ -29,9 +29,8 @@ class HomeViewModel @Inject constructor(
     private var _isLoggedInStrava: MutableLiveData<Boolean> = MutableLiveData(null)
     var isLoggedInStrava: LiveData<Boolean> = _isLoggedInStrava
 
-    private val _activityUiState: MutableStateFlow<ActivityUiState> =
-        MutableStateFlow(ActivityUiState.Loading)
-    val activityUiState: StateFlow<ActivityUiState> = _activityUiState.asStateFlow()
+    private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(UiState.Loading)
+    val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
     var _activityType: MutableLiveData<ActivityType> = MutableLiveData()
     var activityType: LiveData<ActivityType> = _activityType
@@ -58,7 +57,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun fetchData() {
-        _activityUiState.tryEmit(ActivityUiState.Loading)
+        _uiState.tryEmit(UiState.Loading)
         _unitType.postValue(homeRepo.getPreferredUnitType())
 
         viewModelScope.launch {
@@ -79,9 +78,9 @@ class HomeViewModel @Inject constructor(
                 } else {
                     "We have some issues connecting to Strava: $exception"
                 }
-                _activityUiState.tryEmit(ActivityUiState.Error(errorMessage))
+                _uiState.tryEmit(UiState.Error(errorMessage))
             }.collect { currentYearActivities ->
-                _activityUiState.tryEmit(ActivityUiState.DataLoaded(currentYearActivities))
+                _uiState.tryEmit(UiState.Loaded(currentYearActivities))
                 yearlySummaryMetrics(currentYearActivities)
             }
 
@@ -149,14 +148,4 @@ class HomeViewModel @Inject constructor(
                 }
         }
     }
-}
-
-enum class ActivityType { Run, Swim, Bike, All }
-enum class UnitType { Imperial, Metric }
-enum class MeasureType { Absolute, Relative }
-
-sealed class ActivityUiState {
-    object Loading : ActivityUiState()
-    class DataLoaded(val calendarActivities: CalendarActivities) : ActivityUiState()
-    class Error(val errorMessage: String) : ActivityUiState()
 }
