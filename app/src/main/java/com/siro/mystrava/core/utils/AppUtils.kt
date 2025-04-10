@@ -1,12 +1,10 @@
 package com.siro.mystrava.core.utils
 
+import android.annotation.SuppressLint
 import androidx.compose.ui.unit.dp
 import com.siro.mystrava.presentation.viewmodels.UnitType
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.LocalTime
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
 
 sealed class Food(val foodName: String){
     class MacAndCheese() : Food("Mac and Cheese")
@@ -26,22 +24,6 @@ fun callIt(){
     doSomethign(Food.MacAndCheese())
 }
 
-
-fun String.getDate(): LocalDate {
-    val dtf = DateTimeFormatter.ISO_DATE_TIME
-    val zdt: ZonedDateTime =
-        ZonedDateTime.parse(this, dtf)
-    val localDateTime = zdt.toLocalDateTime()
-    return localDateTime.toLocalDate()
-}
-
-fun String.getTime(): LocalTime {
-    val dtf = DateTimeFormatter.ISO_DATE_TIME
-    val zdt: ZonedDateTime =
-        ZonedDateTime.parse(this, dtf)
-    val localDateTime = zdt.toLocalDateTime()
-    return localDateTime.toLocalTime()
-}
 
 //Gets bar graph height based on miles
 fun Int.getBarHeight() = when (this.div(1609)) {
@@ -66,38 +48,6 @@ fun Int.getBarHeight() = when (this.div(1609)) {
     }
 }
 
-fun String.getDateTime(): LocalDateTime {
-    val dtf = DateTimeFormatter.ISO_DATE_TIME
-    val zdt: ZonedDateTime =
-        ZonedDateTime.parse(this, dtf)
-    return zdt.toLocalDateTime()
-}
-
-//Calculates pace from the moving time with the distance as an arguement
-fun Int.getPaceFromMovingTime(distance: Float): String {
-    val secondsPerMile = this / (distance / 1609)
-    return secondsPerMile.toInt().getTimeString()
-}
-
-//Returns time based on seconds passed in
-fun Int.getTimeString(): String {
-    return "${(this / 60)}:${(this % 60)}"
-}
-
-//Returns time based on seconds passed in
-fun Int.getTimeFloat(): Float {
-    return "${(this / 60)}.${((this % 60))}".toFloat()
-}
-
-fun LocalTime.get12HrTime(): String {
-    val pattern = "hh:mm a"
-    return this.format(DateTimeFormatter.ofPattern(pattern))
-}
-
-fun LocalDate.getDateString(): String {
-    return this.month.name.fixCase() + " " + this.dayOfMonth
-}
-
 fun Float.getMiles(): Double = (this * 0.000621371192).round(2);
 
 fun Double.round(decimals: Int = 2): Double = "%.${decimals}f".format(this).toDouble()
@@ -112,19 +62,6 @@ fun Int.poundsToKg(): Int = (this / 2.205).toInt()
 fun caloriesBurned(met: Float, weight: Int, minutesWorkedOut: Int): Int {
     val caloriesPerMinute = (met * 3.5 * weight.poundsToKg()) / 200
     return (caloriesPerMinute * minutesWorkedOut).toInt()
-}
-
-//Returns time based on seconds passed in
-fun Int.getTimeStringHoursAndMinutes(): String {
-    val hours = this / 3600
-    return if (hours == 0) {
-        "${((this % 3600) / 60)}m"
-    } else if (hours > 24) {
-        val days = hours / 24
-        val remainderHours = hours - (days * 24)
-        "${days}d ${remainderHours}h"
-    } else
-        "${hours}h ${((this % 3600) / 60)}m"
 }
 
 fun Float.getElevationString(selectedUnitType: UnitType): String {
@@ -221,4 +158,17 @@ fun Float.getAveragePaceFromDistance(time: Int): Double {
     val minutes = time.div(60)
 
     return minutes.div(distanceInMiles).round(2)
+}
+
+@SuppressLint("DefaultLocale")
+fun calculatePace(movingTimeInSeconds: Int, distanceInKm: Float): String {
+    if (distanceInKm <= 0) return "--:-- /km"
+
+    val totalMinutes = movingTimeInSeconds / 60.0
+    val paceMinutesPerKm = totalMinutes / distanceInKm
+
+    val minutes = paceMinutesPerKm.toInt()
+    val seconds = ((paceMinutesPerKm - minutes) * 60).toInt()
+
+    return "$minutes:${String.format("%02d", seconds)} /km"
 }

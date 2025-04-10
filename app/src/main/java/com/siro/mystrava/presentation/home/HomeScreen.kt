@@ -96,7 +96,13 @@ fun HomeScreen(viewModel: HomeViewModel) {
                             }
 
                             items(activities) { activity ->
-                                Workout(activity = activity)
+                                Workout(
+                                    activity = activity,
+                                    onActivityClick = { clickedActivity ->
+                                        // Handle the click, e.g., navigate to activity details
+                                        // viewModel.navigateToActivityDetails(clickedActivity.activityId)
+                                    },
+                                )
                             }
                         }
                     }

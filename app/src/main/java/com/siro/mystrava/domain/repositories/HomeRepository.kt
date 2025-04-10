@@ -54,11 +54,9 @@ class HomeRepository @Inject constructor(
 
     suspend fun getRecentActivities(): List<ActivityItem> {
         var allActivities: List<ActivityItem>
-
         withContext(Dispatchers.IO) {
             allActivities = activitiesDao?.getLast10Activities() ?: emptyList()
         }
-
         return allActivities
     }
 

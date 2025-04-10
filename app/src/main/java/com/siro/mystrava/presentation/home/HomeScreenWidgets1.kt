@@ -4,8 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.ui.*
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.*
 import com.siro.mystrava.presentation.home.widgets.*
@@ -29,6 +28,7 @@ fun HomeScreenWidgets1(
     val widgets = listOf<@Composable () -> Unit>(
         {
             MyStravaWidget(
+                widgetName = "Week Summary",
                 content = {
                     WeekSummaryWidget(
                         weeklyDistanceMap = state.calendarActivities.weeklyDistanceMap,
@@ -38,11 +38,11 @@ fun HomeScreenWidgets1(
                         onClick = onWeeklySnapshotClick
                     )
                 },
-                widgetName = "Week Summary"
             )
         },
         {
             MyStravaWidget(
+                widgetName = "Month Summary",
                 content = {
                     MonthWidget(
                         monthlyWorkouts = state.calendarActivities.currentMonthActivities,
@@ -53,11 +53,12 @@ fun HomeScreenWidgets1(
                         today = viewModel.calendarData.currentDayInt,
                         isLoading = state.calendarActivities.currentMonthActivities.isEmpty()
                     )
-                }, widgetName = "Month Summary"
+                },
             )
         },
         {
             MyStravaWidget(
+                widgetName = "Week vs Week",
                 content = {
                     WeekCompareWidget(
                         activitesList = state.calendarActivities.lastTwoMonthsActivities,
@@ -67,11 +68,12 @@ fun HomeScreenWidgets1(
                         monthWeekMap = viewModel.calendarData.monthWeekMap,
                         isLoading = state.calendarActivities.lastTwoMonthsActivities.isEmpty()
                     )
-                }, widgetName = "Week vs Week"
+                },
             )
         },
         {
             MyStravaWidget(
+                widgetName = "Month vs Month",
                 content = {
                     CompareWidget(
                         dashboardType = DashboardType.Month,
@@ -86,11 +88,12 @@ fun HomeScreenWidgets1(
                         prevPrevMetrics = state.calendarActivities.monthlySummaryMetrics[2],
                         selectedUnitType = selectedUnitType
                     )
-                }, widgetName = "Month vs Month"
+                },
             )
         },
         {
             MyStravaWidget(
+                widgetName = "Year to Date",
                 content = {
                     YearWidget(
                         yearMetrics = state.calendarActivities.currentYearActivities.getStats(
@@ -100,7 +103,7 @@ fun HomeScreenWidgets1(
                         selectedUnitType = selectedUnitType,
                         isLoading = state.calendarActivities.currentMonthActivities.isEmpty()
                     )
-                }, widgetName = "Year to Date"
+                },
             )
         }
     )
@@ -115,11 +118,10 @@ fun HomeScreenWidgets1(
             state = pagerState,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(400.dp) // adjust based on your content
+                .height(250.dp)
         ) { page ->
             widgets[page]()
         }
-
         HorizontalPagerIndicator(
             pagerState = pagerState,
             modifier = Modifier

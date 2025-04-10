@@ -1,28 +1,25 @@
 package com.siro.mystrava.presentation.home.widgets
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.*
+import androidx.compose.ui.unit.*
 import com.siro.mystrava.data.models.activites.ActivityItem
 import com.siro.mystrava.presentation.viewmodels.ActivityType
 
 @Composable
 fun MyStravaWidget(content: @Composable () -> Unit, widgetName: String) {
-    Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(6.dp),
+    ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 15.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
                 text = widgetName,
@@ -75,16 +72,5 @@ fun List<ActivityItem>.getStats(selectedActivity: ActivityType): SummaryMetrics 
         totalDistance = distance,
         totalTime = time,
         totalElevation = elevation
-    )
-}
-
-@Composable
-fun ColumnScope.Title(text: String) {
-    Text(
-        text = text,
-        style = MaterialTheme.typography.headlineMedium,
-        fontSize = 18.sp,
-        color = MaterialTheme.colorScheme.onSurface,
-        modifier = Modifier.padding(top = 4.dp, start = 16.dp)
     )
 }

@@ -7,11 +7,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.siro.mystrava.data.models.activites.ActivityItem
 import com.siro.mystrava.data.models.detail.ActivityDetail
+import com.siro.mystrava.presentation.home.widgets.Workout
 
 @Composable
 fun HomeScreenWidgets2(
@@ -68,34 +71,25 @@ fun HomeScreenWidgets2(
     }
 }
 
+@Preview(showBackground = true)
 @Composable
-fun Workout(activity: ActivityItem) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .padding(start = 16.dp)
-        ) {
-            Text(
-                text = activity.type,
-                fontWeight = FontWeight.Bold,
-                fontSize = 16.sp
-            )
-            Text(
-                text = activity.type,
-                fontWeight = FontWeight.Bold,
-                fontSize = 16.sp
-            )
-            Text(
-                text = activity.distance.toString(),
-                fontSize = 14.sp,
-                //color = Color.Gray
-            )
-        }
-    }
+fun WorkoutPreview() {
+    val sampleActivity = ActivityItem(
+        activityId = 1,
+        id = 123456L,
+        type = "Run",
+        name = "Morning Run",
+        distance = 5.2f,
+        calories = 320.5,
+        elapsed_time = 1800,
+        moving_time = 1750,
+        start_date = "2023-04-09T08:30:00Z",
+        start_date_local = "2023-04-09T08:30:00Z",
+        total_elevation_gain = 125f,
+        comment_count = 3,
+        kudos_count = 15,
+        achievement_count = 2
+    )
+
+    Workout(activity = sampleActivity)
 }
