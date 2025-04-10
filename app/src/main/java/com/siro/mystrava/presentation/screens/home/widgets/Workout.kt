@@ -1,4 +1,4 @@
-package com.siro.mystrava.presentation.home.widgets
+package com.siro.mystrava.presentation.screens.home.widgets
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.*

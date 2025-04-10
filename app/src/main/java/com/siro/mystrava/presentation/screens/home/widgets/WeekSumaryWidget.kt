@@ -1,4 +1,4 @@
-package com.siro.mystrava.presentation.home.widgets
+package com.siro.mystrava.presentation.screens.home.widgets
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
@@ -21,10 +21,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.siro.mystrava.R
-import com.siro.mystrava.presentation.home.DashboardStat
-import com.siro.mystrava.presentation.home.MyStravaWidgetCard
 import com.siro.mystrava.domain.entities.SummaryInfo
 import com.siro.mystrava.core.utils.getBarHeight
+import com.siro.mystrava.presentation.screens.home.DashboardStat
+import com.siro.mystrava.presentation.screens.home.MyStravaWidgetCard
 import java.time.DayOfWeek
 import java.time.LocalDate
 

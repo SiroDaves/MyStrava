@@ -1,4 +1,4 @@
-package com.siro.mystrava.presentation.auth
+package com.siro.mystrava.presentation.screens.auth
 
 import android.annotation.TargetApi
 import android.content.Context

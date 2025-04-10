@@ -1,4 +1,4 @@
-package com.siro.mystrava.presentation.home.widgets
+package com.siro.mystrava.presentation.screens.home.widgets
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
@@ -24,6 +24,10 @@ import com.siro.mystrava.presentation.home.*
 import com.siro.mystrava.presentation.viewmodels.UnitType
 import com.siro.mystrava.core.utils.*
 import com.siro.mystrava.data.models.activites.ActivityItem
+import com.siro.mystrava.presentation.screens.home.DashboardStat
+import com.siro.mystrava.presentation.screens.home.MonthTextStat
+import com.siro.mystrava.presentation.screens.home.MyStravaWidgetCard
+import com.siro.mystrava.presentation.screens.home.PercentDelta
 
 @Composable
 fun WeekCompareWidget(

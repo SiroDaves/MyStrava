@@ -1,4 +1,4 @@
-package com.siro.mystrava.presentation.home.widgets
+package com.siro.mystrava.presentation.screens.home.widgets
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -26,6 +26,8 @@ import com.siro.mystrava.presentation.home.*
 import com.siro.mystrava.presentation.viewmodels.UnitType
 import com.siro.mystrava.core.utils.*
 import com.siro.mystrava.data.models.activites.ActivityItem
+import com.siro.mystrava.presentation.screens.home.DashboardStat
+import com.siro.mystrava.presentation.screens.home.MyStravaWidgetCard
 import java.time.YearMonth
 import java.util.Locale
 
@@ -179,7 +181,9 @@ fun MonthWidget(
                                                     listOfDaysLoggedActivity.contains(it.second) -> MaterialTheme.colorScheme.primary
                                                     it.second < today!! -> MaterialTheme.colorScheme.onSurface
                                                     it.second == today -> MaterialTheme.colorScheme.primary
-                                                    else -> MaterialTheme.colorScheme.onSurface.copy(alpha = .5f)
+                                                    else -> MaterialTheme.colorScheme.onSurface.copy(
+                                                        alpha = .5f
+                                                    )
                                                 }
                                         }
 

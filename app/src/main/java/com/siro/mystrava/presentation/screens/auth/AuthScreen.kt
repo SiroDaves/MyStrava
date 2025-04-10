@@ -1,4 +1,4 @@
-package com.siro.mystrava.presentation.auth
+package com.siro.mystrava.presentation.screens.auth
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*

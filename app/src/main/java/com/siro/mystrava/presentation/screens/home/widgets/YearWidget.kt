@@ -1,4 +1,4 @@
-package com.siro.mystrava.presentation.home.widgets
+package com.siro.mystrava.presentation.screens.home.widgets
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,6 +20,7 @@ import com.siro.mystrava.core.utils.getAveragePaceString
 import com.siro.mystrava.core.utils.getDistanceString
 import com.siro.mystrava.core.utils.getElevationString
 import com.siro.mystrava.core.utils.getTimeStringHoursAndMinutes
+import com.siro.mystrava.presentation.screens.home.MyStravaWidgetCard
 
 @Composable
 fun YearWidget(
@@ -82,7 +83,10 @@ fun YearWidget(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {

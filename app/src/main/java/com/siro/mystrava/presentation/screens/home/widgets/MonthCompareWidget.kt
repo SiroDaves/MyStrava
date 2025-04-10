@@ -1,4 +1,4 @@
-package com.siro.mystrava.presentation.home.widgets
+package com.siro.mystrava.presentation.screens.home.widgets
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -18,12 +18,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.siro.mystrava.R
-import com.siro.mystrava.presentation.viewmodels.ActivityType
-import com.siro.mystrava.presentation.home.*
-import com.siro.mystrava.presentation.viewmodels.UnitType
-import com.siro.mystrava.core.utils.getDistanceString
-import com.siro.mystrava.core.utils.getElevationString
-import com.siro.mystrava.core.utils.getTimeStringHoursAndMinutes
+import com.siro.mystrava.core.utils.*
+import com.siro.mystrava.domain.entities.*
+import com.siro.mystrava.presentation.screens.home.DashboardStat
+import com.siro.mystrava.presentation.screens.home.MonthTextStat
+import com.siro.mystrava.presentation.screens.home.MyStravaWidgetCard
+import com.siro.mystrava.presentation.screens.home.PercentDelta
 
 @Composable
 fun CompareWidget(

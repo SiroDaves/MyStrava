@@ -1,4 +1,4 @@
-package com.siro.mystrava.presentation.home
+package com.siro.mystrava.presentation.screens.home
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -14,7 +14,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.google.accompanist.swiperefresh.*
 import com.siro.mystrava.domain.entities.*
-import com.siro.mystrava.presentation.home.widgets.*
+import com.siro.mystrava.presentation.screens.home.widgets.ErrorState
+import com.siro.mystrava.presentation.screens.home.widgets.LoadingState
+import com.siro.mystrava.presentation.screens.home.widgets.Workout
 import com.siro.mystrava.presentation.theme.primaryColor
 import com.siro.mystrava.presentation.viewmodels.*
 

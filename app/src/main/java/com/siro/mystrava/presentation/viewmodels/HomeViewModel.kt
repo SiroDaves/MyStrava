@@ -9,7 +9,8 @@ import com.siro.mystrava.data.models.detail.ActivityDetail
 import com.siro.mystrava.domain.repositories.HomeRepository
 import com.siro.mystrava.domain.entities.*
 import com.siro.mystrava.domain.repositories.SettingsRepo
-import com.siro.mystrava.presentation.home.widgets.*
+import com.siro.mystrava.presentation.screens.home.widgets.SummaryMetrics
+import com.siro.mystrava.presentation.screens.home.widgets.getStats
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
