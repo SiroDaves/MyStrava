@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.*
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.google.accompanist.swiperefresh.*
 import com.siro.mystrava.presentation.home.widgets.*
@@ -68,7 +69,9 @@ fun HomeScreen(viewModel: HomeViewModel) {
                     is ActivityUiState.DataLoaded -> {
                         refreshState.isRefreshing = false
                         LazyColumn(
-                            modifier = Modifier.fillMaxSize()
+                            modifier = Modifier.fillMaxSize(),
+                            verticalArrangement = Arrangement.spacedBy(10.dp),
+                            contentPadding = PaddingValues(horizontal = 10.dp)
                         ) {
                             item {
                                 HomeScreenWidgets1(

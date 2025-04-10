@@ -1,29 +1,20 @@
 package com.siro.mystrava.presentation.home.widgets
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.ui.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.IconButton
-import com.siro.mystrava.core.utils.calculatePace
-import com.siro.mystrava.core.utils.formatElapsedTime
+import com.siro.mystrava.core.utils.*
 import com.siro.mystrava.data.models.activites.ActivityItem
-import java.text.SimpleDateFormat
-import java.util.*
 
 @SuppressLint("DefaultLocale")
 @Composable
@@ -31,8 +22,11 @@ fun Workout(
     activity: ActivityItem,
     onActivityClick: (ActivityItem) -> Unit = {},
 ) {
+    val distance = activity.distance / 1000
     Card(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onActivityClick(activity) }
     ) {
         Column(
             modifier = Modifier
@@ -54,25 +48,9 @@ fun Workout(
                         color = Color.White,
                         modifier = Modifier.padding(top = 10.dp)
                     )
-
-                    val dateFormat =
-                        SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
-                    val date = try {
-                        dateFormat.parse(activity.start_date_local)
-                    } catch (e: Exception) {
-                        null
-                    }
-
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
-                            text = "${
-                                SimpleDateFormat(
-                                    "MMMM d, yyyy 'at' h:mm a ",
-                                    Locale.getDefault()
-                                ).format(
-                                    date ?: Date()
-                                )
-                            }",
+                            text = formatActivityDate(activity.start_date_local),
                             fontSize = 14.sp,
                             color = Color.Gray
                         )
@@ -97,7 +75,6 @@ fun Workout(
                     .padding(vertical = 10.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                val distance = "%.1f".format(activity.distance / 1000)
                 Column {
                     Text(
                         text = "Distance",
@@ -105,8 +82,8 @@ fun Workout(
                         color = Color.Gray
                     )
                     Text(
-                        text = "$distance km",
-                        fontSize = 20.sp,
+                        text = "${"%.1f".format(distance)} km",
+                        fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.White
                     )
@@ -120,8 +97,8 @@ fun Workout(
                             color = Color.Gray
                         )
                         Text(
-                            text = calculatePace(activity.moving_time, activity.distance),
-                            fontSize = 20.sp,
+                            text = calculatePace(activity.moving_time, distance),
+                            fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color.White
                         )
@@ -136,7 +113,7 @@ fun Workout(
 
                         Text(
                             text = "${activity.total_elevation_gain} m",
-                            fontSize = 20.sp,
+                            fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color.White
                         )
@@ -150,8 +127,8 @@ fun Workout(
                         color = Color.Gray
                     )
                     Text(
-                        text = formatElapsedTime(activity.elapsed_time),
-                        fontSize = 20.sp,
+                        text = formatElapsedTime(activity.moving_time),
+                        fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.White
                     )
@@ -181,25 +158,21 @@ fun Workout(
                             )
                             Text(
                                 text = "${activity.achievement_count}",
-                                fontSize = 20.sp,
+                                fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White
                             )
                         }
                     }
                 } else {
-                    Box(
-                        modifier = Modifier.size(48.dp)
-                    )
+                    Box(modifier = Modifier.size(48.dp))
                 }
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
                     IconButton(onClick = { }) {
                         Icon(
                             imageVector = Icons.Outlined.ThumbUp,
@@ -215,9 +188,7 @@ fun Workout(
                     )
                 }
 
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
                     IconButton(onClick = { }) {
                         Icon(
                             imageVector = Icons.Outlined.Email,
@@ -233,8 +204,6 @@ fun Workout(
                     )
                 }
             }
-
-            //HorizontalDivider(thickness = 2.dp)
         }
     }
 }

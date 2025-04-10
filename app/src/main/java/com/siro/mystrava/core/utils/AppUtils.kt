@@ -126,7 +126,6 @@ fun Int.format(): String{
 }
 
 fun getAveragePaceString(distance: Float, time: Int, selectedUnitType: UnitType): String {
-
     when(selectedUnitType){
         UnitType.Imperial -> {
             val distanceInMiles = distance.div(1609).toDouble().round(2)
@@ -161,11 +160,11 @@ fun Float.getAveragePaceFromDistance(time: Int): Double {
 }
 
 @SuppressLint("DefaultLocale")
-fun calculatePace(movingTimeInSeconds: Int, distanceInKm: Float): String {
-    if (distanceInKm <= 0) return "--:-- /km"
+fun calculatePace(movingTime: Int, distance: Float): String {
+    if (distance <= 0) return "--:-- /km"
 
-    val totalMinutes = movingTimeInSeconds / 60.0
-    val paceMinutesPerKm = totalMinutes / distanceInKm
+    val totalMinutes = movingTime / 60.0
+    val paceMinutesPerKm = totalMinutes / distance
 
     val minutes = paceMinutesPerKm.toInt()
     val seconds = ((paceMinutesPerKm - minutes) * 60).toInt()

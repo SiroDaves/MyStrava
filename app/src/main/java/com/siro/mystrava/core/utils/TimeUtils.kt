@@ -1,10 +1,13 @@
 package com.siro.mystrava.core.utils
 
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
+import java.util.Date
+import java.util.Locale
 
 fun String.getDateTime(): LocalDateTime {
     val dtf = DateTimeFormatter.ISO_DATE_TIME
@@ -74,11 +77,23 @@ fun formatElapsedTime(timeInSeconds: Int): String {
 
     return when {
         hours > 0 -> {
-            if (minutes > 0) "${hours}hr ${minutes}min" else "${hours}hr"
+            if (minutes > 0) "${hours}h ${minutes}m" else "${hours}h"
         }
         minutes > 0 -> {
-            if (seconds > 0) "${minutes}min ${seconds}sec" else "${minutes}min"
+            if (seconds > 0) "${minutes}m ${seconds}s" else "${minutes}m"
         }
-        else -> "${seconds}sec"
+        else -> "${seconds}s"
+    }
+}
+
+fun formatActivityDate(dateString: String): String {
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+    val outputFormat = SimpleDateFormat("MMMM d, yyyy 'at' h:mm a", Locale.getDefault())
+
+    return try {
+        val date = dateFormat.parse(dateString)
+        outputFormat.format(date)
+    } catch (e: Exception) {
+        outputFormat.format(Date())
     }
 }
