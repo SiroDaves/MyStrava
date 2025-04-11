@@ -6,11 +6,9 @@ import androidx.lifecycle.*
 import com.siro.mystrava.data.models.activites.ActivityItem
 import com.siro.mystrava.domain.repositories.SessionRepository
 import com.siro.mystrava.data.models.detail.ActivityDetail
-import com.siro.mystrava.domain.repositories.HomeRepository
 import com.siro.mystrava.domain.entities.*
-import com.siro.mystrava.domain.repositories.SettingsRepository
-import com.siro.mystrava.presentation.screens.home.widgets.SummaryMetrics
-import com.siro.mystrava.presentation.screens.home.widgets.getStats
+import com.siro.mystrava.domain.repositories.*
+import com.siro.mystrava.presentation.screens.home.widgets.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -121,7 +119,7 @@ class HomeViewModel @Inject constructor(
 
     fun updateSelectedActivity(activityType: ActivityType) {
         homeRepo.savePreferredActivity(activityType)
-        _activityType.postValue(homeRepo.getPreferredActivity())
+        //_activityType.postValue(homeRepo.getPreferredActivity())
     }
 
     fun updateSelectedUnit(unitType: UnitType) {
@@ -149,3 +147,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 }
+
+enum class ActivityType { Run, Swim, Bike, All }
+enum class UnitType { Imperial, Metric }
+enum class MeasureType { Absolute, Relative }
