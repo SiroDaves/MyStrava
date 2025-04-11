@@ -7,21 +7,15 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.*
-import com.siro.mystrava.presentation.home.widgets.*
-import com.siro.mystrava.presentation.widgets.compares.CompareWidget
-import com.siro.mystrava.presentation.widgets.compares.DashboardType
-import com.siro.mystrava.presentation.widgets.summaries.MonthWidget
-import com.siro.mystrava.presentation.widgets.compares.WeekCompareWidget
-import com.siro.mystrava.presentation.widgets.summaries.WeekSummaryWidget
-import com.siro.mystrava.presentation.widgets.summaries.YearWidget
+import com.siro.mystrava.presentation.widgets.compares.*
+import com.siro.mystrava.presentation.widgets.summaries.*
 import com.siro.mystrava.presentation.viewmodels.*
-import kotlin.collections.get
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun HomeScreenWidgets1(
     viewModel: HomeViewModel,
-    state: ActivityUiState.DataLoaded,
+    state: HomeUiState.Loaded,
     selectedActivityType: ActivityType,
     selectedUnitType: UnitType,
     onWeeklySnapshotClick: () -> Unit,

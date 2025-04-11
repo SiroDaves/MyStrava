@@ -5,17 +5,17 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.dagger.hilt)
-    id("kotlin-kapt")
+    id("com.google.devtools.ksp")
 }
 
 android {
     namespace = "com.siro.mystrava"
-    compileSdk = 33
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.siro.mystrava"
         minSdk = 26
-        targetSdk = 33
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0.1"
 
@@ -61,6 +61,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.compose.ui.tooling.preview)
     androidTestImplementation(platform(libs.compose.bom))
+
     val composeBom = platform(libs.compose.bom)
     implementation(composeBom)
     debugImplementation(composeBom)
@@ -81,6 +82,7 @@ dependencies {
     implementation(libs.androidx.workmanager)
     implementation(libs.androidx.glance)
     implementation(libs.android.material)
+    implementation(libs.material3)
     implementation(libs.compose.ui)
     implementation(libs.compose.material)
     implementation(libs.compose.ui.tooling)
@@ -107,9 +109,9 @@ dependencies {
     debugImplementation(libs.compose.ui.tooling)
 
     implementation(libs.androidx.room.runtime)
-    kapt(libs.androidx.room.compiler)
-    kapt(libs.hilt.compiler)
-    kaptAndroidTest(libs.hilt.android.compiler)
+    ksp(libs.androidx.room.compiler)
+    ksp(libs.hilt.compiler)
+    kspAndroidTest(libs.hilt.android.compiler)
 
     annotationProcessor(libs.androidx.room.compiler)
 }

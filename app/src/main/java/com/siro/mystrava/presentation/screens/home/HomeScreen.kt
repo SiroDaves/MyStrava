@@ -4,6 +4,8 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.pullrefresh.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -12,13 +14,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.google.accompanist.swiperefresh.*
 import com.siro.mystrava.data.models.activites.ActivityItem
-import com.siro.mystrava.domain.entities.*
-import com.siro.mystrava.presentation.screens.home.widgets.HomeScreenWidgets1
-import com.siro.mystrava.presentation.screens.home.widgets.HomeScreenWidgets2
-import com.siro.mystrava.presentation.widgets.ErrorState
-import com.siro.mystrava.presentation.widgets.LoadingState
+import com.siro.mystrava.presentation.screens.home.widgets.*
+import com.siro.mystrava.presentation.widgets.*
 import com.siro.mystrava.presentation.screens.home.widgets.Workout
 import com.siro.mystrava.presentation.theme.primaryColor
 import com.siro.mystrava.presentation.viewmodels.*
@@ -43,17 +41,31 @@ fun HomeScreen(
     val selectedActivityType by viewModel.activityType.observeAsState(ActivityType.Run)
     val selectedUnitType by viewModel.unitType.observeAsState(UnitType.Imperial)
 
-    var refreshState = rememberSwipeRefreshState(false)
-
     var showWeeklyDetailSnapshot by remember { mutableStateOf(false) }
     val weeklySnapshotDetails by viewModel.weeklyActivityDetails.observeAsState(emptyList())
 
-    val isRefreshing = uiState is UiState.Loading
+    val isRefreshing = uiState is HomeUiState.Loading
     val pullRefreshState = rememberPullRefreshState(
         refreshing = isRefreshing,
         onRefresh = { viewModel.fetchData() }
     )
+
     Scaffold(
+        topBar = {
+            Surface(shadowElevation = 3.dp) {
+                TopAppBar(
+                    title = { Text("My Strava") },
+                    actions = {
+                        IconButton(onClick = { }) {
+                            Icon(
+                                imageVector = Icons.Filled.Settings,
+                                contentDescription = "Settings"
+                            )
+                        }
+                    },
+                )
+            }
+        },
         content = {
             Box(
                 modifier = Modifier
@@ -62,21 +74,18 @@ fun HomeScreen(
                     .background(color = MaterialTheme.colorScheme.surface)
             ) {
                 when (val state = uiState) {
-                    is UiState.Error -> {
-                        refreshState.isRefreshing = false
+                    is HomeUiState.Error -> {
                         ErrorState(
                             errorMessage = state.errorMessage,
                             onRetry = { viewModel.fetchData() }
                         )
                     }
 
-                    is UiState.Loading -> {
-                        refreshState.isRefreshing = true
-                        LoadingState()
+                    is HomeUiState.Loading -> {
+                        LoadingState("Loading data ...")
                     }
 
-                    is UiState.Loaded -> {
-                        refreshState.isRefreshing = false
+                    is HomeUiState.Loaded -> {
                         LazyColumn(
                             modifier = Modifier.fillMaxSize(),
                             verticalArrangement = Arrangement.spacedBy(10.dp),
@@ -110,7 +119,7 @@ fun HomeScreen(
                             items(activities) { activity ->
                                 Workout(
                                     activity = activity,
-                                    onActivityClick = { clickedItem -> onItemClick(clickedItem)},
+                                    onActivityClick = { clickedItem -> onItemClick(clickedItem) },
                                 )
                             }
                         }

@@ -9,11 +9,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.lifecycle.ViewModelProvider
 import com.siro.mystrava.presentation.navigation.AppNavHost
 import com.siro.mystrava.presentation.screens.auth.AuthScreen
 import com.siro.mystrava.presentation.viewmodels.*
-import com.siro.mystrava.presentation.theme.Material3Theme
+import com.siro.mystrava.presentation.theme.MyStravaTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalComposeUiApi
@@ -27,26 +26,27 @@ class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
         setContent {
+            MyStravaTheme(
+                content = {
+                    val isLoggedIn by homeViewModel.isLoggedInStrava.observeAsState()
+                    var showLoginDialog by remember { mutableStateOf(false) }
 
-            Material3Theme(content = {
-                val isLoggedIn by homeViewModel.isLoggedInStrava.observeAsState()
-                var showLoginDialog by remember { mutableStateOf(false) }
-
-                isLoggedIn?.let {
-                    if (it) {
-                        AppNavHost(homeViewModel = homeViewModel)
-                    } else {
-                        AuthScreen(
-                            showLoginDialog = showLoginDialog,
-                            onLoginClick = { showLoginDialog = true },
-                            onDialogDismiss = { showLoginDialog = false },
-                            viewModel = homeViewModel
-                        )
+                    isLoggedIn?.let {
+                        if (it) {
+                            AppNavHost(homeViewModel = homeViewModel)
+                        } else {
+                            AuthScreen(
+                                showLoginDialog = showLoginDialog,
+                                onLoginClick = { showLoginDialog = true },
+                                onDialogDismiss = { showLoginDialog = false },
+                                viewModel = homeViewModel
+                            )
+                        }
                     }
-                }
-            })
+                },
+            )
         }
     }
 }

@@ -2,15 +2,10 @@ package com.siro.mystrava.core.di
 
 import android.content.Context
 import androidx.work.Configuration
-import com.siro.mystrava.domain.repositories.HomeRepository
-import com.siro.mystrava.domain.repositories.SessionRepository
-import com.siro.mystrava.data.sources.remote.ActivitiesApi
-import com.siro.mystrava.data.sources.remote.AthleteApi
-import com.siro.mystrava.domain.repositories.SettingsRepository
-import com.siro.mystrava.domain.repositories.SettingsRepositoryImpl
+import com.siro.mystrava.domain.repositories.*
+import com.siro.mystrava.data.sources.remote.*
 import com.siro.mystrava.presentation.widgets.WidgetWorkerFactory
-import dagger.Module
-import dagger.Provides
+import dagger.*
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
@@ -21,11 +16,22 @@ import javax.inject.Singleton
 class AppModule {
     @Provides
     @Singleton
-    fun provideDashboardRepository(
+    fun provideHomeRepository(
         @ApplicationContext context: Context,
         activitiesApi: ActivitiesApi
     ): HomeRepository =
         HomeRepository(
+            context,
+            activitiesApi
+        )
+
+    @Provides
+    @Singleton
+    fun provideWorkoutRepository(
+        @ApplicationContext context: Context,
+        activitiesApi: ActivitiesApi
+    ): WorkoutRepository =
+        WorkoutRepository(
             context,
             activitiesApi
         )

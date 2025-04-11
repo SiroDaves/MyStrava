@@ -14,6 +14,7 @@ import com.siro.mystrava.data.models.activites.ActivityItem
 import com.siro.mystrava.domain.entities.*
 import com.siro.mystrava.presentation.screens.home.*
 import com.siro.mystrava.presentation.screens.home.widgets.*
+import com.siro.mystrava.presentation.viewmodels.*
 
 @Composable
 fun WeekCompareWidget(

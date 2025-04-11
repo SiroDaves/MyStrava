@@ -9,7 +9,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.*
 
 @Composable
-fun LoadingState() {
+fun LoadingState(title: String) {
     Box(
         modifier = Modifier
             .fillMaxSize(),
@@ -17,7 +17,7 @@ fun LoadingState() {
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = "Loading data ...", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color.Gray)
+            Text(text = title, fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color.Gray)
         }
     }
 }

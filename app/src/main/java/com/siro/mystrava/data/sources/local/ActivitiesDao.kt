@@ -11,6 +11,9 @@ interface ActivitiesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg users: ActivityItem)
 
+    @Update()
+    fun update(activity: ActivityItem)
+
     @Query("SELECT * FROM activityitem LIMIT 25")
     fun getLast10Activities() : List<ActivityItem>
 

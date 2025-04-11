@@ -6,7 +6,9 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.*
 import androidx.navigation.compose.*
+import com.google.gson.Gson
 import com.siro.mystrava.presentation.screens.home.HomeScreen
+import com.siro.mystrava.presentation.screens.settings.SettingsScreen
 import com.siro.mystrava.presentation.screens.workout.WorkoutScreen
 import com.siro.mystrava.presentation.viewmodels.*
 
@@ -20,27 +22,41 @@ fun AppNavHost(
         navController = navController,
         startDestination = Routes.HOME
     ) {
+
         composable(Routes.HOME) {
             HomeScreen(
                 viewModel = homeViewModel,
-                onItemClick = { item ->
-                    navController.navigate(Routes.workoutRoute(item.id.toString()))
+                onItemClick = { selectedActivityItem ->
+                    val itemJson = Gson().toJson(selectedActivityItem)
+                    navController.navigate(Routes.workoutRoute(itemJson))
                 }
             )
         }
 
         composable(
             route = Routes.WORKOUT,
-            arguments = listOf(navArgument("activityId") { type = NavType.StringType })
+            arguments = listOf(
+                navArgument("activityItem") { type = NavType.StringType },
+            )
         ) { backStackEntry ->
-            val activityId = backStackEntry.arguments?.getString("activityId") ?: ""
+            val activityItem = backStackEntry.arguments?.getString("activityItem") ?: ""
             val workoutViewModel: WorkoutViewModel = hiltViewModel()
 
             WorkoutScreen(
                 viewModel = workoutViewModel,
-                activityId = activityId,
+                activityItem = activityItem,
                 onBackPressed = { navController.popBackStack() }
             )
         }
+
+        composable(Routes.SETTINGS) {
+            SettingsScreen(
+                viewModel = homeViewModel,
+                selectedActivityType = TODO(),
+                selectedUnitType = TODO(),
+                selectedMeasureType = TODO(),
+            )
+        }
+
     }
 }

@@ -7,6 +7,7 @@ import com.siro.mystrava.core.utils.getElevationString
 import com.siro.mystrava.core.utils.getTimeStringHoursAndMinutes
 import com.siro.mystrava.data.models.activites.ActivityItem
 import com.siro.mystrava.presentation.screens.home.widgets.getStats
+import com.siro.mystrava.presentation.viewmodels.*
 import java.time.Month
 import java.time.format.TextStyle
 import java.util.Locale

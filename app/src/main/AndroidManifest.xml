@@ -13,11 +13,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyStrava">
-        <activity
-            android:name=".presentation.workout.WorkoutScreen"
-            android:exported="false"
-            android:label="@string/title_activity_workout_screen"
-            android:theme="@style/Theme.MyStrava" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -44,7 +39,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.App.Starting">
+            android:theme="@style/Theme.MyStrava">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

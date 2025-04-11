@@ -27,8 +27,8 @@ class HomeViewModel @Inject constructor(
     private var _isLoggedInStrava: MutableLiveData<Boolean> = MutableLiveData(null)
     var isLoggedInStrava: LiveData<Boolean> = _isLoggedInStrava
 
-    private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(UiState.Loading)
-    val uiState: StateFlow<UiState> = _uiState.asStateFlow()
+    private val _uiState: MutableStateFlow<HomeUiState> = MutableStateFlow(HomeUiState.Loading)
+    val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
     var _activityType: MutableLiveData<ActivityType> = MutableLiveData()
     var activityType: LiveData<ActivityType> = _activityType
@@ -55,7 +55,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun fetchData() {
-        _uiState.tryEmit(UiState.Loading)
+        _uiState.tryEmit(HomeUiState.Loading)
         _unitType.postValue(homeRepo.getPreferredUnitType())
 
         viewModelScope.launch {
@@ -76,9 +76,9 @@ class HomeViewModel @Inject constructor(
                 } else {
                     "We have some issues connecting to Strava: $exception"
                 }
-                _uiState.tryEmit(UiState.Error(errorMessage))
+                _uiState.tryEmit(HomeUiState.Error(errorMessage))
             }.collect { currentYearActivities ->
-                _uiState.tryEmit(UiState.Loaded(currentYearActivities))
+                _uiState.tryEmit(HomeUiState.Loaded(currentYearActivities))
                 yearlySummaryMetrics(currentYearActivities)
             }
 
@@ -151,3 +151,9 @@ class HomeViewModel @Inject constructor(
 enum class ActivityType { Run, Swim, Bike, All }
 enum class UnitType { Imperial, Metric }
 enum class MeasureType { Absolute, Relative }
+
+sealed class HomeUiState {
+    object Loading : HomeUiState()
+    class Loaded(val calendarActivities: CalendarActivities) : HomeUiState()
+    class Error(val errorMessage: String) : HomeUiState()
+}

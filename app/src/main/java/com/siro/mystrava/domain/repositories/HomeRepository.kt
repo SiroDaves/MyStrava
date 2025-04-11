@@ -12,6 +12,7 @@ import com.siro.mystrava.data.models.activites.ActivityItem
 import com.siro.mystrava.data.models.detail.ActivityDetail
 import com.siro.mystrava.data.sources.local.AppDatabase
 import com.siro.mystrava.presentation.viewmodels.*
+import com.siro.mystrava.presentation.viewmodels.ActivityType.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.*
@@ -24,10 +25,6 @@ class HomeRepository @Inject constructor(
     val context: Context,
     private val activitiesApi: ActivitiesApi
 ) : SharedPreferences.OnSharedPreferenceChangeListener {
-
-    //Cache in memory the strava workouts
-    private lateinit var listOfStravaWorkouts: List<ActivityItem>
-
     private val preferences: SharedPreferences = context.getSharedPreferences(
         context.getString(R.string.preference_file_key),
         Context.MODE_PRIVATE
@@ -221,7 +218,7 @@ class HomeRepository @Inject constructor(
                     currentYearActivities = currentYearActivities,
                     previousYearActivities = previousYearActivities,
                     twoYearsAgoActivities = twoYearsAgoActivities,
-                    preferredActivityType = getPreferredActivity(),
+                    preferredActivityType = getPreferredActivity() as ActivityType,
                     selectedUnitType = getPreferredUnitType(),
                     preferredMeasureType = getPreferredMeasureType(),
                     relativeYearActivities = relativeYearActivities,
@@ -265,9 +262,9 @@ class HomeRepository @Inject constructor(
     }
 
     //Write activity to db
-    suspend fun saveActivity(ActivityItem: ActivityItem) {
+    suspend fun saveActivity(activityItem: ActivityItem) {
         withContext(Dispatchers.IO) {
-            activitiesDao?.insertAll(ActivityItem)
+            activitiesDao?.insertAll(activityItem)
         }
     }
 

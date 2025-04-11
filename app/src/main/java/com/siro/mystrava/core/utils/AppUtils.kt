@@ -2,9 +2,8 @@ package com.siro.mystrava.core.utils
 
 import android.annotation.SuppressLint
 import androidx.compose.ui.unit.dp
-import com.siro.mystrava.domain.entities.UnitType
-import java.time.LocalDate
-import java.time.LocalTime
+import com.siro.mystrava.presentation.viewmodels.UnitType
+import java.time.*
 
 sealed class Food(val foodName: String){
     class MacAndCheese() : Food("Mac and Cheese")
