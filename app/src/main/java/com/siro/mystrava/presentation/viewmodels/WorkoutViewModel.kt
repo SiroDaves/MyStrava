@@ -1,5 +1,6 @@
 package com.siro.mystrava.presentation.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.siro.mystrava.data.models.activites.*
 import com.siro.mystrava.data.models.detail.ActivityDetail
@@ -24,7 +25,12 @@ class WorkoutViewModel @Inject constructor(
     val activity: StateFlow<ActivityDetail?> = _activity.asStateFlow()
 
     fun setEditing() {
-        _uiState.value = WorkoutUiState.Editing
+        try {
+            _uiState.value = WorkoutUiState.Editing
+        } catch (e: Exception) {
+            Log.d("TAG", "Unable to open Edit Screen: $e")
+            _uiState.value = WorkoutUiState.Success
+        }
     }
 
     fun setSuccess() {

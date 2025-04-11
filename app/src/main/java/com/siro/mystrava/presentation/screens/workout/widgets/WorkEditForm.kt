@@ -5,7 +5,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.unit.dp
-import com.siro.mystrava.data.models.activites.ActivityItem
+import com.siro.mystrava.data.models.activites.*
 import com.siro.mystrava.data.models.detail.ActivityDetail
 import com.siro.mystrava.presentation.viewmodels.WorkoutViewModel
 
@@ -16,9 +16,17 @@ fun WorkoutEditForm(
     details: ActivityDetail,
     viewModel: WorkoutViewModel,
 ) {
-    var title by remember { mutableStateOf(details.name) }
-    var description by remember { mutableStateOf(details.description) }
-    var type by remember { mutableStateOf(details.type) }
+    var name by remember { mutableStateOf("") }
+    var description by remember { mutableStateOf("") }
+    var type by remember { mutableStateOf("") }
+    var deviceName by remember { mutableStateOf("") }
+
+    LaunchedEffect(details) {
+        name = details.name.orEmpty()
+        description = details.description.orEmpty()
+        type = details.type.orEmpty()
+        deviceName = details.device_name.orEmpty()
+    }
 
     Column(
         modifier = Modifier
@@ -26,8 +34,8 @@ fun WorkoutEditForm(
             .padding(16.dp)
     ) {
         TextField(
-            value = title,
-            onValueChange = { title = it },
+            value = name,
+            onValueChange = { name = it },
             label = { Text("Title") },
             modifier = Modifier.fillMaxWidth()
         )
@@ -46,6 +54,15 @@ fun WorkoutEditForm(
         Spacer(Modifier.height(8.dp))
 
         TextField(
+            value = deviceName,
+            onValueChange = { deviceName = it },
+            label = { Text("Device Name") },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(Modifier.height(16.dp))
+
+        TextField(
             value = type,
             onValueChange = { type = it },
             label = { Text("Activity Type") },
@@ -56,14 +73,25 @@ fun WorkoutEditForm(
 
         Button(
             onClick = {
-                viewModel.updateActivity(activity)
+                val apiActivity = ActivityUpdate(
+                    id = activity.id,
+                    name = name,
+                    description = description,
+                    device_name = deviceName,
+                    type = type,
+                )
+                val dbActivity = activity.copy(
+                    name = name,
+                    type = type
+                )
+                viewModel.updateActivity(dbActivity, apiActivity)
+                viewModel.fetchActivityDetails(activity.id.toString())
             },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
         ) {
-            Text("Save")
+            Text("Save Details")
         }
     }
 }
-
