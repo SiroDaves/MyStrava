@@ -6,9 +6,9 @@ import com.siro.mystrava.domain.repositories.HomeRepository
 import com.siro.mystrava.domain.repositories.SessionRepository
 import com.siro.mystrava.data.sources.remote.ActivitiesApi
 import com.siro.mystrava.data.sources.remote.AthleteApi
-import com.siro.mystrava.domain.repositories.SettingsRepo
-import com.siro.mystrava.domain.repositories.SettingsRepoImpl
-import com.siro.mystrava.presentation.widget.WidgetWorkerFactory
+import com.siro.mystrava.domain.repositories.SettingsRepository
+import com.siro.mystrava.domain.repositories.SettingsRepositoryImpl
+import com.siro.mystrava.presentation.widgets.WidgetWorkerFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,8 +36,8 @@ class AppModule {
         settingsRepoImpl: SessionRepository,
         athleteApi: AthleteApi,
         @ApplicationContext context: Context,
-    ): SettingsRepo =
-        SettingsRepoImpl(settingsRepoImpl, athleteApi, context)
+    ): SettingsRepository =
+        SettingsRepositoryImpl(settingsRepoImpl, athleteApi, context)
 
     @Singleton
     @Provides

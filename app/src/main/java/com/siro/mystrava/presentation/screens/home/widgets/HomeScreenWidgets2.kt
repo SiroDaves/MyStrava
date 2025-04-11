@@ -1,4 +1,4 @@
-package com.siro.mystrava.presentation.screens.home
+package com.siro.mystrava.presentation.screens.home.widgets
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -11,7 +11,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.siro.mystrava.data.models.activites.ActivityItem
 import com.siro.mystrava.data.models.detail.ActivityDetail
-import com.siro.mystrava.presentation.screens.home.widgets.Workout
 
 @Composable
 fun HomeScreenWidgets2(

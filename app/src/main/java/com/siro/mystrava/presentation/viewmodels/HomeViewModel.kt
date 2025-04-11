@@ -8,14 +8,13 @@ import com.siro.mystrava.domain.repositories.SessionRepository
 import com.siro.mystrava.data.models.detail.ActivityDetail
 import com.siro.mystrava.domain.repositories.HomeRepository
 import com.siro.mystrava.domain.entities.*
-import com.siro.mystrava.domain.repositories.SettingsRepo
+import com.siro.mystrava.domain.repositories.SettingsRepository
 import com.siro.mystrava.presentation.screens.home.widgets.SummaryMetrics
 import com.siro.mystrava.presentation.screens.home.widgets.getStats
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import retrofit2.HttpException
 import javax.inject.Inject
 
@@ -23,7 +22,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val homeRepo: HomeRepository,
     private val sessionRepo: SessionRepository,
-    private val settingsRepo: SettingsRepo,
+    private val settingsRepo: SettingsRepository,
 ) : ViewModel() {
     val widgetStatus = mutableStateOf(false)
 

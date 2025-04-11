@@ -1,4 +1,4 @@
-package com.siro.mystrava.presentation.screens.home.widgets
+package com.siro.mystrava.presentation.widgets.summaries
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,6 +21,7 @@ import com.siro.mystrava.core.utils.getDistanceString
 import com.siro.mystrava.core.utils.getElevationString
 import com.siro.mystrava.core.utils.getTimeStringHoursAndMinutes
 import com.siro.mystrava.presentation.screens.home.MyStravaWidgetCard
+import com.siro.mystrava.presentation.screens.home.widgets.SummaryMetrics
 
 @Composable
 fun YearWidget(

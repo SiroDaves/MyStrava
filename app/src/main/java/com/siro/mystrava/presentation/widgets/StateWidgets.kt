@@ -1,4 +1,4 @@
-package com.siro.mystrava.presentation.screens.home.widgets
+package com.siro.mystrava.presentation.widgets
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*

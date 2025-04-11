@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.*
 import androidx.compose.ui.unit.*
 import com.siro.mystrava.data.models.activites.ActivityItem
-import com.siro.mystrava.presentation.viewmodels.ActivityType
+import com.siro.mystrava.domain.entities.ActivityType
 
 @Composable
 fun MyStravaWidget(content: @Composable () -> Unit, widgetName: String) {

@@ -13,9 +13,12 @@ import androidx.compose.ui.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.google.accompanist.swiperefresh.*
+import com.siro.mystrava.data.models.activites.ActivityItem
 import com.siro.mystrava.domain.entities.*
-import com.siro.mystrava.presentation.screens.home.widgets.ErrorState
-import com.siro.mystrava.presentation.screens.home.widgets.LoadingState
+import com.siro.mystrava.presentation.screens.home.widgets.HomeScreenWidgets1
+import com.siro.mystrava.presentation.screens.home.widgets.HomeScreenWidgets2
+import com.siro.mystrava.presentation.widgets.ErrorState
+import com.siro.mystrava.presentation.widgets.LoadingState
 import com.siro.mystrava.presentation.screens.home.widgets.Workout
 import com.siro.mystrava.presentation.theme.primaryColor
 import com.siro.mystrava.presentation.viewmodels.*
@@ -24,7 +27,10 @@ import com.siro.mystrava.presentation.viewmodels.*
 @ExperimentalComposeUiApi
 @ExperimentalFoundationApi
 @Composable
-fun HomeScreen(viewModel: HomeViewModel) {
+fun HomeScreen(
+    viewModel: HomeViewModel,
+    onItemClick: (ActivityItem) -> Unit,
+) {
     var fetchData by rememberSaveable { mutableStateOf(0) }
 
     if (fetchData == 0) {
@@ -104,7 +110,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
                             items(activities) { activity ->
                                 Workout(
                                     activity = activity,
-                                    onActivityClick = { clickedActivity -> },
+                                    onActivityClick = { clickedItem -> onItemClick(clickedItem)},
                                 )
                             }
                         }

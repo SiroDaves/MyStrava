@@ -12,11 +12,11 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class SettingsRepoImpl @Inject constructor(
+class SettingsRepositoryImpl @Inject constructor(
     private val sessionRepo: SessionRepository,
     private val athleteApi: AthleteApi,
     val context: Context,
-) : SettingsRepo, OnSharedPreferenceChangeListener {
+) : SettingsRepository, OnSharedPreferenceChangeListener {
 
     private val preferences: SharedPreferences = context.getSharedPreferences(
         context.getString(R.string.preference_file_key),

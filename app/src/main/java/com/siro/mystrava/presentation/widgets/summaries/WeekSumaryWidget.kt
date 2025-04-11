@@ -1,4 +1,4 @@
-package com.siro.mystrava.presentation.screens.home.widgets
+package com.siro.mystrava.presentation.widgets.summaries
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement

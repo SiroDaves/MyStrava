@@ -7,14 +7,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.siro.mystrava.domain.repositories.SessionRepository
 import com.siro.mystrava.data.models.profile.*
-import com.siro.mystrava.domain.repositories.SettingsRepo
+import com.siro.mystrava.domain.repositories.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val settingsRepo: SettingsRepo,
+    private val settingsRepo: SettingsRepository,
     private val sessionRepo: SessionRepository,
 ) : ViewModel() {
 

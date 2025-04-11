@@ -2,7 +2,7 @@ package com.siro.mystrava.core.utils
 
 import android.annotation.SuppressLint
 import androidx.compose.ui.unit.dp
-import com.siro.mystrava.presentation.viewmodels.UnitType
+import com.siro.mystrava.domain.entities.UnitType
 import java.time.LocalDate
 import java.time.LocalTime
 

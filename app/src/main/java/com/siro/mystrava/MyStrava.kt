@@ -6,10 +6,8 @@ import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class MyStrava() : Application() {
-
     override fun onCreate() {
         super.onCreate()
         DynamicColors.applyToActivitiesIfAvailable(this);
     }
-
 }

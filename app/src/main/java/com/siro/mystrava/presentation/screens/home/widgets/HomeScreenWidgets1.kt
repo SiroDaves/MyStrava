@@ -1,4 +1,4 @@
-package com.siro.mystrava.presentation.screens.home
+package com.siro.mystrava.presentation.screens.home.widgets
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -8,15 +8,12 @@ import androidx.compose.ui.*
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.*
 import com.siro.mystrava.presentation.home.widgets.*
-import com.siro.mystrava.presentation.screens.home.widgets.CompareWidget
-import com.siro.mystrava.presentation.screens.home.widgets.DashboardType
-import com.siro.mystrava.presentation.screens.home.widgets.MonthWidget
-import com.siro.mystrava.presentation.screens.home.widgets.MyStravaWidget
-import com.siro.mystrava.presentation.screens.home.widgets.SummaryMetrics
-import com.siro.mystrava.presentation.screens.home.widgets.WeekCompareWidget
-import com.siro.mystrava.presentation.screens.home.widgets.WeekSummaryWidget
-import com.siro.mystrava.presentation.screens.home.widgets.YearWidget
-import com.siro.mystrava.presentation.screens.home.widgets.getStats
+import com.siro.mystrava.presentation.widgets.compares.CompareWidget
+import com.siro.mystrava.presentation.widgets.compares.DashboardType
+import com.siro.mystrava.presentation.widgets.summaries.MonthWidget
+import com.siro.mystrava.presentation.widgets.compares.WeekCompareWidget
+import com.siro.mystrava.presentation.widgets.summaries.WeekSummaryWidget
+import com.siro.mystrava.presentation.widgets.summaries.YearWidget
 import com.siro.mystrava.presentation.viewmodels.*
 import kotlin.collections.get
 

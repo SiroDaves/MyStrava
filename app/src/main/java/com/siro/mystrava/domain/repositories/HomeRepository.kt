@@ -2,10 +2,10 @@ package com.siro.mystrava.domain.repositories
 
 import android.content.*
 import android.util.Log
+import androidx.compose.ui.text.font.FontSynthesis.Companion.All
 import com.siro.mystrava.R
 import com.siro.mystrava.data.sources.remote.ActivitiesApi
 import com.siro.mystrava.data.sources.local.ActivitiesDao
-import com.siro.mystrava.presentation.viewmodels.ActivityType.*
 import com.siro.mystrava.domain.entities.*
 import com.siro.mystrava.core.utils.*
 import com.siro.mystrava.data.models.activites.ActivityItem
@@ -255,7 +255,7 @@ class HomeRepository @Inject constructor(
             //Add activities to db
             yearActivities.map {
                 runBlocking {
-                    saveActivty(it)
+                    saveActivity(it)
                 }
             }
 
@@ -265,7 +265,7 @@ class HomeRepository @Inject constructor(
     }
 
     //Write activity to db
-    suspend fun saveActivty(ActivityItem: ActivityItem) {
+    suspend fun saveActivity(ActivityItem: ActivityItem) {
         withContext(Dispatchers.IO) {
             activitiesDao?.insertAll(ActivityItem)
         }
