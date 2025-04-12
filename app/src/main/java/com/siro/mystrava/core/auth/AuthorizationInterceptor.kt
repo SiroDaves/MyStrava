@@ -1,5 +1,6 @@
 package com.siro.mystrava.core.auth
 
+import android.util.Log
 import androidx.annotation.Keep
 import com.siro.mystrava.domain.repositories.SessionRepository
 import kotlinx.coroutines.runBlocking
@@ -26,6 +27,7 @@ class AuthorizationInterceptor @Inject constructor(val sessionRepo: SessionRepos
             .header("Authorization", "Bearer $token")
             .method(original.method(), original.body())
         val request = requestBuilder.build()
+        Log.d("TAG", "Authorization: Bearer $token")
         return chain.proceed(request)
     }
 }

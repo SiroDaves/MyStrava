@@ -19,13 +19,13 @@ fun WorkoutEditForm(
     var name by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
     var type by remember { mutableStateOf("") }
-    var deviceName by remember { mutableStateOf("") }
+    var workoutType by remember { mutableStateOf("") }
 
     LaunchedEffect(details) {
         name = details.name.orEmpty()
         description = details.description.orEmpty()
         type = details.type.orEmpty()
-        deviceName = details.device_name.orEmpty()
+        workoutType = details.type.orEmpty()
     }
 
     Column(
@@ -48,24 +48,23 @@ fun WorkoutEditForm(
             label = { Text("Description") },
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f)
         )
 
         Spacer(Modifier.height(8.dp))
 
         TextField(
-            value = deviceName,
-            onValueChange = { deviceName = it },
-            label = { Text("Device Name") },
+            value = type,
+            onValueChange = { type = it },
+            label = { Text("Activity Type") },
             modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(Modifier.height(16.dp))
 
         TextField(
-            value = type,
-            onValueChange = { type = it },
-            label = { Text("Activity Type") },
+            value = workoutType,
+            onValueChange = { workoutType = it },
+            label = { Text("WorkOut Type") },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -77,12 +76,13 @@ fun WorkoutEditForm(
                     id = activity.id,
                     name = name,
                     description = description,
-                    device_name = deviceName,
                     type = type,
+                    sport_type = type,
+                    workout_type = workoutType,
                 )
                 val dbActivity = activity.copy(
                     name = name,
-                    type = type
+                    type = type,
                 )
                 viewModel.updateActivity(dbActivity, apiActivity)
                 viewModel.fetchActivityDetails(activity.id.toString())

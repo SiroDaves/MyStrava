@@ -75,10 +75,6 @@ object NetworkModule {
             .build()
     }
 
-    /**
-     * Provides the Retrofit object.
-     * @return the Retrofit object
-     */
     @Provides
     @Named("strava")
     @Reusable

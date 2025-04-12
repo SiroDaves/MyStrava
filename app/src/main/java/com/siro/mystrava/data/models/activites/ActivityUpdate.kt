@@ -4,6 +4,7 @@ data class ActivityUpdate (
     val id: Long,
     val name: String,
     val description: String,
-    val device_name: String,
     val type: String,
+    val sport_type: String,
+    val workout_type: String,
 )
