@@ -7,6 +7,8 @@ import com.siro.mystrava.data.sources.remote.ActivitiesApi
 import com.siro.mystrava.data.sources.local.ActivitiesDao
 import com.siro.mystrava.data.models.activites.ActivityItem
 import com.siro.mystrava.data.models.activites.ActivityUpdate
+import com.siro.mystrava.data.models.activites.Stream
+import com.siro.mystrava.data.models.activites.StreamItem
 import com.siro.mystrava.data.models.detail.ActivityDetail
 import com.siro.mystrava.data.sources.local.AppDatabase
 import kotlinx.coroutines.Dispatchers
@@ -45,6 +47,12 @@ class WorkoutRepository @Inject constructor(
     suspend fun loadActivityDetail(activityId: String): ActivityDetail {
         return withContext(Dispatchers.IO) {
             activitiesApi.getActivityDetail(activityId)
+        }
+    }
+
+    suspend fun loadActivityStream(activityId: String): Stream {
+        return withContext(Dispatchers.IO) {
+            activitiesApi.getActivityStream(activityId)
         }
     }
 

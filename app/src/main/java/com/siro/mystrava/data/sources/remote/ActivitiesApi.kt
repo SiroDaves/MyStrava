@@ -23,13 +23,14 @@ interface ActivitiesApi {
     ): List<ActivityItem>
 
     @GET("activities/{id}")
-    suspend fun getActivityDetail(
-        @Path("id") activityId: String
-    ): ActivityDetail
+    suspend fun getActivityDetail(@Path("id") activityId: String): ActivityDetail
 
     @PUT("activities/{id}")
     suspend fun putActivityUpdate(
         @Path("id") activityId: String,
-        @Body body: ActivityUpdate
+        @Body body: ActivityUpdate,
     ): ActivityItem
+
+    @GET("activities/{id}/streams")
+    suspend fun getActivityStream(@Path("id") activityId: String): Stream
 }

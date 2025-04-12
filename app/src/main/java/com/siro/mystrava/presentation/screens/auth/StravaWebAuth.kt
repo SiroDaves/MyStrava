@@ -66,5 +66,5 @@ private fun loadLoginUrl(context: Context): String = StravaLogin.withContext(con
     .withClientID(STRAVA_CLIENT_ID)
     .withRedirectURI("https://sirofits.vercel.app")
     .withApprovalPrompt("auto")
-    .withAccessScope("activity:read,activity:write")
+    .withAccessScope("activity:read_all,activity:write")
     .makeLoginURL()

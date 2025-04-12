@@ -1,6 +1,5 @@
 package com.siro.mystrava.presentation.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.siro.mystrava.data.models.activites.*
 import com.siro.mystrava.data.models.detail.ActivityDetail
@@ -24,13 +23,14 @@ class WorkoutViewModel @Inject constructor(
     private val _activity: MutableStateFlow<ActivityDetail?> = MutableStateFlow(null)
     val activity: StateFlow<ActivityDetail?> = _activity.asStateFlow()
 
+    private val _stream: MutableStateFlow<Stream?> = MutableStateFlow(null)
+    val stream: StateFlow<Stream?> = _stream.asStateFlow()
+
+    private val _isExported: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isExported: StateFlow<Boolean> = _isExported.asStateFlow()
+
     fun setEditing() {
-        try {
-            _uiState.value = WorkoutUiState.Editing
-        } catch (e: Exception) {
-            Log.d("TAG", "Unable to open Edit Screen: $e")
-            _uiState.value = WorkoutUiState.Success
-        }
+        _uiState.value = WorkoutUiState.Editing
     }
 
     fun setSuccess() {
@@ -54,10 +54,35 @@ class WorkoutViewModel @Inject constructor(
         }
     }
 
+    fun fetchActivityStream(activityId: String) {
+        viewModelScope.launch {
+            _uiState.value = WorkoutUiState.Exporting
+            try {
+                val stream = workoutRepo.loadActivityStream(activityId)
+                _stream.value = stream
+                _uiState.value = WorkoutUiState.Exported
+            } catch (e: IOException) {
+                _uiState.value = WorkoutUiState.Error(
+                    "Failed to load stream: Network error\n\n$e"
+                )
+            } catch (e: HttpException) {
+                _uiState.value = WorkoutUiState.Error(
+                    "Failed to load stream: Server error\n\n$e"
+                )
+            } catch (e: Exception) {
+                _uiState.value =
+                    WorkoutUiState.Error(
+                        "Failed to load stream: Unexpected error\n\n$e"
+                    )
+            }
+        }
+    }
+
+
     fun updateActivity(activityItem: ActivityItem, updateActivity: ActivityUpdate) {
         viewModelScope.launch {
             _uiState.value = WorkoutUiState.Loading
-            workoutRepo.updateActivity(activityItem, updateActivity)
+            //workoutRepo.updateActivity(activityItem, updateActivity)
             _uiState.value = WorkoutUiState.Success
         }
     }
@@ -68,6 +93,8 @@ sealed class WorkoutUiState {
     object Loading : WorkoutUiState()
     object Saving : WorkoutUiState()
     object Editing : WorkoutUiState()
+    object Exporting : WorkoutUiState()
+    object Exported : WorkoutUiState()
     object Success : WorkoutUiState()
     class Error(val errorMessage: String) : WorkoutUiState()
 }

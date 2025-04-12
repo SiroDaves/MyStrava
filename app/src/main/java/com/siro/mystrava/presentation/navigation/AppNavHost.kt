@@ -20,10 +20,10 @@ fun AppNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Routes.HOME
+        startDestination = Routes.Home
     ) {
 
-        composable(Routes.HOME) {
+        composable(Routes.Home) {
             HomeScreen(
                 viewModel = homeViewModel,
                 onItemClick = { selectedActivityItem ->
@@ -34,7 +34,7 @@ fun AppNavHost(
         }
 
         composable(
-            route = Routes.WORKOUT,
+            route = Routes.Workout,
             arguments = listOf(
                 navArgument("activityItem") { type = NavType.StringType },
             )
@@ -45,11 +45,27 @@ fun AppNavHost(
             WorkoutScreen(
                 viewModel = workoutViewModel,
                 activityItem = activityItem,
+                onBackPressed = { navController.popBackStack() },
+            )
+        }
+
+        composable(
+            route = Routes.Export,
+            arguments = listOf(
+                navArgument("activityId") { type = NavType.StringType },
+            )
+        ) { backStackEntry ->
+            val activityId = backStackEntry.arguments?.getString("activityId") ?: ""
+            val workoutViewModel: WorkoutViewModel = hiltViewModel()
+
+            WorkoutScreen(
+                viewModel = workoutViewModel,
+                activityItem = activityId,
                 onBackPressed = { navController.popBackStack() }
             )
         }
 
-        composable(Routes.SETTINGS) {
+        composable(Routes.Settings) {
             SettingsScreen(
                 viewModel = homeViewModel,
                 selectedActivityType = TODO(),

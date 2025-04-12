@@ -1,16 +1,16 @@
 package com.siro.mystrava.presentation.screens.workout.widgets
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.*
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.siro.mystrava.core.utils.*
-import com.siro.mystrava.data.models.detail.ActivityDetail
+import com.siro.mystrava.presentation.viewmodels.WorkoutViewModel
 
 @Composable
 fun MetricItem(value: String, label: String) {
@@ -51,4 +51,33 @@ fun DetailRow(label: String, value: String) {
             fontWeight = FontWeight.Bold
         )
     }
+}
+
+@Composable
+fun DoneExportingDialog(
+    onDismissRequest: () -> Unit,
+    onConfirmation: () -> Unit
+) {
+    AlertDialog(
+        icon = {
+            Icon(Icons.Filled.Check, contentDescription = "Exported")
+        },
+        title = {
+            Text("Workout has been exported")
+        },
+        text = {
+            Text("Your workout has been exported successfully.\n\nPlease choose how you want to proceed.")
+        },
+        onDismissRequest = onDismissRequest,
+        confirmButton = {
+            TextButton(onClick = onConfirmation) {
+                Text("Edit & Re-upload")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismissRequest) {
+                Text("Dismiss")
+            }
+        }
+    )
 }

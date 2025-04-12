@@ -14,7 +14,6 @@ import androidx.compose.ui.*
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.google.gson.Gson
 import com.siro.mystrava.data.models.activites.ActivityItem
 import com.siro.mystrava.presentation.screens.workout.widgets.*
@@ -27,7 +26,7 @@ import com.siro.mystrava.presentation.widgets.*
 fun WorkoutScreen(
     viewModel: WorkoutViewModel,
     activityItem: String,
-    onBackPressed: () -> Unit
+    onBackPressed: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val activityDetail by viewModel.activity.collectAsState()
@@ -48,6 +47,13 @@ fun WorkoutScreen(
         refreshing = isRefreshing,
         onRefresh = { fetchData() }
     )
+
+    var showExportedDialog by remember { mutableStateOf(false) }
+    LaunchedEffect(uiState) {
+        if (uiState == WorkoutUiState.Exported) {
+            showExportedDialog = true
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -94,9 +100,21 @@ fun WorkoutScreen(
                     .fillMaxSize()
                     .background(color = MaterialTheme.colorScheme.surface)
             ) {
+                if (showExportedDialog) {
+                    DoneExportingDialog(
+                        onDismissRequest = {
+                            showExportedDialog = false
+                        },
+                        onConfirmation = {
+                            showExportedDialog = false
+                        }
+                    )
+                }
+
                 when (uiState) {
                     is WorkoutUiState.Loading -> LoadingState("Loading data ...")
                     is WorkoutUiState.Saving -> LoadingState("Saving data ...")
+                    is WorkoutUiState.Exporting -> LoadingState("Exporting data ...")
 
                     is WorkoutUiState.Error -> {
                         val errorMessage = (uiState as WorkoutUiState.Error).errorMessage
@@ -127,6 +145,8 @@ fun WorkoutScreen(
                             )
                         }
                     }
+
+                    WorkoutUiState.Exported -> TODO()
                 }
                 PullRefreshIndicator(
                     refreshing = isRefreshing,
@@ -136,5 +156,14 @@ fun WorkoutScreen(
                 )
             }
         },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    viewModel.fetchActivityStream(activity.id.toString())
+                },
+            ) {
+                Icon(Icons.Filled.KeyboardArrowDown, "Export")
+            }
+        }
     )
 }
