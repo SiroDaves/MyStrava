@@ -33,8 +33,8 @@ class WorkoutViewModel @Inject constructor(
         _uiState.value = WorkoutUiState.Editing
     }
 
-    fun setSuccess() {
-        _uiState.value = WorkoutUiState.Success
+    fun setLoaded() {
+        _uiState.value = WorkoutUiState.Loaded
     }
 
     fun fetchActivityDetails(activityId: String) {
@@ -43,7 +43,7 @@ class WorkoutViewModel @Inject constructor(
             try {
                 val activity = workoutRepo.loadActivityDetail(activityId)
                 _activity.value = activity
-                _uiState.value = WorkoutUiState.Success
+                _uiState.value = WorkoutUiState.Loaded
             } catch (e: IOException) {
                 _uiState.value = WorkoutUiState.Error("Failed to load activity: Network error")
             } catch (e: HttpException) {
@@ -83,7 +83,7 @@ class WorkoutViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.value = WorkoutUiState.Loading
             //workoutRepo.updateActivity(activityItem, updateActivity)
-            _uiState.value = WorkoutUiState.Success
+            _uiState.value = WorkoutUiState.Loaded
         }
     }
 
@@ -95,6 +95,7 @@ sealed class WorkoutUiState {
     object Editing : WorkoutUiState()
     object Exporting : WorkoutUiState()
     object Exported : WorkoutUiState()
+    object Loaded : WorkoutUiState()
     object Success : WorkoutUiState()
     class Error(val errorMessage: String) : WorkoutUiState()
 }

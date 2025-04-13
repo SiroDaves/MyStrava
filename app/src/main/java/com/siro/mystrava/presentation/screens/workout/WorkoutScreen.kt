@@ -48,13 +48,6 @@ fun WorkoutScreen(
         onRefresh = { fetchData() }
     )
 
-    var showExportedDialog by remember { mutableStateOf(false) }
-    LaunchedEffect(uiState) {
-        if (uiState == WorkoutUiState.Exported) {
-            showExportedDialog = true
-        }
-    }
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -76,7 +69,7 @@ fun WorkoutScreen(
                 },
                 actions = {
                     if (uiState == WorkoutUiState.Editing) {
-                        IconButton(onClick = { viewModel.setSuccess() }) {
+                        IconButton(onClick = { viewModel.setLoaded() }) {
                             Icon(
                                 imageVector = Icons.Filled.Close,
                                 contentDescription = "Localized description"
@@ -100,7 +93,7 @@ fun WorkoutScreen(
                     .fillMaxSize()
                     .background(color = MaterialTheme.colorScheme.surface)
             ) {
-                if (showExportedDialog) {
+                /*if (showExportedDialog) {
                     DoneExportingDialog(
                         onDismissRequest = {
                             showExportedDialog = false
@@ -109,12 +102,13 @@ fun WorkoutScreen(
                             showExportedDialog = false
                         }
                     )
-                }
-
+                }*/
                 when (uiState) {
                     is WorkoutUiState.Loading -> LoadingState("Loading data ...")
                     is WorkoutUiState.Saving -> LoadingState("Saving data ...")
                     is WorkoutUiState.Exporting -> LoadingState("Exporting data ...")
+
+                    is WorkoutUiState.Success -> TODO()
 
                     is WorkoutUiState.Error -> {
                         val errorMessage = (uiState as WorkoutUiState.Error).errorMessage
@@ -124,7 +118,7 @@ fun WorkoutScreen(
                         )
                     }
 
-                    is WorkoutUiState.Success -> {
+                    is WorkoutUiState.Loaded -> {
                         activityDetail?.let { activity ->
                             WorkoutContent(activity = activity)
                         } ?: run {
@@ -146,7 +140,10 @@ fun WorkoutScreen(
                         }
                     }
 
-                    WorkoutUiState.Exported -> TODO()
+                    WorkoutUiState.Exported -> DoneExportingDialog(
+                        onDismissRequest = { viewModel.setLoaded() },
+                        onConfirmation = { viewModel.setEditing() },
+                    )
                 }
                 PullRefreshIndicator(
                     refreshing = isRefreshing,
