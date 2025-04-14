@@ -4,13 +4,14 @@ import android.annotation.SuppressLint
 import android.content.*
 import android.os.*
 import android.provider.MediaStore
-import com.siro.mystrava.data.models.activites.StreamItem
+import com.siro.mystrava.data.models.activites.*
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
 @SuppressLint("NewApi")
 fun generateTcxFromStream(
     context: Context,
+    activity: ActivityItem,
     stream: List<StreamItem>,
     activityStartTime: ZonedDateTime = ZonedDateTime.now()
 ): Boolean {
@@ -23,25 +24,36 @@ fun generateTcxFromStream(
 
     val startTime = activityStartTime
     val formatter = DateTimeFormatter.ISO_INSTANT
-    val filename = "activity_${startTime.toEpochSecond()}.tcx"
+    val filename = "${activity.name}.tcx"
 
     val tcx = StringBuilder().apply {
-        append("""<?xml version="1.0" encoding="UTF-8" standalone="no" ?>""").append("\n")
+        append("""<?xml version="1.0" encoding="UTF-8"?>""").append("\n")
         append("""<TrainingCenterDatabase xmlns="http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2" """)
+        append("""xmlns:ns2="http://www.garmin.com/xmlschemas/UserProfile/v2" """)
+        append("""xmlns:ns3="http://www.garmin.com/xmlschemas/ActivityExtension/v2" """)
+        append("""xmlns:ns5="http://www.garmin.com/xmlschemas/ActivityGoals/v1" """)
         append("""xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" """)
-        append("""xsi:schemaLocation="http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2 """)
-        append("""http://www.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd">""").append("\n")
-
+        append("""xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" """)
+        append("""xsi:schemaLocation="http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2 http://www.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd">""").append("\n")
         append("<Activities>\n")
-        append("""  <Activity Sport="Biking">""").append("\n")
-        append("    <Id>${startTime.format(formatter)}</Id>\n")
-        append("    <Lap StartTime=\"${startTime.format(formatter)}\">\n")
-        append("      <TotalTimeSeconds>0</TotalTimeSeconds>\n")
-        append("      <DistanceMeters>0</DistanceMeters>\n")
-        append("      <Calories>0</Calories>\n")
-        append("      <Intensity>Active</Intensity>\n")
-        append("      <TriggerMethod>Manual</TriggerMethod>\n")
-        append("      <Track>\n")
+        append("""<Activity Sport="${activity.type}">""").append("\n\t")
+        append("<Id>${startTime.format(formatter)}</Id>\n\t\t")
+        append("<Creator>\n\t\t\t")
+        append("<Name>Xiaomi Watch 5</Name>\n\t\t")
+        append("</Creator>\n\t\t")
+        append("<Lap StartTime=\"${startTime.format(formatter)}\">\n\t\t\t")
+        append("<DistanceMeters>${activity.distance}</DistanceMeters>\n\t\t\t\t")
+        append("<TotalTimeSeconds>${activity.moving_time}</TotalTimeSeconds>\n\t\t\t\t")
+        append("<Calories>${activity.calories}</Calories>\n\t\t\t\t")
+        append("<AverageHeartRateBpm>\n\t\t\t\t")
+        append("<Value>${activity.average_heartrate}</Value>\n\t\t\t\t\t")
+        append("</AverageHeartRateBpm>\n\t\t\t\t")
+        append("<Extensions>\n\t\t\t\t\t")
+        append("<ns3:LX>\n\t\t\t\t\t")
+        append("<ns3:AvgSpeed>${activity.average_speed}</ns3:AvgSpeed>\n\t\t\t\t")
+        append("</ns3:LX>\n\t\t\t\t\t\t")
+        append("</Extensions>\n\t\t\t\t")
+        append("<Track>\n")
 
         val pointCount = latlng.size
         for (i in 0 until pointCount) {
@@ -77,9 +89,9 @@ fun generateTcxFromStream(
             append("        </Trackpoint>\n")
         }
 
-        append("      </Track>\n")
-        append("    </Lap>\n")
-        append("  </Activity>\n")
+        append("\t\t\t\t</Track>\n\t\t\t")
+        append("</Lap>\n\t\t")
+        append("</Activity>\n\t")
         append("</Activities>\n")
         append("</TrainingCenterDatabase>\n")
     }.toString()
@@ -88,7 +100,7 @@ fun generateTcxFromStream(
         val resolver = context.contentResolver
         val values = ContentValues().apply {
             put(MediaStore.Downloads.DISPLAY_NAME, filename)
-            put(MediaStore.Downloads.MIME_TYPE, "application/xml")
+            //put(MediaStore.Downloads.MIME_TYPE, "application/xml")
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 put(MediaStore.Downloads.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
             }

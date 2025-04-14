@@ -51,14 +51,12 @@ class WorkoutViewModel @Inject constructor(
         }
     }
 
-    fun fetchActivityStream(context: Context, activityId: String) {
+    fun fetchActivityStream(activity: ActivityItem) {
         viewModelScope.launch {
             _uiState.value = WorkoutUiState.Exporting
             try {
-                val stream = workoutRepo.loadActivityStream(activityId)
-                generateTcxFromStream(context, stream)
+                workoutRepo.loadActivityStream(activity)
                 Log.d("TCX", "Generated TCX")
-
                 _uiState.value = WorkoutUiState.Loaded
             } catch (e: IOException) {
                 _uiState.value = WorkoutUiState.Error(

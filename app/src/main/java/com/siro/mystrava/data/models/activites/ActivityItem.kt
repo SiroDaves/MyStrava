@@ -20,5 +20,7 @@ data class ActivityItem(
     @ColumnInfo(name = "comment_count") val comment_count: Int,
     @ColumnInfo(name = "kudos_count") val kudos_count: Int,
     @ColumnInfo(name = "achievement_count") val achievement_count: Int,
+    @ColumnInfo(name = "average_speed") val average_speed: Double,
+    @ColumnInfo(name = "average_heartrate") val average_heartrate: Double,
     //@ColumnInfo(name = "map") val map: Map,
 )

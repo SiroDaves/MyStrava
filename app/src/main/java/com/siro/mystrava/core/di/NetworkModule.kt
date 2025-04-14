@@ -26,7 +26,6 @@ import javax.inject.Singleton
 @Module
 @Suppress("unused")
 object NetworkModule {
-
     @Provides
     @Reusable
     @JvmStatic

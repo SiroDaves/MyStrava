@@ -3,6 +3,7 @@ package com.siro.mystrava.domain.repositories
 import android.content.*
 import android.util.Log
 import com.siro.mystrava.R
+import com.siro.mystrava.core.utils.generateTcxFromStream
 import com.siro.mystrava.data.sources.remote.ActivitiesApi
 import com.siro.mystrava.data.sources.local.ActivitiesDao
 import com.siro.mystrava.data.models.activites.ActivityItem
@@ -50,9 +51,10 @@ class WorkoutRepository @Inject constructor(
         }
     }
 
-    suspend fun loadActivityStream(activityId: String): Stream {
+    suspend fun loadActivityStream(activity: ActivityItem) {
         return withContext(Dispatchers.IO) {
-            activitiesApi.getActivityStream(activityId)
+            val stream = activitiesApi.getActivityStream(activity.id.toString())
+            generateTcxFromStream(context, activity, stream)
         }
     }
 

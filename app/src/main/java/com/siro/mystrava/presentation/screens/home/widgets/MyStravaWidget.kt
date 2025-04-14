@@ -93,7 +93,9 @@ fun WorkoutPreview() {
         total_elevation_gain = 125f,
         comment_count = 3,
         kudos_count = 15,
-        achievement_count = 2
+        achievement_count = 2,
+        average_speed = 0.42,
+        average_heartrate = 161.0
     )
 
     Workout(activity = sampleActivity)

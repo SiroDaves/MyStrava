@@ -14,7 +14,6 @@ import androidx.compose.ui.*
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.glance.LocalContext
 import com.google.gson.Gson
 import com.siro.mystrava.data.models.activites.ActivityItem
 import com.siro.mystrava.presentation.screens.workout.widgets.*
@@ -139,10 +138,9 @@ fun WorkoutScreen(
             }
         },
         floatingActionButton = {
-            val context = LocalContext.current
             FloatingActionButton(
                 onClick = {
-                    //viewModel.fetchActivityStream(context, activity.id.toString())
+                    viewModel.fetchActivityStream(activity)
                 },
             ) {
                 Icon(Icons.Filled.KeyboardArrowDown, "Export")
