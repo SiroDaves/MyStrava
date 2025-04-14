@@ -56,7 +56,7 @@ class WorkoutRepository @Inject constructor(
         }
     }
 
-    suspend fun updateActivity(activity: ActivityItem, update: ActivityUpdate) {
+    suspend fun updateActivityItem(activity: ActivityItem, update: ActivityUpdate) {
         withContext(Dispatchers.IO) {
             activitiesDao?.update(activity)
             activitiesApi.putActivityUpdate(activity.id.toString(), update)

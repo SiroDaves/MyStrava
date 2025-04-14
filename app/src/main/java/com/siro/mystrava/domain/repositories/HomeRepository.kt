@@ -9,7 +9,6 @@ import com.siro.mystrava.data.sources.local.ActivitiesDao
 import com.siro.mystrava.domain.entities.*
 import com.siro.mystrava.core.utils.*
 import com.siro.mystrava.data.models.activites.ActivityItem
-import com.siro.mystrava.data.models.detail.ActivityDetail
 import com.siro.mystrava.data.sources.local.AppDatabase
 import com.siro.mystrava.presentation.viewmodels.*
 import com.siro.mystrava.presentation.viewmodels.ActivityType.*
@@ -33,9 +32,6 @@ class HomeRepository @Inject constructor(
     private var activitiesDao: ActivitiesDao?
 
     private val _widgetStatus = MutableSharedFlow<Boolean>(replay = 0)
-    val widgetStatus: SharedFlow<Boolean> = _widgetStatus
-
-    val calendarData = CalendarData()
 
     fun refreshPrefs(): Boolean {
         return preferences.getBoolean("widgetEnable", false)
@@ -49,223 +45,18 @@ class HomeRepository @Inject constructor(
         _widgetStatus.tryEmit(refreshPrefs())
     }
 
-    suspend fun getRecentActivities(): List<ActivityItem> {
-        var allActivities: List<ActivityItem>
-        withContext(Dispatchers.IO) {
-            allActivities = activitiesDao?.getLast10Activities() ?: emptyList()
-        }
-        return allActivities
-    }
-
-    suspend fun loadActivityDetails(activities: List<String>): Flow<List<Pair<String, ActivityDetail>>> =
-        flow {
-            val activityMap: MutableList<Pair<String, ActivityDetail>> = mutableListOf()
-
-            activities.forEach { activityId ->
-                withContext(Dispatchers.IO) {
-                    val detail = activitiesApi.getActivityDetail(activityId)
-                    activityMap.add(activityId to detail)
-                }
-            }
-
-            emit(activityMap)
-        }
-
-    fun loadActivities(
-        before: Int? = null,
-        after: Int? = null,
-    ): Flow<CalendarActivities> = flow {
-        var allActivities: List<ActivityItem>?
-
-        //query db
-        withContext(Dispatchers.IO) {
-            allActivities = activitiesDao?.getAll()
-        }
-
-        var beforeDate = before
-        var afterDate = after
-
-        val lastUpdated = fetchLastUpdatedTime()
-        var shouldCallApi = false
-
-        if (lastUpdated != null) {
-            val currentTime = LocalDateTime.now()
-            if (currentTime > lastUpdated) {
-                //Date outdated refreshing
-                shouldCallApi = true
-                val beforePair = getEpoch(
-                    currentTime.year,
-                    currentTime.monthValue - 1,
-                    currentTime.dayOfMonth,
-                    currentTime.hour,
-                    currentTime.minute
-                )
-                beforeDate = beforePair.first
-
-                Log.d("TAG", "loadActivities: ${beforePair.second}")
-
-                if (allActivities != null) {
-                    //get most recently stored activity to determine the "after date" to call the api
-                    val date = allActivities!!.minByOrNull {
-                        abs(
-                            it.start_date.getDate().atStartOfDay()
-                                .toEpochSecond(ZoneOffset.UTC) - currentTime.toEpochSecond(
-                                ZoneOffset.UTC
-                            )
-                        )
-                    }?.start_date?.getDateTime()
-
-                    date?.let {
-                        val afterDatePair = getEpoch(
-                            it.year,
-                            it.monthValue - 1,
-                            it.dayOfMonth,
-                            it.hour,
-                            it.minute
-                        )
-
-                        Log.d("TAG", "loadActivities: 2nd ${beforePair.second}")
-
-                        afterDate = afterDatePair.first
-                    }
-                }
-            }
-        }
-
-        //Check db
-        if (allActivities.isNullOrEmpty() || shouldCallApi) {
-            val remoteActivities: Flow<List<ActivityItem>> = flow {
-                val remote = getStravaActivitiesBeforeAndAfterPaginated(beforeDate, afterDate)
-
-                remote.collect {
-                    allActivities = it
-                    emit(allActivities!!)
-                }
-            }
-
-            remoteActivities.collect {
-                shouldCallApi = false
-                saveLastFetchTimestamp()
-                withContext(Dispatchers.IO) {
-                    allActivities = activitiesDao?.getAll()
-
-                }
-            }
-
-        }
-
-        allActivities?.let { activities ->
-
-            var currentYearActivities: List<ActivityItem> =
-                activities.filter { it.start_date.getDate().year == calendarData.currentYearInt }
-            var previousYearActivities: List<ActivityItem> =
-                activities.filter { it.start_date.getDate().year == calendarData.currentYearInt - 1 }
-            var twoYearsAgoActivities: List<ActivityItem> =
-                activities.filter { it.start_date.getDate().year == calendarData.currentYearInt - 2 }
-
-
-            var relativeYearActivities: List<ActivityItem> =
-                currentYearActivities.filter { it.start_date.getDate().dayOfYear < calendarData.currentDayOfYeah }
-            var relativePreviousYearActivities: List<ActivityItem> =
-                previousYearActivities.filter { it.start_date.getDate().dayOfYear < calendarData.currentDayOfYeah }
-            var relativeTwoYearsAgoActivities: List<ActivityItem> =
-                twoYearsAgoActivities.filter { it.start_date.getDate().dayOfYear < calendarData.currentDayOfYeah }
-
-
-            val currentMonthActivities: List<ActivityItem> =
-                currentYearActivities.filter { it.start_date.getDate().monthValue == calendarData.currentMonthInt }
-
-            Log.d("TAG", "loadActivities: $currentMonthActivities")
-
-            val previousMonthActivities: List<ActivityItem> =
-                currentMonthActivities.plus(previousYearActivities).plus(currentYearActivities).filter {
-                    if (calendarData.currentMonthInt == 1) {
-                        it.start_date.getDate().monthValue == 12
-                                && it.start_date.getDate().year == 2022
-                    } else {
-                        it.start_date.getDate().monthValue == calendarData.currentMonthInt - 1
-                                && it.start_date.getDate().year == 2023
-                    }
-                }
-
-            Log.d("TAG", "loadActivities: $previousMonthActivities")
-
-            val twoMonthAgoActivities: List<ActivityItem> =
-                currentMonthActivities.plus(previousYearActivities).plus(currentYearActivities).filter {
-                    if (calendarData.currentMonthInt == 1) {
-                        it.start_date.getDate().monthValue == 11
-                                && it.start_date.getDate().year == 2022
-                    } else {
-                        it.start_date.getDate().monthValue == calendarData.currentMonthInt - 2
-                                && it.start_date.getDate().year == 2023
-                    }
-                }
-
-            Log.d("TAG", "loadActivities: $twoMonthAgoActivities")
-
-            var relativeMonthActivities: List<ActivityItem> =
-                currentMonthActivities.filter { it.start_date.getDate().dayOfMonth < calendarData.currentDateTime.dayOfMonth }
-            var relativePreviousMonthActivities: List<ActivityItem> =
-                previousMonthActivities.filter { it.start_date.getDate().dayOfMonth < calendarData.currentDateTime.dayOfMonth }
-            var relativePrevPrevMonthActivities: List<ActivityItem> =
-                twoMonthAgoActivities.filter { it.start_date.getDate().dayOfMonth < calendarData.currentDateTime.dayOfMonth }
-
-            emit(
-                CalendarActivities(
-                    currentMonthActivities = currentMonthActivities,
-                    previousMonthActivities = previousMonthActivities,
-                    twoMonthAgoActivities = twoMonthAgoActivities,
-                    currentYearActivities = currentYearActivities,
-                    previousYearActivities = previousYearActivities,
-                    twoYearsAgoActivities = twoYearsAgoActivities,
-                    preferredActivityType = getPreferredActivity() as ActivityType,
-                    selectedUnitType = getPreferredUnitType(),
-                    preferredMeasureType = getPreferredMeasureType(),
-                    relativeYearActivities = relativeYearActivities,
-                    relativePreviousYearActivities = relativePreviousYearActivities,
-                    relativeTwoYearsAgoActivities = relativeTwoYearsAgoActivities,
-                    relativeMonthActivities = relativeMonthActivities,
-                    relativePreviousMonthActivities = relativePreviousMonthActivities,
-                    relativePrevPrevMonthActivities = relativePrevPrevMonthActivities
-                )
-            )
-        }
-    }
-
-
-    fun getStravaActivitiesBeforeAndAfterPaginated(
+    fun getAthleteActivities(
         before: Int?,
         after: Int?
     ): Flow<List<ActivityItem>> = flow {
-        val yearActivities: MutableList<ActivityItem> = mutableListOf()
-        var pageCount = 1
-        do {
-            yearActivities.addAll(
-                activitiesApi.getAthleteActivitiesBeforeAndAfter(
-                    before = before,
-                    after = after,
-                    page = pageCount
-                )
+        val activities: MutableList<ActivityItem> = mutableListOf()
+        activities.addAll(
+            activitiesApi.getAthleteActivities(
+                before = before,
+                after = after,
             )
-            pageCount = pageCount.inc()
-
-            //Add activities to db
-            yearActivities.map {
-                runBlocking {
-                    saveActivity(it)
-                }
-            }
-
-        } while (yearActivities.size % 200 == 0 && yearActivities.size != 0)
-
-        emit(yearActivities)
-    }
-
-    //Write activity to db
-    suspend fun saveActivity(activityItem: ActivityItem) {
-        withContext(Dispatchers.IO) {
-            activitiesDao?.insertAll(activityItem)
-        }
+        )
+        emit(activities)
     }
 
     fun savePreferredActivity(activityType: ActivityType) {

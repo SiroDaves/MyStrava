@@ -84,7 +84,7 @@ fun WorkoutEditForm(
                     name = name,
                     type = type,
                 )
-                viewModel.updateActivity(dbActivity, apiActivity)
+                viewModel.updateActivityItem(dbActivity, apiActivity)
                 viewModel.fetchActivityDetails(activity.id.toString())
             },
             modifier = Modifier

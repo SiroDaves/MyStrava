@@ -8,14 +8,7 @@ import retrofit2.http.*
 @Keep
 interface ActivitiesApi {
     @GET("athlete/activities")
-    suspend fun getAthleteActivitiesAfter(
-        @Query("after") after: Int,
-        @Query("per_page") count: Int = 200,
-        @Query("page") page: Int = 1
-    ): List<ActivityItem>
-
-    @GET("athlete/activities")
-    suspend fun getAthleteActivitiesBeforeAndAfter(
+    suspend fun getAthleteActivities(
         @Query("before") before: Int?,
         @Query("after") after: Int?,
         @Query("per_page") count: Int = 200,

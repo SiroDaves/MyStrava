@@ -1,6 +1,5 @@
 package com.siro.mystrava.presentation.screens.settings
 
-import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -77,7 +76,7 @@ fun SettingsScreen(
                                     Row(
                                         modifier = Modifier
                                             .clickable {
-                                                viewModel.updateSelectedActivity(activityType = activityType)
+                                                //viewModel.updateSelectedActivity(activityType = activityType)
                                             }
                                             .fillMaxWidth()
                                             .padding(horizontal = 16.dp)
@@ -124,7 +123,7 @@ fun SettingsScreen(
                                 Row(
                                     modifier = Modifier
                                         .clickable {
-                                            viewModel.updateSelectedUnit(UnitType.Imperial)
+                                            //viewModel.updateSelectedUnit(UnitType.Imperial)
                                         }
                                         .fillMaxWidth()
                                         .padding(horizontal = 16.dp)
@@ -147,7 +146,7 @@ fun SettingsScreen(
                                 Row(
                                     modifier = Modifier
                                         .clickable {
-                                            viewModel.updateSelectedUnit(UnitType.Metric)
+                                            //viewModel.updateSelectedUnit(UnitType.Metric)
                                         }
                                         .fillMaxWidth()
                                         .padding(horizontal = 16.dp)
@@ -187,7 +186,7 @@ fun SettingsScreen(
                                 Row(
                                     modifier = Modifier
                                         .clickable {
-                                            viewModel.updateMeasureType(MeasureType.Absolute)
+                                            //viewModel.updateMeasureType(MeasureType.Absolute)
                                         }
                                         .fillMaxWidth()
                                         .padding(horizontal = 16.dp)
@@ -210,7 +209,7 @@ fun SettingsScreen(
                                 Row(
                                     modifier = Modifier
                                         .clickable {
-                                            viewModel.updateMeasureType(MeasureType.Relative)
+                                            //viewModel.updateMeasureType(MeasureType.Relative)
                                         }
                                         .fillMaxWidth()
                                         .padding(horizontal = 16.dp)
@@ -235,11 +234,10 @@ fun SettingsScreen(
                         }
                     }
 
-
-                    val widgetStatus by viewModel.widgetStatus
+                    /*val widgetStatus by viewModel.widgetStatus
                     if (widgetStatus) {
                         Log.d("TAG", "MyStravaSettingsView: TRUE")
-                    }
+                    }*/
 
                     Box(
                         modifier = Modifier

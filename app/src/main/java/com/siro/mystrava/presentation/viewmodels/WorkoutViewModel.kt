@@ -1,6 +1,9 @@
 package com.siro.mystrava.presentation.viewmodels
 
+import android.content.Context
+import android.util.Log
 import androidx.lifecycle.*
+import com.siro.mystrava.core.utils.generateTcxFromStream
 import com.siro.mystrava.data.models.activites.*
 import com.siro.mystrava.data.models.detail.ActivityDetail
 import com.siro.mystrava.domain.repositories.WorkoutRepository
@@ -22,12 +25,6 @@ class WorkoutViewModel @Inject constructor(
 
     private val _activity: MutableStateFlow<ActivityDetail?> = MutableStateFlow(null)
     val activity: StateFlow<ActivityDetail?> = _activity.asStateFlow()
-
-    private val _stream: MutableStateFlow<Stream?> = MutableStateFlow(null)
-    val stream: StateFlow<Stream?> = _stream.asStateFlow()
-
-    private val _isExported: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val isExported: StateFlow<Boolean> = _isExported.asStateFlow()
 
     fun setEditing() {
         _uiState.value = WorkoutUiState.Editing
@@ -54,13 +51,15 @@ class WorkoutViewModel @Inject constructor(
         }
     }
 
-    fun fetchActivityStream(activityId: String) {
+    fun fetchActivityStream(context: Context, activityId: String) {
         viewModelScope.launch {
             _uiState.value = WorkoutUiState.Exporting
             try {
                 val stream = workoutRepo.loadActivityStream(activityId)
-                _stream.value = stream
-                _uiState.value = WorkoutUiState.Exported
+                generateTcxFromStream(context, stream)
+                Log.d("TCX", "Generated TCX")
+
+                _uiState.value = WorkoutUiState.Loaded
             } catch (e: IOException) {
                 _uiState.value = WorkoutUiState.Error(
                     "Failed to load stream: Network error\n\n$e"
@@ -78,15 +77,26 @@ class WorkoutViewModel @Inject constructor(
         }
     }
 
-
-    fun updateActivity(activityItem: ActivityItem, updateActivity: ActivityUpdate) {
+    fun updateActivityItem(activityItem: ActivityItem, updateActivity: ActivityUpdate) {
         viewModelScope.launch {
             _uiState.value = WorkoutUiState.Loading
-            //workoutRepo.updateActivity(activityItem, updateActivity)
+            try {
+                _uiState.value = WorkoutUiState.Loading
+                workoutRepo.updateActivityItem(activityItem, updateActivity)
+                _uiState.value = WorkoutUiState.Loaded
+            } catch (e: IOException) {
+                _uiState.value =
+                    WorkoutUiState.Error("Failed to update activity: Network error\n\n$e")
+            } catch (e: HttpException) {
+                _uiState.value =
+                    WorkoutUiState.Error("Failed to update activity: Server error\n\n$e")
+            } catch (e: Exception) {
+                _uiState.value =
+                    WorkoutUiState.Error("Failed to update activity: Unexpected error\n\n$e")
+            }
             _uiState.value = WorkoutUiState.Loaded
         }
     }
-
 }
 
 sealed class WorkoutUiState {
@@ -94,7 +104,6 @@ sealed class WorkoutUiState {
     object Saving : WorkoutUiState()
     object Editing : WorkoutUiState()
     object Exporting : WorkoutUiState()
-    object Exported : WorkoutUiState()
     object Loaded : WorkoutUiState()
     object Success : WorkoutUiState()
     class Error(val errorMessage: String) : WorkoutUiState()

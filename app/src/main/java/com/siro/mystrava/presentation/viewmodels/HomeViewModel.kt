@@ -5,15 +5,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.*
 import com.siro.mystrava.data.models.activites.ActivityItem
 import com.siro.mystrava.domain.repositories.SessionRepository
-import com.siro.mystrava.data.models.detail.ActivityDetail
 import com.siro.mystrava.domain.entities.*
 import com.siro.mystrava.domain.repositories.*
-import com.siro.mystrava.presentation.screens.home.widgets.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.*
 import retrofit2.HttpException
+import java.time.Instant
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,30 +20,13 @@ class HomeViewModel @Inject constructor(
     private val sessionRepo: SessionRepository,
     private val settingsRepo: SettingsRepository,
 ) : ViewModel() {
-    val widgetStatus = mutableStateOf(false)
-
     private var _isLoggedInStrava: MutableLiveData<Boolean> = MutableLiveData(null)
     var isLoggedInStrava: LiveData<Boolean> = _isLoggedInStrava
 
     private val _uiState: MutableStateFlow<HomeUiState> = MutableStateFlow(HomeUiState.Loading)
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
-    var _activityType: MutableLiveData<ActivityType> = MutableLiveData()
-    var activityType: LiveData<ActivityType> = _activityType
-
-    var _unitType: MutableLiveData<UnitType> = MutableLiveData()
-    var unitType: LiveData<UnitType> = _unitType
-
-    var _measureType: MutableLiveData<MeasureType> = MutableLiveData()
-    var measureType: LiveData<MeasureType> = _measureType
-
     val calendarData = CalendarData()
-
-    var _weeklyActivityDetails: MutableLiveData<List<ActivityDetail>> = MutableLiveData()
-    var weeklyActivityDetails: LiveData<List<ActivityDetail>> = _weeklyActivityDetails
-
-    val _yearlySummaryMetrics: MutableLiveData<List<SummaryMetrics>> = MutableLiveData()
-    val yearlySummaryMetrics: MutableLiveData<List<SummaryMetrics>> = _yearlySummaryMetrics
 
     private val _activities = MutableStateFlow<List<ActivityItem>>(emptyList())
     val activities: StateFlow<List<ActivityItem>> get() = _activities
@@ -56,17 +37,11 @@ class HomeViewModel @Inject constructor(
 
     fun fetchData() {
         _uiState.tryEmit(HomeUiState.Loading)
-        _unitType.postValue(homeRepo.getPreferredUnitType())
 
         viewModelScope.launch {
-            launch {
-                homeRepo.widgetStatus.collect {
-                    widgetStatus.value = it
-                }
-            }
-            homeRepo.loadActivities(
-                after = null,
-                before = calendarData.currentYear.first,
+            homeRepo.getAthleteActivities(
+                before = Instant.now().epochSecond.toInt(),
+                after = calendarData.monthsAgo(1).toInt(),
             ).catch { exception ->
                 Log.d("TAG", "fetchData: $exception")
                 val errorCode = (exception as? HttpException)?.code()
@@ -77,33 +52,12 @@ class HomeViewModel @Inject constructor(
                     "We have some issues connecting to Strava: $exception"
                 }
                 _uiState.tryEmit(HomeUiState.Error(errorMessage))
-            }.collect { currentYearActivities ->
-                _uiState.tryEmit(HomeUiState.Loaded(currentYearActivities))
-                yearlySummaryMetrics(currentYearActivities)
+            }.collect { latestActivities ->
+                _activities.emit(latestActivities)
             }
-
-            val activities = withContext(Dispatchers.IO) {
-                homeRepo.getRecentActivities()
-            }
-            _activities.emit(activities)
+            _uiState.tryEmit(HomeUiState.Loaded)
         }
     }
-
-    private fun yearlySummaryMetrics(currentYearActivities: CalendarActivities) {
-        val preferredActivity = currentYearActivities.preferredActivityType
-        _yearlySummaryMetrics.postValue(buildList {
-            if (currentYearActivities.preferredMeasureType == MeasureType.Absolute) {
-                add(currentYearActivities.currentYearActivities.getStats(preferredActivity))
-                add(currentYearActivities.previousYearActivities.getStats(preferredActivity))
-                add(currentYearActivities.twoYearsAgoActivities.getStats(preferredActivity))
-            } else {
-                add(currentYearActivities.relativeYearActivities.getStats(preferredActivity))
-                add(currentYearActivities.relativePreviousYearActivities.getStats(preferredActivity))
-                add(currentYearActivities.relativeTwoYearsAgoActivities.getStats(preferredActivity))
-            }
-        })
-    }
-
 
     fun loginAthlete(code: String) {
         viewModelScope.launch {
@@ -116,36 +70,6 @@ class HomeViewModel @Inject constructor(
         sessionRepo.logOff()
         _isLoggedInStrava.postValue(false)
     }
-
-    fun updateSelectedActivity(activityType: ActivityType) {
-        homeRepo.savePreferredActivity(activityType)
-        //_activityType.postValue(homeRepo.getPreferredActivity())
-    }
-
-    fun updateSelectedUnit(unitType: UnitType) {
-        homeRepo.savePreferredUnits(unitType = unitType)
-        _unitType.postValue(homeRepo.getPreferredUnitType())
-    }
-
-    fun updateMeasureType(measureType: MeasureType) {
-        homeRepo.saveMeasureType(measureType = measureType)
-        _measureType.postValue(homeRepo.getPreferredMeasureType())
-
-    }
-
-    fun saveWeeklyStats(weeklyDistance: String, weeklyElevation: String) {
-        homeRepo.saveWeeklyDistance(weeklyDistance, weeklyElevation)
-    }
-
-    fun loadWeekActivityDetails(weeklyActivityIds: List<String>) {
-        Log.d("TAG", "loadWeekActivityDetails: $weeklyActivityIds")
-        viewModelScope.launch {
-            homeRepo.loadActivityDetails(weeklyActivityIds)
-                .collectLatest {
-                    _weeklyActivityDetails.postValue(it.map { it.second })
-                }
-        }
-    }
 }
 
 enum class ActivityType { Run, Swim, Bike, All }
@@ -154,6 +78,6 @@ enum class MeasureType { Absolute, Relative }
 
 sealed class HomeUiState {
     object Loading : HomeUiState()
-    class Loaded(val calendarActivities: CalendarActivities) : HomeUiState()
+    object Loaded : HomeUiState()
     class Error(val errorMessage: String) : HomeUiState()
 }

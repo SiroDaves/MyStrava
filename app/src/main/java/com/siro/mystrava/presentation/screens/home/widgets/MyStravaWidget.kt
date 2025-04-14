@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.*
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.*
 import com.siro.mystrava.data.models.activites.ActivityItem
 import com.siro.mystrava.presentation.viewmodels.ActivityType
@@ -73,4 +74,27 @@ fun List<ActivityItem>.getStats(selectedActivity: ActivityType): SummaryMetrics 
         totalTime = time,
         totalElevation = elevation
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun WorkoutPreview() {
+    val sampleActivity = ActivityItem(
+        activityId = 1,
+        id = 123456L,
+        type = "Run",
+        name = "Morning Run",
+        distance = 5702.7f,
+        calories = 320.5,
+        elapsed_time = 1800,
+        moving_time = 2272,
+        start_date = "2023-04-09T08:30:00Z",
+        start_date_local = "2023-04-09T08:30:00Z",
+        total_elevation_gain = 125f,
+        comment_count = 3,
+        kudos_count = 15,
+        achievement_count = 2
+    )
+
+    Workout(activity = sampleActivity)
 }

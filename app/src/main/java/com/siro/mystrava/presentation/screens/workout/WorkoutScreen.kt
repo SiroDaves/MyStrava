@@ -14,6 +14,7 @@ import androidx.compose.ui.*
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.glance.LocalContext
 import com.google.gson.Gson
 import com.siro.mystrava.data.models.activites.ActivityItem
 import com.siro.mystrava.presentation.screens.workout.widgets.*
@@ -93,22 +94,10 @@ fun WorkoutScreen(
                     .fillMaxSize()
                     .background(color = MaterialTheme.colorScheme.surface)
             ) {
-                /*if (showExportedDialog) {
-                    DoneExportingDialog(
-                        onDismissRequest = {
-                            showExportedDialog = false
-                        },
-                        onConfirmation = {
-                            showExportedDialog = false
-                        }
-                    )
-                }*/
                 when (uiState) {
                     is WorkoutUiState.Loading -> LoadingState("Loading data ...")
                     is WorkoutUiState.Saving -> LoadingState("Saving data ...")
                     is WorkoutUiState.Exporting -> LoadingState("Exporting data ...")
-
-                    is WorkoutUiState.Success -> TODO()
 
                     is WorkoutUiState.Error -> {
                         val errorMessage = (uiState as WorkoutUiState.Error).errorMessage
@@ -139,11 +128,7 @@ fun WorkoutScreen(
                             )
                         }
                     }
-
-                    WorkoutUiState.Exported -> DoneExportingDialog(
-                        onDismissRequest = { viewModel.setLoaded() },
-                        onConfirmation = { viewModel.setEditing() },
-                    )
+                    WorkoutUiState.Success -> TODO()
                 }
                 PullRefreshIndicator(
                     refreshing = isRefreshing,
@@ -154,9 +139,10 @@ fun WorkoutScreen(
             }
         },
         floatingActionButton = {
+            val context = LocalContext.current
             FloatingActionButton(
                 onClick = {
-                    viewModel.fetchActivityStream(activity.id.toString())
+                    //viewModel.fetchActivityStream(context, activity.id.toString())
                 },
             ) {
                 Icon(Icons.Filled.KeyboardArrowDown, "Export")

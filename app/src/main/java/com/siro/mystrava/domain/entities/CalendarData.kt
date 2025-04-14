@@ -1,6 +1,7 @@
 package com.siro.mystrava.domain.entities
 
 import android.util.Log
+import java.time.Instant
 import java.time.LocalDate
 import java.time.YearMonth
 import java.util.Calendar
@@ -37,9 +38,9 @@ data class CalendarData(
         1
     ).first to "2020",
 
-    var currentWeek : MutableList<Pair<Int, Int>> = mutableListOf(),
-){
-    val monthWeekMap : MutableMap<Int, MutableList<Pair<Int, Int>>> = monthBreakDown()
+    var currentWeek: MutableList<Pair<Int, Int>> = mutableListOf(),
+) {
+    val monthWeekMap: MutableMap<Int, MutableList<Pair<Int, Int>>> = monthBreakDown()
 
     private fun monthBreakDown(): MutableMap<Int, MutableList<Pair<Int, Int>>> {
         val monthWeekMap: MutableMap<Int, MutableList<Pair<Int, Int>>> = mutableMapOf()
@@ -59,7 +60,7 @@ data class CalendarData(
                 for (i in 0 until firstDayOffset) {
                     val priorDay = (priorMonthLength - (firstDayOffset - i - 1))
 
-                    val month = if(currentMonth.value == 1) 12 else currentMonth.value - 1
+                    val month = if (currentMonth.value == 1) 12 else currentMonth.value - 1
                     listOfDatesInWeek.add(month to priorDay)
                 }
             }
@@ -86,7 +87,7 @@ data class CalendarData(
             monthWeekMap.put(week, listOfDatesInWeek)
         }
 
-        val previousMonthInt = if(currentMonth.value == 1) 12 else currentMonth.value - 1
+        val previousMonthInt = if (currentMonth.value == 1) 12 else currentMonth.value - 1
 
         //Add previous 2 weeks to week map
         val firstDayWeekZeroMonth =
@@ -125,6 +126,25 @@ data class CalendarData(
 
         return monthWeekMap
     }
+
+    fun now(): Int {
+        return Instant.now().epochSecond.toInt()
+    }
+
+    fun weeksAgo(weeks: Long): Int {
+        return LocalDate.now()
+            .minusWeeks(weeks)
+            .atStartOfDay()
+            .atZone(java.time.ZoneId.systemDefault())
+            .toEpochSecond().toInt()
+    }
+
+    fun monthsAgo(months: Long): Int {
+        return LocalDate.now()
+            .minusMonths(months).atStartOfDay()
+            .atZone(java.time.ZoneId.systemDefault())
+            .toEpochSecond().toInt()
+    }
 }
 
 fun getEpoch(year: Int, month: Int, day: Int, hour: Int = 0, minute: Int = 0): Pair<Int, String> {
@@ -133,4 +153,3 @@ fun getEpoch(year: Int, month: Int, day: Int, hour: Int = 0, minute: Int = 0): P
     return calendar.toInstant().epochSecond.toInt() to
             calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault())
 }
-
