@@ -1,9 +1,7 @@
 package com.siro.mystrava.presentation.viewmodels
 
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.*
-import com.siro.mystrava.core.utils.generateTcxFromStream
 import com.siro.mystrava.data.models.activites.*
 import com.siro.mystrava.data.models.detail.ActivityDetail
 import com.siro.mystrava.domain.repositories.WorkoutRepository
@@ -95,6 +93,7 @@ class WorkoutViewModel @Inject constructor(
             _uiState.value = WorkoutUiState.Loaded
         }
     }
+
 }
 
 sealed class WorkoutUiState {

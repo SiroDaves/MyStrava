@@ -1,16 +1,21 @@
 package com.siro.mystrava.presentation.screens.home
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.pullrefresh.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.*
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import com.siro.mystrava.data.models.activites.ActivityItem
 import com.siro.mystrava.presentation.widgets.*
@@ -98,6 +103,15 @@ fun HomeScreen(
                     modifier = Modifier.align(Alignment.TopCenter),
                     contentColor = primaryColor,
                 )
+            }
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    
+                }
+            ) {
+                Icon(Icons.Filled.Add, "Add")
             }
         }
     )

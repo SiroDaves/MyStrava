@@ -1,15 +1,13 @@
 package com.siro.mystrava.domain.repositories
 
 import android.content.*
+import android.net.Uri
 import android.util.Log
 import com.siro.mystrava.R
-import com.siro.mystrava.core.utils.generateTcxFromStream
+import com.siro.mystrava.core.utils.*
 import com.siro.mystrava.data.sources.remote.ActivitiesApi
 import com.siro.mystrava.data.sources.local.ActivitiesDao
-import com.siro.mystrava.data.models.activites.ActivityItem
-import com.siro.mystrava.data.models.activites.ActivityUpdate
-import com.siro.mystrava.data.models.activites.Stream
-import com.siro.mystrava.data.models.activites.StreamItem
+import com.siro.mystrava.data.models.activites.*
 import com.siro.mystrava.data.models.detail.ActivityDetail
 import com.siro.mystrava.data.sources.local.AppDatabase
 import kotlinx.coroutines.Dispatchers
@@ -20,9 +18,9 @@ import java.time.*
 
 @Singleton
 class WorkoutRepository @Inject constructor(
-    val context: Context, private val activitiesApi: ActivitiesApi
+    val context: Context,
+    private val activitiesApi: ActivitiesApi,
 ) : SharedPreferences.OnSharedPreferenceChangeListener {
-
 
     private val preferences: SharedPreferences = context.getSharedPreferences(
         context.getString(R.string.preference_file_key), Context.MODE_PRIVATE

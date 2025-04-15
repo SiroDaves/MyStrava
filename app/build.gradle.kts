@@ -114,4 +114,6 @@ dependencies {
     kspAndroidTest(libs.hilt.android.compiler)
 
     annotationProcessor(libs.androidx.room.compiler)
+
+    implementation(libs.garmin.fit)
 }

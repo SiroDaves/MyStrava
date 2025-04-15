@@ -127,6 +127,7 @@ fun WorkoutScreen(
                             )
                         }
                     }
+
                     WorkoutUiState.Success -> TODO()
                 }
                 PullRefreshIndicator(
@@ -137,14 +138,5 @@ fun WorkoutScreen(
                 )
             }
         },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    viewModel.fetchActivityStream(activity)
-                },
-            ) {
-                Icon(Icons.Filled.KeyboardArrowDown, "Export")
-            }
-        }
     )
 }

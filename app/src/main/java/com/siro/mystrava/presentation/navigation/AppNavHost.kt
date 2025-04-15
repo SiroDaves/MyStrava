@@ -1,8 +1,10 @@
 package com.siro.mystrava.presentation.navigation
 
+import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.glance.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.*
 import androidx.navigation.compose.*
@@ -16,7 +18,7 @@ import com.siro.mystrava.presentation.viewmodels.*
 @Composable
 fun AppNavHost(
     navController: NavHostController = rememberNavController(),
-    homeViewModel: HomeViewModel
+    homeViewModel: HomeViewModel,
 ) {
     NavHost(
         navController = navController,
@@ -46,22 +48,6 @@ fun AppNavHost(
                 viewModel = workoutViewModel,
                 activityItem = activityItem,
                 onBackPressed = { navController.popBackStack() },
-            )
-        }
-
-        composable(
-            route = Routes.Export,
-            arguments = listOf(
-                navArgument("activityId") { type = NavType.StringType },
-            )
-        ) { backStackEntry ->
-            val activityId = backStackEntry.arguments?.getString("activityId") ?: ""
-            val workoutViewModel: WorkoutViewModel = hiltViewModel()
-
-            WorkoutScreen(
-                viewModel = workoutViewModel,
-                activityItem = activityId,
-                onBackPressed = { navController.popBackStack() }
             )
         }
 

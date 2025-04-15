@@ -9,6 +9,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.glance.LocalContext
 import com.siro.mystrava.presentation.navigation.AppNavHost
 import com.siro.mystrava.presentation.screens.auth.AuthScreen
 import com.siro.mystrava.presentation.viewmodels.*

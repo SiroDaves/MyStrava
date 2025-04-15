@@ -231,5 +231,7 @@ fun WorkoutContent(activity: ActivityDetail) {
                 }
             }
         }
+
+        item { CopyableLinkCard(activity.id.toString()) }
     }
 }
