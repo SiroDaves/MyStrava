@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.siro.mystrava.presentation.screens.upload.widgets.FilePickerCard
+import com.siro.mystrava.presentation.screens.upload.widgets.FileUploadForm
 import com.siro.mystrava.presentation.screens.workout.widgets.WorkoutContent
 import com.siro.mystrava.presentation.screens.workout.widgets.WorkoutEditForm
 import com.siro.mystrava.presentation.viewmodels.*
@@ -85,18 +86,7 @@ fun UploadScreen(
                         }
 
                         is UploadUiState.FileSelected -> {
-                            selectedFile?.let {
-                                Text(
-                                    text = "Selected file: ${it.name}",
-                                    style = MaterialTheme.typography.bodySmall
-                                )
-                            }
-
-                            Button(
-                                onClick = { viewModel.uploadSelectedFile() },
-                            ) {
-                                Text("Upload to Strava")
-                            }
+                            FileUploadForm(viewModel)
                         }
 
                         is UploadUiState.Loading -> LoadingState("Loading data ...")
