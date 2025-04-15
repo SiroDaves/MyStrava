@@ -1,23 +1,20 @@
 package com.siro.mystrava.presentation.screens.home
 
-import android.content.Context
-import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material.pullrefresh.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.*
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import com.siro.mystrava.data.models.activites.ActivityItem
+import com.siro.mystrava.presentation.navigation.Routes
 import com.siro.mystrava.presentation.widgets.*
 import com.siro.mystrava.presentation.screens.home.widgets.Workout
 import com.siro.mystrava.presentation.theme.primaryColor
@@ -32,6 +29,7 @@ fun HomeScreen(
     onItemClick: (ActivityItem) -> Unit,
 ) {
     var fetchData by rememberSaveable { mutableStateOf(0) }
+    val navController = rememberNavController()
 
     if (fetchData == 0) {
         viewModel.fetchData()
@@ -107,9 +105,7 @@ fun HomeScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = {
-                    
-                }
+                onClick = { navController.navigate(Routes.Upload) }
             ) {
                 Icon(Icons.Filled.Add, "Add")
             }

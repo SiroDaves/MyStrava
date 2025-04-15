@@ -115,5 +115,6 @@ dependencies {
 
     annotationProcessor(libs.androidx.room.compiler)
 
-    implementation(libs.garmin.fit)
+    //implementation(project("./fit"))
+    implementation(files("./libs/fit.jar"))
 }

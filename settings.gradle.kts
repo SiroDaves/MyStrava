@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "My Strava"
 include(":app")
+include(":fit")

@@ -1,16 +1,15 @@
 package com.siro.mystrava.presentation.navigation
 
-import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.glance.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.*
 import androidx.navigation.compose.*
 import com.google.gson.Gson
 import com.siro.mystrava.presentation.screens.home.HomeScreen
 import com.siro.mystrava.presentation.screens.settings.SettingsScreen
+import com.siro.mystrava.presentation.screens.upload.UploadScreen
 import com.siro.mystrava.presentation.screens.workout.WorkoutScreen
 import com.siro.mystrava.presentation.viewmodels.*
 
@@ -32,6 +31,14 @@ fun AppNavHost(
                     val itemJson = Gson().toJson(selectedActivityItem)
                     navController.navigate(Routes.workoutRoute(itemJson))
                 }
+            )
+        }
+
+        composable(Routes.Upload) {
+            val uploadViewModel: UploadViewModel = hiltViewModel()
+            UploadScreen(
+                viewModel = uploadViewModel,
+                onBackPressed = { navController.popBackStack() },
             )
         }
 
