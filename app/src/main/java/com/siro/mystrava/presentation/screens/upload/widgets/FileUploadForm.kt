@@ -6,10 +6,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.unit.dp
-import com.siro.mystrava.core.utils.getFileName
-import com.siro.mystrava.data.models.fit.*
 import com.siro.mystrava.presentation.viewmodels.UploadViewModel
-import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -21,20 +18,12 @@ fun FileUploadForm(
     var description by remember { mutableStateOf("") }
     var dataType by remember { mutableStateOf("") }
     var deviceName by remember { mutableStateOf("") }
-    val selectedFile by viewModel.selectedFile.collectAsState()
+    val fitFileData by viewModel.fitFileData.collectAsState()
 
-    val fitFile = remember(selectedFile) {
-        selectedFile?.let { uri ->
-            val name = context.contentResolver.getFileName(uri)
-            val tempFile = File(context.cacheDir, name)
-            context.contentResolver.openInputStream(uri)?.use { input ->
-                tempFile.outputStream().use { output ->
-                    input.copyTo(output)
-                }
-            }
-        }
+    LaunchedEffect(fitFileData) {
+        //name = fitFileData.activity.name.orEmpty()
+        //description = details.description.orEmpty()
     }
-
 
     Column(
         modifier = Modifier
