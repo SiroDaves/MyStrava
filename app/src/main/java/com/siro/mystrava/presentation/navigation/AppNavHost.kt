@@ -21,10 +21,10 @@ fun AppNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Routes.Home
+        startDestination = Routes.HOME
     ) {
 
-        composable(Routes.Home) {
+        composable(Routes.HOME) {
             HomeScreen(
                 viewModel = homeViewModel,
                 onItemClick = { selectedActivityItem ->
@@ -34,7 +34,7 @@ fun AppNavHost(
             )
         }
 
-        composable(Routes.Upload) {
+        composable(Routes.UPLOAD) {
             val uploadViewModel: UploadViewModel = hiltViewModel()
             UploadScreen(
                 viewModel = uploadViewModel,
@@ -43,7 +43,7 @@ fun AppNavHost(
         }
 
         composable(
-            route = Routes.Workout,
+            route = Routes.WORKOUT,
             arguments = listOf(
                 navArgument("activityItem") { type = NavType.StringType },
             )
@@ -58,7 +58,7 @@ fun AppNavHost(
             )
         }
 
-        composable(Routes.Settings) {
+        composable(Routes.SETTINGS) {
             SettingsScreen(
                 viewModel = homeViewModel,
                 selectedActivityType = TODO(),

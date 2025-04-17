@@ -105,7 +105,7 @@ fun HomeScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { navController.navigate(Routes.Upload) }
+                onClick = { navController.navigate(Routes.UPLOAD) }
             ) {
                 Icon(Icons.Filled.Add, "Add")
             }

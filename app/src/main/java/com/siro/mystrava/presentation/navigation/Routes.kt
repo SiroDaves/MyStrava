@@ -1,10 +1,10 @@
 package com.siro.mystrava.presentation.navigation
 
 object Routes {
-    const val Home = "home"
-    const val Workout = "workout/{activityItem}"
-    const val Upload = "upload"
-    const val Settings = "settings"
+    const val HOME = "home"
+    const val WORKOUT = "workout/{activityItem}"
+    const val UPLOAD = "upload"
+    const val SETTINGS = "settings"
 
     fun workoutRoute(activityItem: String): String {
         return "workout/$activityItem"
